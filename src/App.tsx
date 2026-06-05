@@ -23,6 +23,7 @@ const sortedTeams = [...FRANCHISES]
 type GameState = {
   humanSeats: number
   selectedFranchises: FranchiseId[]
+  activeFranchiseId: FranchiseId
   franchises: Record<FranchiseId, FranchiseState>
   auction: AuctionState
 }
@@ -47,9 +48,33 @@ function initialGame(players: PlayerRecord[]): GameState {
   return {
     humanSeats: 1,
     selectedFranchises,
+    activeFranchiseId: selectedFranchises[0],
     franchises: createFranchises(selectedFranchises),
     auction: initialAuction(players),
   }
+}
+
+function roleCounts(team: FranchiseState) {
+  return team.squad.reduce(
+    (counts, player) => {
+      counts[player.role] += 1
+      return counts
+    },
+    {
+      Batter: 0,
+      Bowler: 0,
+      'All-rounder': 0,
+      Wicketkeeper: 0,
+    } as Record<'Batter' | 'Bowler' | 'All-rounder' | 'Wicketkeeper', number>,
+  )
+}
+
+function squadPreview(team: FranchiseState) {
+  return team.squad.slice().sort((a, b) => b.soldFor - a.soldFor || b.form - a.form)
+}
+
+function queuePreviewLabel(player: PlayerRecord) {
+  return `${player.role} · ${formatPrice(player.basePrice)} · ${player.isOverseas ? 'Overseas' : 'Indian'}`
 }
 
 function shuffle<T>(items: T[]) {
@@ -107,9 +132,10 @@ function App() {
   const teams = Object.values(game.franchises)
   const humanTeams = teams.filter((team) => team.isHuman)
   const botTeams = teams.filter((team) => !team.isHuman)
+  const activeFranchise = game.franchises[game.activeFranchiseId] ?? humanTeams[0] ?? teams[0]
   const previewPlayers = useMemo(() => {
     const extra = game.selectedFranchises.includes('RR') ? 1 : 0
-    return game.auction.queue.slice(game.auction.currentIndex, game.auction.currentIndex + 3 + extra)
+    return game.auction.queue.slice(game.auction.currentIndex, game.auction.currentIndex + 4 + extra)
   }, [game.auction.currentIndex, game.auction.queue, game.selectedFranchises])
 
   useEffect(() => {
@@ -145,6 +171,8 @@ function App() {
     const first = shuffled[0]
     setGame((prev: GameState) => ({
       ...prev,
+      selectedFranchises: picked,
+      activeFranchiseId: picked[0],
       franchises: createFranchises(picked),
       auction: {
         pool: shuffled,
@@ -169,10 +197,12 @@ function App() {
   function ensureHumanSeats(nextSeats: number) {
     setGame((prev: GameState) => {
       const selected = prev.selectedFranchises.slice(0, nextSeats) as FranchiseId[]
+      const activeFranchiseId = selected[0] ?? prev.activeFranchiseId
       return {
         ...prev,
         humanSeats: nextSeats,
         selectedFranchises: selected,
+        activeFranchiseId,
         franchises: prev.auction.phase === 'setup' ? createFranchises(selected) : prev.franchises,
       }
     })
@@ -183,12 +213,27 @@ function App() {
       const exists = prev.selectedFranchises.includes(id)
       if (exists) {
         const selected = prev.selectedFranchises.filter((team) => team !== id) as FranchiseId[]
-        return { ...prev, selectedFranchises: selected, franchises: prev.auction.phase === 'setup' ? createFranchises(selected) : prev.franchises }
+        const activeFranchiseId = prev.activeFranchiseId === id ? selected[0] ?? id : prev.activeFranchiseId
+        return {
+          ...prev,
+          selectedFranchises: selected,
+          activeFranchiseId,
+          franchises: prev.auction.phase === 'setup' ? createFranchises(selected) : prev.franchises,
+        }
       }
       if (prev.selectedFranchises.length >= prev.humanSeats) return prev
-        const selected = [...prev.selectedFranchises, id] as FranchiseId[]
-      return { ...prev, selectedFranchises: selected, franchises: prev.auction.phase === 'setup' ? createFranchises(selected) : prev.franchises }
+      const selected = [...prev.selectedFranchises, id] as FranchiseId[]
+      return {
+        ...prev,
+        selectedFranchises: selected,
+        activeFranchiseId: id,
+        franchises: prev.auction.phase === 'setup' ? createFranchises(selected) : prev.franchises,
+      }
     })
+  }
+
+  function setActiveFranchise(id: FranchiseId) {
+    setGame((prev: GameState) => ({ ...prev, activeFranchiseId: id }))
   }
 
   function placeHumanBid(teamId: FranchiseId, jump = false) {
@@ -493,6 +538,11 @@ function App() {
       .sort((a, b) => b.strength - a.strength)
   }, [game.franchises])
 
+  const activeTeamCounts = activeFranchise ? roleCounts(activeFranchise) : null
+  const activeTeamSquad = activeFranchise ? squadPreview(activeFranchise) : []
+  const rrPreviewSlots = game.selectedFranchises.includes('RR') ? 1 : 0
+  const queueSpotlight = previewPlayers[0]
+
   return (
     <div className="app-shell">
       <header className="topbar">
@@ -572,9 +622,71 @@ function App() {
       ) : (
         <section className="auction-grid">
           <aside className="side-panel">
+            <div className="panel dossier-panel">
+              <div className="panel-title">Active franchise dossier</div>
+              {activeFranchise ? (
+                <>
+                  <button
+                    type="button"
+                    className="dossier-header"
+                    style={{ background: `linear-gradient(135deg, ${activeFranchise.color}, ${activeFranchise.altColor})` }}
+                    onClick={() => setActiveFranchise(activeFranchise.id)}
+                  >
+                    <div>
+                      <div className="dossier-eyebrow">{activeFranchise.isHuman ? 'Your table' : 'Spotlighted table'}</div>
+                      <h3>{activeFranchise.name}</h3>
+                      <p>{activeFranchise.perk.title}: {activeFranchise.perk.description}</p>
+                    </div>
+                    <div className="dossier-crests">{activeFranchise.id}</div>
+                  </button>
+                  <div className="dossier-stats">
+                    <span><strong>{formatPrice(activeFranchise.spent)}</strong> spent</span>
+                    <span><strong>{formatPrice(activeFranchise.purse)}</strong> remaining</span>
+                    <span><strong>{activeFranchise.rtmRemaining}</strong> RTM</span>
+                    <span><strong>{activeFranchise.jumpBidUsed ? 'Used' : 'Ready'}</strong> jump</span>
+                  </div>
+                  <div className="dossier-counts">
+                    {activeTeamCounts && (
+                      <>
+                        <span>B {activeTeamCounts.Batter}</span>
+                        <span>AR {activeTeamCounts['All-rounder']}</span>
+                        <span>WK {activeTeamCounts.Wicketkeeper}</span>
+                        <span>Bowl {activeTeamCounts.Bowler}</span>
+                      </>
+                    )}
+                    <span>{activeFranchise.overseasCount}/{AUCTION_CONFIG.maxOverseas} overseas</span>
+                    <span>{activeFranchise.squad.length}/{getSquadMax(activeFranchise)} squad</span>
+                  </div>
+                  <div className="dossier-note">Title note: {activeFranchise.perk.title}</div>
+                  <div className="dossier-roster">
+                    {activeTeamSquad.length > 0 ? (
+                      activeTeamSquad.map((player) => (
+                        <div key={player.id} className="roster-row">
+                          <img src={player.photoUrl} alt="" />
+                          <div>
+                            <strong>{player.name}</strong>
+                            <small>{player.role} · {formatPrice(player.soldFor)}</small>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="empty-roster">No players sold yet.</div>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <div className="empty-roster">Select a franchise table to inspect its auction dossier.</div>
+              )}
+            </div>
+
             <div className="panel live-panel">
               <div className="panel-title">Auctioneer feed</div>
               <div className="ticker">{game.auction.auctioneerLine}</div>
+              <div className="ticker-subline">
+                <span className="badge">{game.auction.phase === 'auction' ? 'Live' : game.auction.phase}</span>
+                <span className="badge">{game.auction.currentIndex + 1}/{game.auction.queue.length || players.length}</span>
+                <span className="badge">{game.auction.acceleratedRound ? 'Accelerated' : 'Standard pace'}</span>
+              </div>
               <div className="timer-ring">{game.auction.timer}s</div>
               <div className="live-bid">
                 <span>Current bid</span>
@@ -597,11 +709,11 @@ function App() {
               ) : (
                 <div className="controls-grid">
                   {humanTeams.map((team) => (
-                    <div key={team.id} className="control-row">
-                      <div>
+                    <div key={team.id} className={`control-row ${activeFranchise?.id === team.id ? 'active' : ''}`}>
+                      <button type="button" className="control-copy" onClick={() => setActiveFranchise(team.id)}>
                         <strong>{team.id}</strong>
-                        <small>{formatPrice(team.purse)} left</small>
-                      </div>
+                        <small>{formatPrice(team.purse)} left · {team.squad.length}/{getSquadMax(team)} squad</small>
+                      </button>
                       <button className="primary small" onClick={() => placeHumanBid(team.id)} disabled={!currentPlayer || !canBid(team, currentPlayer, projectedHumanBid(team, currentPlayer, game.auction.currentBid || currentPlayer.basePrice))}>+{getIncrement(game.auction.currentBid || currentPlayer?.basePrice || 0).toFixed(2)}</button>
                       {team.id === 'PBKS' && !team.jumpBidUsed ? (
                         <button className="ghost small" onClick={() => placeHumanBid(team.id, true)} disabled={!currentPlayer || !canBid(team, currentPlayer, projectedHumanBid(team, currentPlayer, game.auction.currentBid || currentPlayer.basePrice, true))}>Jump</button>
@@ -624,6 +736,11 @@ function App() {
                     <div>
                       <div className="eyebrow">Up next</div>
                       <h2>{currentPlayer.name}</h2>
+                      <div className="spotlight-strip">
+                        <span className="badge">Spotlight: {activeFranchise?.id ?? 'TBD'}</span>
+                        <span className="badge">High bid: {game.auction.highBidderName ?? 'None'}</span>
+                        <span className="badge">Queue depth: {game.auction.queue.length - game.auction.currentIndex - 1}</span>
+                      </div>
                     </div>
                     <div className="badge-row">
                       <span className="badge">{currentPlayer.role}</span>
@@ -679,7 +796,13 @@ function App() {
               <div className="panel-title">Franchise tables</div>
               <div className="team-stacks">
                 {teams.map((team) => (
-                  <div key={team.id} className={`franchise-table ${team.id === game.auction.highBidder ? 'highlight' : ''}`} style={{ borderColor: team.color }}>
+                  <button
+                    key={team.id}
+                    type="button"
+                    className={`franchise-table ${team.id === game.auction.highBidder ? 'highlight' : ''} ${activeFranchise?.id === team.id ? 'active' : ''}`}
+                    style={{ borderColor: team.color }}
+                    onClick={() => setActiveFranchise(team.id)}
+                  >
                     <div className="table-top" style={{ background: team.color, color: team.altColor }}>
                       <strong>{team.id}</strong>
                       <small>{team.isHuman ? 'Human' : 'CPU'}</small>
@@ -690,20 +813,38 @@ function App() {
                       <div>{team.squad.length}/{getSquadMax(team)} squad</div>
                       <div>{team.overseasCount}/8 overseas</div>
                     </div>
-                  </div>
+                  </button>
                 ))}
               </div>
             </div>
 
             <div className="panel preview-panel">
               <div className="panel-title">Queue preview</div>
+              <div className="preview-focus">
+                {queueSpotlight ? (
+                  <>
+                    <div className="preview-focus-copy">
+                      <div className="eyebrow">Now on deck</div>
+                      <h3>{queueSpotlight.name}</h3>
+                      <p>{queuePreviewLabel(queueSpotlight)}</p>
+                    </div>
+                    <div className="preview-focus-meta">
+                      <span>Form {queueSpotlight.form}</span>
+                      <span>{queueSpotlight.isCapped ? 'Capped' : 'Uncapped'}</span>
+                      {rrPreviewSlots > 0 ? <span className="badge rr-perk">RR sees +1 preview</span> : null}
+                    </div>
+                  </>
+                ) : (
+                  <div className="empty-roster">Queue is loading.</div>
+                )}
+              </div>
               <div className="preview-list">
-                {previewPlayers.map((player, index) => (
-                  <div key={`${player.id}-${index}`} className="preview-row">
+                {previewPlayers.slice(1).map((player, index) => (
+                  <div key={`${player.id}-${index}`} className={`preview-row ${index === 0 ? 'next' : ''}`}>
                     <img src={player.photoUrl} alt="" />
                     <div>
                       <strong>{player.name}</strong>
-                      <small>{player.role} · {formatPrice(player.basePrice)}</small>
+                      <small>#{game.auction.currentIndex + index + 2} · {queuePreviewLabel(player)}</small>
                     </div>
                   </div>
                 ))}
@@ -718,7 +859,7 @@ function App() {
           <div className="panel-title">Squad tracker</div>
           <div className="squad-grid">
             {teams.map((team) => (
-              <SquadCard key={team.id} team={team} />
+              <SquadCard key={team.id} team={team} active={activeFranchise?.id === team.id} onOpen={() => setActiveFranchise(team.id)} />
             ))}
           </div>
         </div>
@@ -809,9 +950,18 @@ function TrendChart({ player }: { player: PlayerRecord }) {
   )
 }
 
-function SquadCard({ team }: { team: FranchiseState }) {
+function SquadCard({
+  team,
+  active,
+  onOpen,
+}: {
+  team: FranchiseState
+  active: boolean
+  onOpen: () => void
+}) {
+  const roster = squadPreview(team)
   return (
-    <div className="squad-card" style={{ borderColor: team.color }}>
+    <button type="button" className={`squad-card ${active ? 'active' : ''}`} style={{ borderColor: team.color }} onClick={onOpen}>
       <div className="squad-card-head" style={{ background: team.color, color: team.altColor }}>
         <strong>{team.id}</strong>
         <span>{team.squad.length} players</span>
@@ -823,13 +973,13 @@ function SquadCard({ team }: { team: FranchiseState }) {
           <span>Overseas {team.overseasCount}</span>
         </div>
         <div className="mini-squad">
-          {team.squad.slice(0, 6).map((player) => (
+          {roster.slice(0, 6).map((player) => (
             <span key={player.id} className="mini-player">{player.name.split(' ')[0]}</span>
           ))}
-          {team.squad.length > 6 ? <span className="mini-player">+{team.squad.length - 6}</span> : null}
+          {roster.length > 6 ? <span className="mini-player">+{roster.length - 6}</span> : null}
         </div>
       </div>
-    </div>
+    </button>
   )
 }
 

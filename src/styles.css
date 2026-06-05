@@ -331,6 +331,20 @@ img {
   box-shadow: 0 0 0 1px rgba(250, 204, 21, 0.35) inset;
 }
 
+.spotlight-strip {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.ticker-subline {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 0 0 12px;
+}
+
 .controls-grid {
   display: grid;
   gap: 10px;
@@ -343,9 +357,29 @@ img {
   align-items: center;
 }
 
-.control-row small {
+.control-row.active {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 0.2rem;
+}
+
+.control-copy {
+  text-align: left;
+  border: none;
+  background: transparent;
+  color: #eef4ff;
+  display: grid;
+  gap: 2px;
+  padding: 0.35rem 0.25rem;
+}
+
+.control-copy small {
   display: block;
   color: #94a3b8;
+}
+
+.control-copy:hover {
+  transform: none;
 }
 
 .main-stage {
@@ -509,6 +543,13 @@ img {
   overflow: hidden;
   text-align: left;
   background: rgba(255, 255, 255, 0.03);
+  padding: 0;
+  width: 100%;
+  color: inherit;
+}
+
+.franchise-table.active {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.16) inset;
 }
 
 .table-top {
@@ -529,11 +570,48 @@ img {
   box-shadow: 0 0 0 1px rgba(251, 191, 36, 0.18) inset;
 }
 
+.preview-focus {
+  padding: 14px;
+  border-radius: 18px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(59, 130, 246, 0.08));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.preview-focus-copy h3 {
+  margin: 6px 0 2px;
+}
+
+.preview-focus-copy p {
+  margin: 0;
+  color: #cbd5e1;
+}
+
+.preview-focus-meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  color: #cbd5e1;
+}
+
+.rr-perk {
+  background: rgba(233, 30, 99, 0.16);
+  border-color: rgba(233, 30, 99, 0.26);
+}
+
 .preview-row {
   display: grid;
   grid-template-columns: 56px 1fr;
   gap: 10px;
   align-items: center;
+  padding: 0.65rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.preview-row.next {
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .preview-row img,
@@ -551,8 +629,113 @@ img {
   color: #9fb5d4;
 }
 
-.bottom-grid .panel {
-  min-height: 100%;
+.dossier-panel {
+  display: grid;
+  gap: 12px;
+}
+
+.dossier-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: end;
+  border: none;
+  width: 100%;
+  border-radius: 20px;
+  padding: 14px;
+  text-align: left;
+  color: #f8fafc;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.18);
+}
+
+.dossier-header h3 {
+  margin: 4px 0;
+  font-size: 1.35rem;
+}
+
+.dossier-header p {
+  margin: 0;
+  color: rgba(248, 250, 252, 0.88);
+}
+
+.dossier-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.68rem;
+  opacity: 0.82;
+}
+
+.dossier-crests {
+  min-width: 56px;
+  min-height: 56px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.18);
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+}
+
+.dossier-stats,
+.dossier-counts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.dossier-stats span,
+.dossier-counts span {
+  padding: 0.72rem 0.8rem;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #cbd5e1;
+}
+
+.dossier-stats strong {
+  display: block;
+  color: #eef4ff;
+}
+
+.dossier-note {
+  padding: 0.7rem 0.8rem;
+  border-radius: 14px;
+  background: rgba(250, 204, 21, 0.1);
+  color: #fde68a;
+}
+
+.dossier-roster {
+  display: grid;
+  gap: 8px;
+  max-height: 320px;
+  overflow: auto;
+}
+
+.roster-row {
+  display: grid;
+  grid-template-columns: 46px 1fr;
+  gap: 10px;
+  align-items: center;
+  padding: 0.6rem 0.7rem;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.roster-row img {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.roster-row small {
+  display: block;
+  color: #9fb5d4;
+}
+
+.empty-roster {
+  padding: 1rem;
+  border-radius: 14px;
+  color: #b8c5da;
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .squad-grid {
@@ -564,6 +747,14 @@ img {
   border-radius: 18px;
   overflow: hidden;
   background: rgba(255, 255, 255, 0.03);
+  padding: 0;
+  width: 100%;
+  text-align: left;
+  color: inherit;
+}
+
+.squad-card.active {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.16) inset;
 }
 
 .squad-card-head {

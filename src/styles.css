@@ -392,6 +392,147 @@ img {
   overflow: hidden;
 }
 
+.big-screen::before {
+  content: '';
+  position: absolute;
+  inset: -12%;
+  opacity: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 18% 20%, var(--result-accent-soft, rgba(251, 191, 36, 0.18)), transparent 42%),
+    linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.04) 50%, transparent 100%);
+  transform: translateX(-10%) skewX(-12deg);
+  transition: opacity 0.2s ease;
+}
+
+.big-screen.result-sold::before,
+.big-screen.result-unsold::before {
+  animation: result-sweep 1.3s ease-out both;
+}
+
+.big-screen.result-sold {
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset,
+    0 0 80px color-mix(in srgb, var(--result-accent) 25%, transparent);
+}
+
+.big-screen.result-unsold {
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset,
+    0 0 80px rgba(96, 165, 250, 0.24);
+}
+
+.result-overlay {
+  position: absolute;
+  inset: 18px 18px auto 18px;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 14px;
+  align-items: center;
+  padding: 16px 18px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, rgba(6, 11, 20, 0.92), rgba(13, 20, 35, 0.84));
+  border: 1px solid color-mix(in srgb, var(--result-accent) 28%, rgba(255, 255, 255, 0.08));
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(14px);
+}
+
+.result-overlay__badge {
+  min-width: 112px;
+  padding: 0.9rem 1rem;
+  border-radius: 18px;
+  font-size: 1.05rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-align: center;
+  color: #07111f;
+  background: var(--result-accent, #fbbf24);
+}
+
+.result-overlay__copy h3 {
+  margin: 4px 0 6px;
+  font-size: 1.35rem;
+}
+
+.result-overlay__copy p,
+.result-overlay__team {
+  margin: 0;
+  color: #dbeafe;
+  line-height: 1.45;
+}
+
+.result-overlay__team {
+  text-align: right;
+  color: #f8fafc;
+  font-weight: 700;
+}
+
+.screen-header,
+.player-card {
+  position: relative;
+  z-index: 1;
+}
+
+.ticker.flash,
+.player-card.result-sold,
+.player-card.result-unsold,
+.auction-hammer.flash,
+.player-note.flash {
+  animation: result-pulse 0.9s ease both;
+}
+
+.player-card.result-sold img,
+.player-card.result-unsold img {
+  filter: saturate(1.15) contrast(1.06);
+}
+
+.player-card.result-sold {
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--result-accent) 34%, rgba(255, 255, 255, 0.08)) inset;
+}
+
+.player-card.result-unsold {
+  box-shadow: 0 0 0 1px rgba(96, 165, 250, 0.28) inset;
+}
+
+.auction-hammer.flash {
+  background: linear-gradient(135deg, var(--result-accent-soft, rgba(250, 204, 21, 0.14)), rgba(59, 130, 246, 0.06));
+}
+
+.player-note.flash {
+  color: #f8fafc;
+}
+
+@keyframes result-sweep {
+  0% {
+    transform: translateX(-18%) skewX(-12deg);
+    opacity: 0;
+  }
+  18% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(18%) skewX(-12deg);
+    opacity: 0;
+  }
+}
+
+@keyframes result-pulse {
+  0% {
+    transform: scale(0.98);
+    filter: brightness(0.95);
+  }
+  35% {
+    transform: scale(1.01);
+    filter: brightness(1.08);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
+
 .screen-header {
   display: flex;
   justify-content: space-between;

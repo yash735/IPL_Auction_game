@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import type { CSSProperties } from 'react'
 import './styles.css'
 import { AUCTION_CONFIG, FRANCHISE_MAP, FRANCHISES } from './lib/config'
 import {
@@ -25,7 +26,19 @@ type GameState = {
   selectedFranchises: FranchiseId[]
   activeFranchiseId: FranchiseId
   franchises: Record<FranchiseId, FranchiseState>
-  auction: AuctionState
+  auction: AuctionState & { recentResult?: AuctionResultFlash }
+}
+
+type AuctionResultFlash = {
+  id: string
+  kind: 'sold' | 'unsold'
+  playerId: string
+  playerName: string
+  line: string
+  teamId?: FranchiseId
+  teamName?: string
+  amount?: number
+  accent: string
 }
 
 function initialAuction(players: PlayerRecord[]): AuctionState {
@@ -102,6 +115,8 @@ function saleDiscount(team: FranchiseState, player: PlayerRecord, hammerPrice: n
 function App() {
   const [fetchStatus, setFetchStatus] = useState<'loading' | 'done' | 'error'>('loading')
   const [game, setGame] = useState<GameState>(() => initialGame([...SAMPLE_PLAYERS].sort((a, b) => b.form - a.form)))
+  const [auctionResult, setAuctionResult] = useState<AuctionResultFlash | null>(null)
+  const auctionAudioRef = useRef<AudioContext | null>(null)
   const players = game.auction.pool
 
   useEffect(() => {
@@ -139,6 +154,95 @@ function App() {
   }, [game.auction.currentIndex, game.auction.queue, game.selectedFranchises])
 
   useEffect(() => {
+    if (!auctionResult) return
+    const timeout = window.setTimeout(() => setAuctionResult(null), 2400)
+    return () => window.clearTimeout(timeout)
+  }, [auctionResult])
+
+  useEffect(() => {
+    if (!game.auction.recentResult) return
+    fireAuctionResult(game.auction.recentResult)
+  }, [game.auction.recentResult?.id])
+
+  function primeAuctionAudio() {
+    if (typeof window === 'undefined') return
+    const AudioCtx = window.AudioContext || (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext
+    if (!AudioCtx) return
+    if (!auctionAudioRef.current) {
+      auctionAudioRef.current = new AudioCtx()
+    }
+    if (auctionAudioRef.current.state === 'suspended') {
+      void auctionAudioRef.current.resume()
+    }
+  }
+
+  function playResultSound(kind: AuctionResultFlash['kind']) {
+    primeAuctionAudio()
+    const ctx = auctionAudioRef.current
+    if (!ctx) return
+
+    const start = ctx.currentTime + 0.02
+    const master = ctx.createGain()
+    master.gain.setValueAtTime(0.0001, start)
+    master.gain.exponentialRampToValueAtTime(kind === 'sold' ? 0.35 : 0.22, start + 0.015)
+    master.gain.exponentialRampToValueAtTime(0.0001, start + (kind === 'sold' ? 0.34 : 0.24))
+    master.connect(ctx.destination)
+
+    const makeStrike = (time: number, freqStart: number, freqEnd: number, duration: number, volume: number) => {
+      const osc = ctx.createOscillator()
+      const filter = ctx.createBiquadFilter()
+      const gain = ctx.createGain()
+
+      filter.type = 'lowpass'
+      filter.frequency.setValueAtTime(2200, time)
+      filter.frequency.exponentialRampToValueAtTime(900, time + duration)
+
+      osc.type = 'triangle'
+      osc.frequency.setValueAtTime(freqStart, time)
+      osc.frequency.exponentialRampToValueAtTime(freqEnd, time + duration)
+
+      gain.gain.setValueAtTime(0.0001, time)
+      gain.gain.exponentialRampToValueAtTime(volume, time + 0.012)
+      gain.gain.exponentialRampToValueAtTime(0.0001, time + duration)
+
+      osc.connect(filter)
+      filter.connect(gain)
+      gain.connect(master)
+      osc.start(time)
+      osc.stop(time + duration + 0.05)
+    }
+
+    if (kind === 'sold') {
+      makeStrike(start, 220, 86, 0.16, 0.52)
+      makeStrike(start + 0.07, 160, 64, 0.13, 0.34)
+      makeStrike(start + 0.14, 118, 56, 0.11, 0.22)
+    } else {
+      makeStrike(start, 150, 64, 0.18, 0.28)
+    }
+  }
+
+  function fireAuctionResult(result: Omit<AuctionResultFlash, 'id'>) {
+    setAuctionResult({
+      ...result,
+      id: `${result.playerId}-${Date.now()}`,
+    })
+    playResultSound(result.kind)
+  }
+
+  function withRecentResult(gameState: GameState, result: Omit<AuctionResultFlash, 'id'>): GameState {
+    return {
+      ...gameState,
+      auction: {
+        ...gameState.auction,
+        recentResult: {
+          ...result,
+          id: `${result.playerId}-${gameState.auction.currentIndex}-${result.kind}`,
+        },
+      },
+    }
+  }
+
+  useEffect(() => {
     if (game.auction.phase !== 'auction' || !currentPlayer) return
     if (game.auction.timer <= 0) return
 
@@ -166,6 +270,8 @@ function App() {
   }, [game.auction.phase, currentPlayer])
 
   function startAuction() {
+    primeAuctionAudio()
+    setAuctionResult(null)
     const picked: FranchiseId[] = game.selectedFranchises.length ? game.selectedFranchises : ['CSK']
     const shuffled = shuffle(players)
     const first = shuffled[0]
@@ -191,6 +297,7 @@ function App() {
   }
 
   function resetLobby() {
+    setAuctionResult(null)
     setGame(initialGame(players))
   }
 
@@ -237,6 +344,7 @@ function App() {
   }
 
   function placeHumanBid(teamId: FranchiseId, jump = false) {
+    primeAuctionAudio()
     setGame((prev: GameState) => bid(prev, teamId, jump))
   }
 
@@ -340,15 +448,23 @@ function App() {
     if (gameState.auction.rtmPending) return gameState
 
     if (!gameState.auction.highBidder) {
-      return advanceAfterSettle({
-        ...gameState,
-        auction: {
-          ...gameState.auction,
-          unsold: [...gameState.auction.unsold, player],
-          log: [...gameState.auction.log, `${player.name} goes UNSOLD.`],
-          auctioneerLine: `${player.name} is left for the accelerated round.`,
-        },
-      })
+      return advanceAfterSettle(
+        withRecentResult({
+          ...gameState,
+          auction: {
+            ...gameState.auction,
+            unsold: [...gameState.auction.unsold, player],
+            log: [...gameState.auction.log, `${player.name} goes UNSOLD.`],
+            auctioneerLine: `${player.name} is left for the accelerated round.`,
+          },
+        }, {
+          kind: 'unsold',
+          playerId: player.id,
+          playerName: player.name,
+          line: `${player.name} goes UNSOLD.`,
+          accent: '#60a5fa',
+        })
+      )
     }
 
     const winner = gameState.auction.highBidder
@@ -380,15 +496,26 @@ function App() {
             ...gameState.franchises,
             [previousTeamId]: addPlayerToTeam(updatedPrevious, player, sale),
           }
-          return advanceAfterSettle({
-            ...gameState,
-            franchises: updatedFranchises,
-            auction: {
-              ...gameState.auction,
-              log: [...gameState.auction.log, `${previousTeam.name} uses RTM and matches ${formatPrice(hammer)}.`],
-              auctioneerLine: `${previousTeam.name} snatches ${player.name} back.`,
-            },
-          })
+          return advanceAfterSettle(
+            withRecentResult({
+              ...gameState,
+              franchises: updatedFranchises,
+              auction: {
+                ...gameState.auction,
+                log: [...gameState.auction.log, `${previousTeam.name} uses RTM and matches ${formatPrice(hammer)}.`],
+                auctioneerLine: `${previousTeam.name} snatches ${player.name} back.`,
+              },
+            }, {
+              kind: 'sold',
+              playerId: player.id,
+              playerName: player.name,
+              teamId: previousTeamId,
+              teamName: previousTeam.name,
+              amount: sale,
+              line: `${player.name} SOLD to ${previousTeam.name} via RTM for ${formatPrice(sale)}.`,
+              accent: previousTeam.color,
+            })
+          )
         }
       }
     }
@@ -400,15 +527,26 @@ function App() {
       [winner]: addPlayerToTeam(winningTeam, player, sale),
     }
 
-    return advanceAfterSettle({
-      ...gameState,
-      franchises: updatedFranchises,
-      auction: {
-        ...gameState.auction,
-        log: [...gameState.auction.log, `${player.name} SOLD to ${winningTeam.name} for ${formatPrice(sale)}`],
-        auctioneerLine: `${player.name} SOLD to ${winningTeam.name}.`,
-      },
-    })
+    return advanceAfterSettle(
+      withRecentResult({
+        ...gameState,
+        franchises: updatedFranchises,
+        auction: {
+          ...gameState.auction,
+          log: [...gameState.auction.log, `${player.name} SOLD to ${winningTeam.name} for ${formatPrice(sale)}`],
+          auctioneerLine: `${player.name} SOLD to ${winningTeam.name}.`,
+        },
+      }, {
+        kind: 'sold',
+        playerId: player.id,
+        playerName: player.name,
+        teamId: winner,
+        teamName: winningTeam.name,
+        amount: sale,
+        line: `${player.name} SOLD to ${winningTeam.name} for ${formatPrice(sale)}.`,
+        accent: winningTeam.color,
+      })
+    )
   }
 
   function advanceAfterSettle(gameState: GameState): GameState {
@@ -471,41 +609,65 @@ function App() {
   }
 
   function useRtm() {
+    primeAuctionAudio()
     setGame((prev: GameState) => {
       const rtm = prev.auction.rtmPending
       if (!rtm) return prev
       const previousTeam = prev.franchises[rtm.previousTeam]
       const updatedPrevious = { ...previousTeam, rtmRemaining: previousTeam.rtmRemaining - 1 }
       const sale = saleDiscount(updatedPrevious, rtm.player, rtm.finalBid)
-      return advanceAfterSettle({
-        ...prev,
-        franchises: { ...prev.franchises, [rtm.previousTeam]: addPlayerToTeam(updatedPrevious, rtm.player, sale) },
-        auction: {
-          ...prev.auction,
-          rtmPending: undefined,
-          log: [...prev.auction.log, `${previousTeam.name} uses RTM — ${rtm.player.name} matched at ${formatPrice(rtm.finalBid)}.`],
-          auctioneerLine: `${previousTeam.name} snatches ${rtm.player.name} back.`,
-        },
-      })
+      return advanceAfterSettle(
+        withRecentResult({
+          ...prev,
+          franchises: { ...prev.franchises, [rtm.previousTeam]: addPlayerToTeam(updatedPrevious, rtm.player, sale) },
+          auction: {
+            ...prev.auction,
+            rtmPending: undefined,
+            log: [...prev.auction.log, `${previousTeam.name} uses RTM — ${rtm.player.name} matched at ${formatPrice(rtm.finalBid)}.`],
+            auctioneerLine: `${previousTeam.name} snatches ${rtm.player.name} back.`,
+          },
+        }, {
+          kind: 'sold',
+          playerId: rtm.player.id,
+          playerName: rtm.player.name,
+          teamId: rtm.previousTeam,
+          teamName: previousTeam.name,
+          amount: sale,
+          line: `${rtm.player.name} SOLD to ${previousTeam.name} via RTM for ${formatPrice(sale)}.`,
+          accent: previousTeam.color,
+        })
+      )
     })
   }
 
   function passRtm() {
+    primeAuctionAudio()
     setGame((prev: GameState) => {
       const rtm = prev.auction.rtmPending
       if (!rtm) return prev
       const winningTeam = prev.franchises[rtm.winner]
       const sale = saleDiscount(winningTeam, rtm.player, rtm.finalBid)
-      return advanceAfterSettle({
-        ...prev,
-        franchises: { ...prev.franchises, [rtm.winner]: addPlayerToTeam(winningTeam, rtm.player, sale) },
-        auction: {
-          ...prev.auction,
-          rtmPending: undefined,
-          log: [...prev.auction.log, `${FRANCHISE_MAP[rtm.previousTeam].name} passes RTM. ${rtm.player.name} SOLD to ${winningTeam.name}.`],
-          auctioneerLine: `${rtm.player.name} SOLD to ${winningTeam.name}.`,
-        },
-      })
+      return advanceAfterSettle(
+        withRecentResult({
+          ...prev,
+          franchises: { ...prev.franchises, [rtm.winner]: addPlayerToTeam(winningTeam, rtm.player, sale) },
+          auction: {
+            ...prev.auction,
+            rtmPending: undefined,
+            log: [...prev.auction.log, `${FRANCHISE_MAP[rtm.previousTeam].name} passes RTM. ${rtm.player.name} SOLD to ${winningTeam.name}.`],
+            auctioneerLine: `${rtm.player.name} SOLD to ${winningTeam.name}.`,
+          },
+        }, {
+          kind: 'sold',
+          playerId: rtm.player.id,
+          playerName: rtm.player.name,
+          teamId: rtm.winner,
+          teamName: winningTeam.name,
+          amount: sale,
+          line: `${rtm.player.name} SOLD to ${winningTeam.name} for ${formatPrice(sale)}.`,
+          accent: winningTeam.color,
+        })
+      )
     })
   }
 
@@ -542,9 +704,17 @@ function App() {
   const activeTeamSquad = activeFranchise ? squadPreview(activeFranchise) : []
   const rrPreviewSlots = game.selectedFranchises.includes('RR') ? 1 : 0
   const queueSpotlight = previewPlayers[0]
+  const resultSweepStyle = auctionResult
+    ? ({
+        '--result-accent': auctionResult.accent,
+        '--result-accent-soft': `${auctionResult.accent}44`,
+      } as CSSProperties)
+    : undefined
+  const auctioneerLine = auctionResult?.line ?? game.auction.auctioneerLine
 
   return (
     <div className="app-shell">
+
       <header className="topbar">
         <div>
           <div className="eyebrow">IPL auction hall</div>
@@ -681,7 +851,7 @@ function App() {
 
             <div className="panel live-panel">
               <div className="panel-title">Auctioneer feed</div>
-              <div className="ticker">{game.auction.auctioneerLine}</div>
+              <div className={`ticker ${auctionResult ? 'flash' : ''}`}>{auctioneerLine}</div>
               <div className="ticker-subline">
                 <span className="badge">{game.auction.phase === 'auction' ? 'Live' : game.auction.phase}</span>
                 <span className="badge">{game.auction.currentIndex + 1}/{game.auction.queue.length || players.length}</span>
@@ -726,7 +896,22 @@ function App() {
           </aside>
 
           <main className="main-stage">
-            <div className="big-screen panel">
+            <div className={`big-screen panel ${auctionResult ? `result-${auctionResult.kind}` : ''}`} style={resultSweepStyle}>
+              {auctionResult ? (
+                <div className={`result-overlay result-overlay--${auctionResult.kind}`}>
+                  <div className="result-overlay__badge">{auctionResult.kind === 'sold' ? 'SOLD' : 'UNSOLD'}</div>
+                  <div className="result-overlay__copy">
+                    <div className="eyebrow">Auction result</div>
+                    <h3>{auctionResult.playerName}</h3>
+                    <p>{auctionResult.line}</p>
+                  </div>
+                  <div className="result-overlay__team">
+                    {auctionResult.kind === 'sold'
+                      ? <>Winner: {auctionResult.teamName}<br />{auctionResult.amount ? formatPrice(auctionResult.amount) : null}</>
+                      : <>Player returns to the pool</>}
+                  </div>
+                </div>
+              ) : null}
               {currentPlayer ? (
                 <>
                   {game.auction.acceleratedRound && (
@@ -750,7 +935,7 @@ function App() {
                     </div>
                   </div>
 
-                  <div className="player-card">
+                  <div className={`player-card ${auctionResult ? `result-${auctionResult.kind}` : ''}`}>
                     <img src={currentPlayer.photoUrl} alt={currentPlayer.name} />
                     <div className="player-core">
                       <div className="stat-strip">
@@ -758,12 +943,12 @@ function App() {
                         <span>{currentPlayer.isCapped ? 'Capped' : 'Uncapped'}</span>
                         <span>{currentPlayer.previousTeam ? `Ex-${currentPlayer.previousTeam}` : 'New face'}</span>
                       </div>
-                      <div className="auction-hammer">
+                      <div className={`auction-hammer ${auctionResult ? 'flash' : ''}`}>
                         <div>Hammer</div>
                         <strong>{formatPrice(game.auction.currentBid || currentPlayer.basePrice)}</strong>
                         <small>{currentPlayer.name} · {currentPlayer.role} · {currentPlayer.isOverseas ? 'Overseas' : 'Indian'}</small>
                       </div>
-                      <p className="player-note">{currentPlayer.isOverseas ? 'Overseas slot matters here. Bots know it, too.' : 'Homegrown talent gets a little extra bite from the room.'}</p>
+                      <p className={`player-note ${auctionResult ? 'flash' : ''}`}>{currentPlayer.isOverseas ? 'Overseas slot matters here. Bots know it, too.' : 'Homegrown talent gets a little extra bite from the room.'}</p>
                     </div>
                   </div>
 

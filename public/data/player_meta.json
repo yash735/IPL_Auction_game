@@ -1,0 +1,200 @@
+{
+  "v-kohli": {
+    "name": "Virat Kohli",
+    "role": "Batter",
+    "nationality": "India",
+    "isOverseas": false,
+    "isCapped": true,
+    "basePrice": 2,
+    "form": 95,
+    "previousTeam": "RCB",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Virat%20Kohli"
+  },
+  "rg-sharma": {
+    "name": "Rohit Sharma",
+    "role": "Batter",
+    "nationality": "India",
+    "isOverseas": false,
+    "isCapped": true,
+    "basePrice": 2,
+    "form": 90,
+    "previousTeam": "MI",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Rohit%20Sharma"
+  },
+  "jj-bumrah": {
+    "name": "Jasprit Bumrah",
+    "role": "Bowler",
+    "nationality": "India",
+    "isOverseas": false,
+    "isCapped": true,
+    "basePrice": 2,
+    "form": 98,
+    "previousTeam": "MI",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Jasprit%20Bumrah"
+  },
+  "ms-dhoni": {
+    "name": "MS Dhoni",
+    "role": "Wicketkeeper",
+    "nationality": "India",
+    "isOverseas": false,
+    "isCapped": true,
+    "basePrice": 1.5,
+    "form": 82,
+    "previousTeam": "CSK",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=MS%20Dhoni"
+  },
+  "kl-rahul": {
+    "name": "KL Rahul",
+    "role": "Wicketkeeper",
+    "nationality": "India",
+    "isOverseas": false,
+    "isCapped": true,
+    "basePrice": 2,
+    "form": 89,
+    "previousTeam": "LSG",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=KL%20Rahul"
+  },
+  "mohammed-shami": {
+    "name": "Mohammed Shami",
+    "role": "Bowler",
+    "nationality": "India",
+    "isOverseas": false,
+    "isCapped": true,
+    "basePrice": 2,
+    "form": 90,
+    "previousTeam": "GT",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Mohammed%20Shami"
+  },
+  "rashid-khan": {
+    "name": "Rashid Khan",
+    "role": "Bowler",
+    "nationality": "Afghanistan",
+    "isOverseas": true,
+    "isCapped": true,
+    "basePrice": 2,
+    "form": 97,
+    "previousTeam": "GT",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Rashid%20Khan"
+  },
+  "shubman-gill": {
+    "name": "Shubman Gill",
+    "role": "Batter",
+    "nationality": "India",
+    "isOverseas": false,
+    "isCapped": true,
+    "basePrice": 2,
+    "form": 94,
+    "previousTeam": "GT",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Shubman%20Gill"
+  },
+  "ra-jadeja": {
+    "name": "Ravindra Jadeja",
+    "role": "All-rounder",
+    "nationality": "India",
+    "isOverseas": false,
+    "isCapped": true,
+    "basePrice": 2,
+    "form": 88,
+    "previousTeam": "CSK",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Ravindra%20Jadeja"
+  },
+  "f-du-plessis": {
+    "name": "Faf du Plessis",
+    "role": "Batter",
+    "nationality": "South Africa",
+    "isOverseas": true,
+    "isCapped": true,
+    "basePrice": 1.5,
+    "form": 87,
+    "previousTeam": "RCB",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Faf%20du%20Plessis"
+  },
+  "gj-maxwell": {
+    "name": "Glenn Maxwell",
+    "role": "All-rounder",
+    "nationality": "Australia",
+    "isOverseas": true,
+    "isCapped": true,
+    "basePrice": 1.5,
+    "form": 88,
+    "previousTeam": "RCB",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Glenn%20Maxwell"
+  },
+  "mp-stoinis": {
+    "name": "Marcus Stoinis",
+    "role": "All-rounder",
+    "nationality": "Australia",
+    "isOverseas": true,
+    "isCapped": true,
+    "basePrice": 1.5,
+    "form": 84,
+    "previousTeam": "LSG",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Marcus%20Stoinis"
+  },
+  "ad-russell": {
+    "name": "Andre Russell",
+    "role": "All-rounder",
+    "nationality": "West Indies",
+    "isOverseas": true,
+    "isCapped": true,
+    "basePrice": 2,
+    "form": 93,
+    "previousTeam": "KKR",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Andre%20Russell"
+  },
+  "sp-narine": {
+    "name": "Sunil Narine",
+    "role": "All-rounder",
+    "nationality": "West Indies",
+    "isOverseas": true,
+    "isCapped": true,
+    "basePrice": 2,
+    "form": 91,
+    "previousTeam": "KKR",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Sunil%20Narine"
+  },
+  "da-warner": {
+    "name": "David Warner",
+    "role": "Batter",
+    "nationality": "Australia",
+    "isOverseas": true,
+    "isCapped": true,
+    "basePrice": 2,
+    "form": 92,
+    "previousTeam": "SRH",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=David%20Warner"
+  },
+  "jc-buttler": {
+    "name": "Jos Buttler",
+    "role": "Wicketkeeper",
+    "nationality": "England",
+    "isOverseas": true,
+    "isCapped": true,
+    "basePrice": 2,
+    "form": 94,
+    "previousTeam": "RR",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Jos%20Buttler"
+  },
+  "sv-samson": {
+    "name": "Sanju Samson",
+    "role": "Wicketkeeper",
+    "nationality": "India",
+    "isOverseas": false,
+    "isCapped": true,
+    "basePrice": 1.5,
+    "form": 88,
+    "previousTeam": "RR",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Sanju%20Samson"
+  },
+  "rk-singh": {
+    "name": "Rinku Singh",
+    "role": "Batter",
+    "nationality": "India",
+    "isOverseas": false,
+    "isCapped": true,
+    "basePrice": 1,
+    "form": 86,
+    "previousTeam": "KKR",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Rinku%20Singh"
+  }
+}

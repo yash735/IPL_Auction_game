@@ -1,0 +1,4031 @@
+[
+  {
+    "id": "jasprit-bumrah",
+    "name": "Jasprit Bumrah",
+    "role": "Bowler",
+    "nationality": "India",
+    "isOverseas": false,
+    "isCapped": true,
+    "basePrice": 2.0,
+    "form": 98,
+    "previousTeam": "MI",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Jasprit%20Bumrah",
+    "seasons": [
+      {
+        "season": 2016,
+        "played": true,
+        "batting": {
+          "matches": 2,
+          "innings": 2,
+          "runs": 8,
+          "balls": 11,
+          "strikeRate": 72.73,
+          "average": 8.0,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 6,
+          "boundaryPct": 9.09
+        },
+        "bowling": {
+          "matches": 14,
+          "wickets": 15,
+          "balls": 312,
+          "runsConceded": 406,
+          "economy": 7.81,
+          "average": 27.07,
+          "bestFigures": "3/13"
+        }
+      },
+      {
+        "season": 2017,
+        "played": true,
+        "batting": {
+          "matches": 2,
+          "innings": 2,
+          "runs": 16,
+          "balls": 12,
+          "strikeRate": 133.33,
+          "average": 16.0,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 16,
+          "boundaryPct": 8.33
+        },
+        "bowling": {
+          "matches": 16,
+          "wickets": 20,
+          "balls": 362,
+          "runsConceded": 444,
+          "economy": 7.36,
+          "average": 22.2,
+          "bestFigures": "3/7"
+        }
+      },
+      {
+        "season": 2018,
+        "played": true,
+        "batting": {
+          "matches": 3,
+          "innings": 3,
+          "runs": 10,
+          "balls": 10,
+          "strikeRate": 100.0,
+          "average": 10.0,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 6,
+          "boundaryPct": 10.0
+        },
+        "bowling": {
+          "matches": 14,
+          "wickets": 17,
+          "balls": 324,
+          "runsConceded": 372,
+          "economy": 6.89,
+          "average": 21.88,
+          "bestFigures": "3/15"
+        }
+      },
+      {
+        "season": 2019,
+        "played": true,
+        "batting": {
+          "matches": 1,
+          "innings": 1,
+          "runs": 0,
+          "balls": 1,
+          "strikeRate": 0.0,
+          "average": 0.0,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 0,
+          "boundaryPct": 0.0
+        },
+        "bowling": {
+          "matches": 16,
+          "wickets": 20,
+          "balls": 374,
+          "runsConceded": 417,
+          "economy": 6.69,
+          "average": 20.85,
+          "bestFigures": "3/20"
+        }
+      },
+      {
+        "season": 2021,
+        "played": true,
+        "batting": {
+          "matches": 7,
+          "innings": 7,
+          "runs": 16,
+          "balls": 17,
+          "strikeRate": 94.12,
+          "average": 8.0,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 5,
+          "boundaryPct": 11.76
+        },
+        "bowling": {
+          "matches": 14,
+          "wickets": 21,
+          "balls": 330,
+          "runsConceded": 410,
+          "economy": 7.45,
+          "average": 19.52,
+          "bestFigures": "3/36"
+        }
+      },
+      {
+        "season": 2022,
+        "played": true,
+        "batting": {
+          "matches": 5,
+          "innings": 5,
+          "runs": 0,
+          "balls": 8,
+          "strikeRate": 0.0,
+          "average": 0.0,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 0,
+          "boundaryPct": 0.0
+        },
+        "bowling": {
+          "matches": 14,
+          "wickets": 15,
+          "balls": 320,
+          "runsConceded": 383,
+          "economy": 7.18,
+          "average": 25.53,
+          "bestFigures": "5/10"
+        }
+      },
+      {
+        "season": 2023,
+        "played": false
+      },
+      {
+        "season": 2024,
+        "played": true,
+        "batting": {
+          "matches": 4,
+          "innings": 4,
+          "runs": 12,
+          "balls": 12,
+          "strikeRate": 100.0,
+          "average": 0.0,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 8,
+          "boundaryPct": 8.33
+        },
+        "bowling": {
+          "matches": 13,
+          "wickets": 20,
+          "balls": 311,
+          "runsConceded": 336,
+          "economy": 6.48,
+          "average": 16.8,
+          "bestFigures": "5/21"
+        }
+      },
+      {
+        "season": 2025,
+        "played": true,
+        "batting": {
+          "matches": 1,
+          "innings": 1,
+          "runs": 0,
+          "balls": 1,
+          "strikeRate": 0.0,
+          "average": 0.0,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 0,
+          "boundaryPct": 0.0
+        },
+        "bowling": {
+          "matches": 12,
+          "wickets": 18,
+          "balls": 284,
+          "runsConceded": 316,
+          "economy": 6.68,
+          "average": 17.56,
+          "bestFigures": "4/22"
+        }
+      },
+      {
+        "season": 2026,
+        "played": true,
+        "batting": {
+          "matches": 2,
+          "innings": 2,
+          "runs": 7,
+          "balls": 7,
+          "strikeRate": 100.0,
+          "average": 7.0,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 5,
+          "boundaryPct": 14.29
+        },
+        "bowling": {
+          "matches": 13,
+          "wickets": 4,
+          "balls": 294,
+          "runsConceded": 410,
+          "economy": 8.37,
+          "average": 102.5,
+          "bestFigures": "1/15"
+        }
+      }
+    ],
+    "career": {
+      "batting": {
+        "matches": 30,
+        "innings": 30,
+        "runs": 75,
+        "balls": 85,
+        "strikeRate": 88.24,
+        "average": 9.38,
+        "fifties": 0,
+        "hundreds": 0,
+        "highestScore": 16,
+        "boundaryPct": 8.24
+      },
+      "bowling": {
+        "matches": 158,
+        "wickets": 190,
+        "balls": 3653,
+        "runsConceded": 4469,
+        "economy": 7.34,
+        "average": 23.52,
+        "bestFigures": "5/10"
+      }
+    },
+    "cricsheetId": "462411b3",
+    "aliases": []
+  },
+  {
+    "id": "rashid-khan",
+    "name": "Rashid Khan",
+    "role": "Bowler",
+    "nationality": "Afghanistan",
+    "isOverseas": true,
+    "isCapped": true,
+    "basePrice": 2.0,
+    "form": 97,
+    "previousTeam": "GT",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Rashid%20Khan",
+    "seasons": [
+      {
+        "season": 2016,
+        "played": false
+      },
+      {
+        "season": 2017,
+        "played": true,
+        "batting": {
+          "matches": 3,
+          "innings": 3,
+          "runs": 11,
+          "balls": 9,
+          "strikeRate": 122.22,
+          "average": 5.5,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 6,
+          "boundaryPct": 11.11
+        },
+        "bowling": {
+          "matches": 14,
+          "wickets": 17,
+          "balls": 324,
+          "runsConceded": 358,
+          "economy": 6.63,
+          "average": 21.06,
+          "bestFigures": "3/19"
+        }
+      },
+      {
+        "season": 2018,
+        "played": true,
+        "batting": {
+          "matches": 7,
+          "innings": 7,
+          "runs": 59,
+          "balls": 31,
+          "strikeRate": 190.32,
+          "average": 11.8,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 34,
+          "boundaryPct": 29.03
+        },
+        "bowling": {
+          "matches": 17,
+          "wickets": 21,
+          "balls": 408,
+          "runsConceded": 458,
+          "economy": 6.74,
+          "average": 21.81,
+          "bestFigures": "3/19"
+        }
+      },
+      {
+        "season": 2019,
+        "played": true,
+        "batting": {
+          "matches": 7,
+          "innings": 7,
+          "runs": 34,
+          "balls": 23,
+          "strikeRate": 147.83,
+          "average": 6.8,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 17,
+          "boundaryPct": 17.39
+        },
+        "bowling": {
+          "matches": 15,
+          "wickets": 17,
+          "balls": 363,
+          "runsConceded": 386,
+          "economy": 6.38,
+          "average": 22.71,
+          "bestFigures": "3/21"
+        }
+      },
+      {
+        "season": 2021,
+        "played": true,
+        "batting": {
+          "matches": 10,
+          "innings": 10,
+          "runs": 83,
+          "balls": 66,
+          "strikeRate": 125.76,
+          "average": 10.38,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 22,
+          "boundaryPct": 16.67
+        },
+        "bowling": {
+          "matches": 14,
+          "wickets": 18,
+          "balls": 342,
+          "runsConceded": 380,
+          "economy": 6.67,
+          "average": 21.11,
+          "bestFigures": "3/36"
+        }
+      },
+      {
+        "season": 2022,
+        "played": true,
+        "batting": {
+          "matches": 8,
+          "innings": 8,
+          "runs": 91,
+          "balls": 44,
+          "strikeRate": 206.82,
+          "average": 22.75,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 40,
+          "boundaryPct": 27.27
+        },
+        "bowling": {
+          "matches": 16,
+          "wickets": 19,
+          "balls": 383,
+          "runsConceded": 421,
+          "economy": 6.6,
+          "average": 22.16,
+          "bestFigures": "4/24"
+        }
+      },
+      {
+        "season": 2023,
+        "played": true,
+        "batting": {
+          "matches": 9,
+          "innings": 9,
+          "runs": 130,
+          "balls": 60,
+          "strikeRate": 216.67,
+          "average": 32.5,
+          "fifties": 1,
+          "hundreds": 0,
+          "highestScore": 79,
+          "boundaryPct": 35.0
+        },
+        "bowling": {
+          "matches": 17,
+          "wickets": 27,
+          "balls": 402,
+          "runsConceded": 552,
+          "economy": 8.24,
+          "average": 20.44,
+          "bestFigures": "4/30"
+        }
+      },
+      {
+        "season": 2024,
+        "played": true,
+        "batting": {
+          "matches": 8,
+          "innings": 8,
+          "runs": 102,
+          "balls": 69,
+          "strikeRate": 147.83,
+          "average": 20.4,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 31,
+          "boundaryPct": 20.29
+        },
+        "bowling": {
+          "matches": 12,
+          "wickets": 10,
+          "balls": 262,
+          "runsConceded": 367,
+          "economy": 8.4,
+          "average": 36.7,
+          "bestFigures": "2/38"
+        }
+      },
+      {
+        "season": 2025,
+        "played": true,
+        "batting": {
+          "matches": 8,
+          "innings": 8,
+          "runs": 40,
+          "balls": 28,
+          "strikeRate": 142.86,
+          "average": 8.0,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 12,
+          "boundaryPct": 17.86
+        },
+        "bowling": {
+          "matches": 15,
+          "wickets": 9,
+          "balls": 330,
+          "runsConceded": 514,
+          "economy": 9.35,
+          "average": 57.11,
+          "bestFigures": "2/25"
+        }
+      },
+      {
+        "season": 2026,
+        "played": true,
+        "batting": {
+          "matches": 6,
+          "innings": 6,
+          "runs": 50,
+          "balls": 41,
+          "strikeRate": 121.95,
+          "average": 12.5,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 24,
+          "boundaryPct": 14.63
+        },
+        "bowling": {
+          "matches": 17,
+          "wickets": 21,
+          "balls": 341,
+          "runsConceded": 516,
+          "economy": 9.08,
+          "average": 24.57,
+          "bestFigures": "4/33"
+        }
+      }
+    ],
+    "career": {
+      "batting": {
+        "matches": 72,
+        "innings": 72,
+        "runs": 635,
+        "balls": 400,
+        "strikeRate": 158.75,
+        "average": 13.8,
+        "fifties": 1,
+        "hundreds": 0,
+        "highestScore": 79,
+        "boundaryPct": 22.0
+      },
+      "bowling": {
+        "matches": 153,
+        "wickets": 179,
+        "balls": 3543,
+        "runsConceded": 4297,
+        "economy": 7.28,
+        "average": 24.01,
+        "bestFigures": "4/24"
+      }
+    },
+    "cricsheetId": "5f547c8b",
+    "aliases": []
+  },
+  {
+    "id": "virat-kohli",
+    "name": "Virat Kohli",
+    "role": "Batter",
+    "nationality": "India",
+    "isOverseas": false,
+    "isCapped": true,
+    "basePrice": 2.0,
+    "form": 95,
+    "previousTeam": "RCB",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Virat%20Kohli",
+    "seasons": [
+      {
+        "season": 2016,
+        "played": true,
+        "batting": {
+          "matches": 16,
+          "innings": 16,
+          "runs": 973,
+          "balls": 637,
+          "strikeRate": 152.75,
+          "average": 81.08,
+          "fifties": 11,
+          "hundreds": 4,
+          "highestScore": 113,
+          "boundaryPct": 19.15
+        },
+        "bowling": {
+          "matches": 1,
+          "wickets": 0,
+          "balls": 6,
+          "runsConceded": 13,
+          "economy": 13.0,
+          "average": 0.0,
+          "bestFigures": "0/13"
+        }
+      },
+      {
+        "season": 2017,
+        "played": true,
+        "batting": {
+          "matches": 10,
+          "innings": 10,
+          "runs": 308,
+          "balls": 252,
+          "strikeRate": 122.22,
+          "average": 30.8,
+          "fifties": 4,
+          "hundreds": 0,
+          "highestScore": 64,
+          "boundaryPct": 13.49
+        }
+      },
+      {
+        "season": 2018,
+        "played": true,
+        "batting": {
+          "matches": 14,
+          "innings": 14,
+          "runs": 530,
+          "balls": 379,
+          "strikeRate": 139.84,
+          "average": 48.18,
+          "fifties": 4,
+          "hundreds": 0,
+          "highestScore": 92,
+          "boundaryPct": 18.47
+        }
+      },
+      {
+        "season": 2019,
+        "played": true,
+        "batting": {
+          "matches": 14,
+          "innings": 14,
+          "runs": 464,
+          "balls": 327,
+          "strikeRate": 141.9,
+          "average": 33.14,
+          "fifties": 3,
+          "hundreds": 1,
+          "highestScore": 100,
+          "boundaryPct": 18.04
+        }
+      },
+      {
+        "season": 2021,
+        "played": true,
+        "batting": {
+          "matches": 15,
+          "innings": 15,
+          "runs": 405,
+          "balls": 337,
+          "strikeRate": 120.18,
+          "average": 28.93,
+          "fifties": 3,
+          "hundreds": 0,
+          "highestScore": 72,
+          "boundaryPct": 15.43
+        }
+      },
+      {
+        "season": 2022,
+        "played": true,
+        "batting": {
+          "matches": 16,
+          "innings": 16,
+          "runs": 341,
+          "balls": 294,
+          "strikeRate": 115.99,
+          "average": 22.73,
+          "fifties": 2,
+          "hundreds": 0,
+          "highestScore": 73,
+          "boundaryPct": 13.61
+        }
+      },
+      {
+        "season": 2023,
+        "played": true,
+        "batting": {
+          "matches": 14,
+          "innings": 14,
+          "runs": 639,
+          "balls": 457,
+          "strikeRate": 139.82,
+          "average": 53.25,
+          "fifties": 8,
+          "hundreds": 2,
+          "highestScore": 101,
+          "boundaryPct": 17.72
+        }
+      },
+      {
+        "season": 2024,
+        "played": true,
+        "batting": {
+          "matches": 15,
+          "innings": 15,
+          "runs": 741,
+          "balls": 479,
+          "strikeRate": 154.7,
+          "average": 61.75,
+          "fifties": 6,
+          "hundreds": 1,
+          "highestScore": 113,
+          "boundaryPct": 20.88
+        }
+      },
+      {
+        "season": 2025,
+        "played": true,
+        "batting": {
+          "matches": 15,
+          "innings": 15,
+          "runs": 657,
+          "balls": 454,
+          "strikeRate": 144.71,
+          "average": 54.75,
+          "fifties": 8,
+          "hundreds": 0,
+          "highestScore": 73,
+          "boundaryPct": 18.72
+        }
+      },
+      {
+        "season": 2026,
+        "played": true,
+        "batting": {
+          "matches": 16,
+          "innings": 16,
+          "runs": 675,
+          "balls": 406,
+          "strikeRate": 166.26,
+          "average": 56.25,
+          "fifties": 6,
+          "hundreds": 1,
+          "highestScore": 105,
+          "boundaryPct": 24.14
+        }
+      }
+    ],
+    "career": {
+      "batting": {
+        "matches": 275,
+        "innings": 277,
+        "runs": 9346,
+        "balls": 6911,
+        "strikeRate": 135.23,
+        "average": 40.46,
+        "fifties": 77,
+        "hundreds": 9,
+        "highestScore": 113,
+        "boundaryPct": 16.84
+      },
+      "bowling": {
+        "matches": 26,
+        "wickets": 4,
+        "balls": 251,
+        "runsConceded": 368,
+        "economy": 8.8,
+        "average": 92.0,
+        "bestFigures": "2/25"
+      }
+    },
+    "cricsheetId": "ba607b88",
+    "aliases": []
+  },
+  {
+    "id": "jos-buttler",
+    "name": "Jos Buttler",
+    "role": "Wicketkeeper",
+    "nationality": "England",
+    "isOverseas": true,
+    "isCapped": true,
+    "basePrice": 2.0,
+    "form": 94,
+    "previousTeam": "RR",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Jos%20Buttler",
+    "seasons": [
+      {
+        "season": 2016,
+        "played": true,
+        "batting": {
+          "matches": 14,
+          "innings": 14,
+          "runs": 255,
+          "balls": 183,
+          "strikeRate": 139.34,
+          "average": 23.18,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 41,
+          "boundaryPct": 18.58
+        }
+      },
+      {
+        "season": 2017,
+        "played": true,
+        "batting": {
+          "matches": 10,
+          "innings": 11,
+          "runs": 273,
+          "balls": 179,
+          "strikeRate": 152.51,
+          "average": 24.82,
+          "fifties": 1,
+          "hundreds": 0,
+          "highestScore": 77,
+          "boundaryPct": 23.46
+        }
+      },
+      {
+        "season": 2018,
+        "played": true,
+        "batting": {
+          "matches": 13,
+          "innings": 13,
+          "runs": 548,
+          "balls": 352,
+          "strikeRate": 155.68,
+          "average": 54.8,
+          "fifties": 5,
+          "hundreds": 0,
+          "highestScore": 95,
+          "boundaryPct": 20.74
+        }
+      },
+      {
+        "season": 2019,
+        "played": true,
+        "batting": {
+          "matches": 8,
+          "innings": 8,
+          "runs": 311,
+          "balls": 205,
+          "strikeRate": 151.71,
+          "average": 38.88,
+          "fifties": 3,
+          "hundreds": 0,
+          "highestScore": 89,
+          "boundaryPct": 25.37
+        }
+      },
+      {
+        "season": 2021,
+        "played": true,
+        "batting": {
+          "matches": 7,
+          "innings": 7,
+          "runs": 254,
+          "balls": 164,
+          "strikeRate": 154.88,
+          "average": 36.29,
+          "fifties": 1,
+          "hundreds": 1,
+          "highestScore": 124,
+          "boundaryPct": 24.39
+        }
+      },
+      {
+        "season": 2022,
+        "played": true,
+        "batting": {
+          "matches": 17,
+          "innings": 17,
+          "runs": 863,
+          "balls": 574,
+          "strikeRate": 150.35,
+          "average": 57.53,
+          "fifties": 8,
+          "hundreds": 4,
+          "highestScore": 116,
+          "boundaryPct": 22.47
+        }
+      },
+      {
+        "season": 2023,
+        "played": true,
+        "batting": {
+          "matches": 14,
+          "innings": 14,
+          "runs": 392,
+          "balls": 281,
+          "strikeRate": 139.5,
+          "average": 28.0,
+          "fifties": 4,
+          "hundreds": 0,
+          "highestScore": 95,
+          "boundaryPct": 19.93
+        }
+      },
+      {
+        "season": 2024,
+        "played": true,
+        "batting": {
+          "matches": 11,
+          "innings": 11,
+          "runs": 359,
+          "balls": 254,
+          "strikeRate": 141.34,
+          "average": 39.89,
+          "fifties": 2,
+          "hundreds": 2,
+          "highestScore": 107,
+          "boundaryPct": 18.9
+        }
+      },
+      {
+        "season": 2025,
+        "played": true,
+        "batting": {
+          "matches": 13,
+          "innings": 13,
+          "runs": 538,
+          "balls": 330,
+          "strikeRate": 163.03,
+          "average": 59.78,
+          "fifties": 5,
+          "hundreds": 0,
+          "highestScore": 97,
+          "boundaryPct": 23.03
+        }
+      },
+      {
+        "season": 2026,
+        "played": true,
+        "batting": {
+          "matches": 17,
+          "innings": 17,
+          "runs": 526,
+          "balls": 345,
+          "strikeRate": 152.46,
+          "average": 37.57,
+          "fifties": 4,
+          "hundreds": 0,
+          "highestScore": 60,
+          "boundaryPct": 22.32
+        }
+      }
+    ],
+    "career": {
+      "batting": {
+        "matches": 136,
+        "innings": 137,
+        "runs": 4647,
+        "balls": 3094,
+        "strikeRate": 150.19,
+        "average": 39.38,
+        "fifties": 35,
+        "hundreds": 7,
+        "highestScore": 124,
+        "boundaryPct": 21.65
+      },
+      "bowling": {
+        "matches": 0,
+        "wickets": 0,
+        "balls": 0,
+        "runsConceded": 0,
+        "economy": 0.0,
+        "average": 0.0,
+        "bestFigures": "-"
+      }
+    },
+    "cricsheetId": "99b75528",
+    "aliases": []
+  },
+  {
+    "id": "shubman-gill",
+    "name": "Shubman Gill",
+    "role": "Batter",
+    "nationality": "India",
+    "isOverseas": false,
+    "isCapped": true,
+    "basePrice": 2.0,
+    "form": 94,
+    "previousTeam": "GT",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Shubman%20Gill",
+    "seasons": [
+      {
+        "season": 2016,
+        "played": false
+      },
+      {
+        "season": 2017,
+        "played": false
+      },
+      {
+        "season": 2018,
+        "played": true,
+        "batting": {
+          "matches": 10,
+          "innings": 10,
+          "runs": 203,
+          "balls": 139,
+          "strikeRate": 146.04,
+          "average": 33.83,
+          "fifties": 1,
+          "hundreds": 0,
+          "highestScore": 57,
+          "boundaryPct": 19.42
+        }
+      },
+      {
+        "season": 2019,
+        "played": true,
+        "batting": {
+          "matches": 13,
+          "innings": 13,
+          "runs": 296,
+          "balls": 237,
+          "strikeRate": 124.89,
+          "average": 32.89,
+          "fifties": 3,
+          "hundreds": 0,
+          "highestScore": 76,
+          "boundaryPct": 13.08
+        }
+      },
+      {
+        "season": 2021,
+        "played": true,
+        "batting": {
+          "matches": 17,
+          "innings": 17,
+          "runs": 478,
+          "balls": 401,
+          "strikeRate": 119.2,
+          "average": 28.12,
+          "fifties": 3,
+          "hundreds": 0,
+          "highestScore": 57,
+          "boundaryPct": 15.46
+        }
+      },
+      {
+        "season": 2022,
+        "played": true,
+        "batting": {
+          "matches": 16,
+          "innings": 16,
+          "runs": 483,
+          "balls": 362,
+          "strikeRate": 133.43,
+          "average": 34.5,
+          "fifties": 4,
+          "hundreds": 0,
+          "highestScore": 96,
+          "boundaryPct": 17.13
+        }
+      },
+      {
+        "season": 2023,
+        "played": true,
+        "batting": {
+          "matches": 17,
+          "innings": 17,
+          "runs": 890,
+          "balls": 560,
+          "strikeRate": 158.93,
+          "average": 59.33,
+          "fifties": 7,
+          "hundreds": 3,
+          "highestScore": 129,
+          "boundaryPct": 21.07
+        }
+      },
+      {
+        "season": 2024,
+        "played": true,
+        "batting": {
+          "matches": 12,
+          "innings": 12,
+          "runs": 426,
+          "balls": 289,
+          "strikeRate": 147.4,
+          "average": 38.73,
+          "fifties": 3,
+          "hundreds": 1,
+          "highestScore": 104,
+          "boundaryPct": 17.99
+        }
+      },
+      {
+        "season": 2025,
+        "played": true,
+        "batting": {
+          "matches": 15,
+          "innings": 15,
+          "runs": 650,
+          "balls": 414,
+          "strikeRate": 157.0,
+          "average": 50.0,
+          "fifties": 6,
+          "hundreds": 0,
+          "highestScore": 93,
+          "boundaryPct": 20.77
+        }
+      },
+      {
+        "season": 2026,
+        "played": true,
+        "batting": {
+          "matches": 16,
+          "innings": 16,
+          "runs": 732,
+          "balls": 449,
+          "strikeRate": 163.03,
+          "average": 45.75,
+          "fifties": 7,
+          "hundreds": 1,
+          "highestScore": 104,
+          "boundaryPct": 23.83
+        }
+      }
+    ],
+    "career": {
+      "batting": {
+        "matches": 130,
+        "innings": 130,
+        "runs": 4598,
+        "balls": 3223,
+        "strikeRate": 142.66,
+        "average": 40.33,
+        "fifties": 37,
+        "hundreds": 5,
+        "highestScore": 129,
+        "boundaryPct": 18.55
+      },
+      "bowling": {
+        "matches": 0,
+        "wickets": 0,
+        "balls": 0,
+        "runsConceded": 0,
+        "economy": 0.0,
+        "average": 0.0,
+        "bestFigures": "-"
+      }
+    },
+    "cricsheetId": "b4b99816",
+    "aliases": []
+  },
+  {
+    "id": "andre-russell",
+    "name": "Andre Russell",
+    "role": "All-rounder",
+    "nationality": "West Indies",
+    "isOverseas": true,
+    "isCapped": true,
+    "basePrice": 2.0,
+    "form": 93,
+    "previousTeam": "KKR",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Andre%20Russell",
+    "seasons": [
+      {
+        "season": 2016,
+        "played": true,
+        "batting": {
+          "matches": 8,
+          "innings": 8,
+          "runs": 188,
+          "balls": 114,
+          "strikeRate": 164.91,
+          "average": 26.86,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 39,
+          "boundaryPct": 21.93
+        },
+        "bowling": {
+          "matches": 12,
+          "wickets": 15,
+          "balls": 219,
+          "runsConceded": 291,
+          "economy": 7.97,
+          "average": 19.4,
+          "bestFigures": "4/20"
+        }
+      },
+      {
+        "season": 2017,
+        "played": false
+      },
+      {
+        "season": 2018,
+        "played": true,
+        "batting": {
+          "matches": 14,
+          "innings": 14,
+          "runs": 316,
+          "balls": 170,
+          "strikeRate": 185.88,
+          "average": 28.73,
+          "fifties": 1,
+          "hundreds": 0,
+          "highestScore": 88,
+          "boundaryPct": 28.24
+        },
+        "bowling": {
+          "matches": 15,
+          "wickets": 13,
+          "balls": 227,
+          "runsConceded": 355,
+          "economy": 9.38,
+          "average": 27.31,
+          "bestFigures": "3/31"
+        }
+      },
+      {
+        "season": 2019,
+        "played": true,
+        "batting": {
+          "matches": 13,
+          "innings": 14,
+          "runs": 514,
+          "balls": 249,
+          "strikeRate": 206.43,
+          "average": 51.4,
+          "fifties": 4,
+          "hundreds": 0,
+          "highestScore": 80,
+          "boundaryPct": 33.73
+        },
+        "bowling": {
+          "matches": 12,
+          "wickets": 11,
+          "balls": 181,
+          "runsConceded": 287,
+          "economy": 9.51,
+          "average": 26.09,
+          "bestFigures": "2/21"
+        }
+      },
+      {
+        "season": 2021,
+        "played": true,
+        "batting": {
+          "matches": 8,
+          "innings": 8,
+          "runs": 183,
+          "balls": 117,
+          "strikeRate": 156.41,
+          "average": 26.14,
+          "fifties": 1,
+          "hundreds": 0,
+          "highestScore": 54,
+          "boundaryPct": 23.93
+        },
+        "bowling": {
+          "matches": 8,
+          "wickets": 11,
+          "balls": 114,
+          "runsConceded": 188,
+          "economy": 9.89,
+          "average": 17.09,
+          "bestFigures": "5/15"
+        }
+      },
+      {
+        "season": 2022,
+        "played": true,
+        "batting": {
+          "matches": 12,
+          "innings": 12,
+          "runs": 335,
+          "balls": 189,
+          "strikeRate": 177.25,
+          "average": 37.22,
+          "fifties": 1,
+          "hundreds": 0,
+          "highestScore": 70,
+          "boundaryPct": 26.46
+        },
+        "bowling": {
+          "matches": 13,
+          "wickets": 17,
+          "balls": 169,
+          "runsConceded": 278,
+          "economy": 9.87,
+          "average": 16.35,
+          "bestFigures": "4/5"
+        }
+      },
+      {
+        "season": 2023,
+        "played": true,
+        "batting": {
+          "matches": 14,
+          "innings": 14,
+          "runs": 227,
+          "balls": 155,
+          "strikeRate": 146.45,
+          "average": 20.64,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 42,
+          "boundaryPct": 20.0
+        },
+        "bowling": {
+          "matches": 9,
+          "wickets": 7,
+          "balls": 91,
+          "runsConceded": 172,
+          "economy": 11.34,
+          "average": 24.57,
+          "bestFigures": "3/22"
+        }
+      },
+      {
+        "season": 2024,
+        "played": true,
+        "batting": {
+          "matches": 9,
+          "innings": 9,
+          "runs": 222,
+          "balls": 116,
+          "strikeRate": 191.38,
+          "average": 31.71,
+          "fifties": 1,
+          "hundreds": 0,
+          "highestScore": 64,
+          "boundaryPct": 31.03
+        },
+        "bowling": {
+          "matches": 14,
+          "wickets": 19,
+          "balls": 176,
+          "runsConceded": 295,
+          "economy": 10.06,
+          "average": 15.53,
+          "bestFigures": "3/19"
+        }
+      },
+      {
+        "season": 2025,
+        "played": true,
+        "batting": {
+          "matches": 10,
+          "innings": 10,
+          "runs": 167,
+          "balls": 102,
+          "strikeRate": 163.73,
+          "average": 18.56,
+          "fifties": 1,
+          "hundreds": 0,
+          "highestScore": 57,
+          "boundaryPct": 29.41
+        },
+        "bowling": {
+          "matches": 9,
+          "wickets": 8,
+          "balls": 109,
+          "runsConceded": 217,
+          "economy": 11.94,
+          "average": 27.12,
+          "bestFigures": "2/21"
+        }
+      },
+      {
+        "season": 2026,
+        "played": false
+      }
+    ],
+    "career": {
+      "batting": {
+        "matches": 114,
+        "innings": 115,
+        "runs": 2655,
+        "balls": 1508,
+        "strikeRate": 176.06,
+        "average": 27.95,
+        "fifties": 12,
+        "hundreds": 0,
+        "highestScore": 88,
+        "boundaryPct": 27.19
+      },
+      "bowling": {
+        "matches": 121,
+        "wickets": 123,
+        "balls": 1806,
+        "runsConceded": 2863,
+        "economy": 9.51,
+        "average": 23.28,
+        "bestFigures": "5/15"
+      }
+    },
+    "cricsheetId": "bbd41817",
+    "aliases": []
+  },
+  {
+    "id": "david-warner",
+    "name": "David Warner",
+    "role": "Batter",
+    "nationality": "Australia",
+    "isOverseas": true,
+    "isCapped": true,
+    "basePrice": 2.0,
+    "form": 92,
+    "previousTeam": "SRH",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=David%20Warner",
+    "seasons": [
+      {
+        "season": 2016,
+        "played": true,
+        "batting": {
+          "matches": 17,
+          "innings": 17,
+          "runs": 848,
+          "balls": 558,
+          "strikeRate": 151.97,
+          "average": 60.57,
+          "fifties": 9,
+          "hundreds": 0,
+          "highestScore": 93,
+          "boundaryPct": 21.33
+        }
+      },
+      {
+        "season": 2017,
+        "played": true,
+        "batting": {
+          "matches": 14,
+          "innings": 14,
+          "runs": 641,
+          "balls": 449,
+          "strikeRate": 142.76,
+          "average": 58.27,
+          "fifties": 5,
+          "hundreds": 1,
+          "highestScore": 126,
+          "boundaryPct": 19.82
+        }
+      },
+      {
+        "season": 2018,
+        "played": false
+      },
+      {
+        "season": 2019,
+        "played": true,
+        "batting": {
+          "matches": 12,
+          "innings": 12,
+          "runs": 692,
+          "balls": 481,
+          "strikeRate": 143.87,
+          "average": 69.2,
+          "fifties": 9,
+          "hundreds": 1,
+          "highestScore": 100,
+          "boundaryPct": 16.22
+        }
+      },
+      {
+        "season": 2021,
+        "played": true,
+        "batting": {
+          "matches": 8,
+          "innings": 9,
+          "runs": 197,
+          "balls": 184,
+          "strikeRate": 107.07,
+          "average": 24.62,
+          "fifties": 2,
+          "hundreds": 0,
+          "highestScore": 57,
+          "boundaryPct": 11.41
+        }
+      },
+      {
+        "season": 2022,
+        "played": true,
+        "batting": {
+          "matches": 12,
+          "innings": 12,
+          "runs": 432,
+          "balls": 285,
+          "strikeRate": 151.58,
+          "average": 48.0,
+          "fifties": 5,
+          "hundreds": 0,
+          "highestScore": 92,
+          "boundaryPct": 23.51
+        }
+      },
+      {
+        "season": 2023,
+        "played": true,
+        "batting": {
+          "matches": 14,
+          "innings": 14,
+          "runs": 516,
+          "balls": 391,
+          "strikeRate": 131.97,
+          "average": 36.86,
+          "fifties": 6,
+          "hundreds": 0,
+          "highestScore": 86,
+          "boundaryPct": 20.2
+        }
+      },
+      {
+        "season": 2024,
+        "played": true,
+        "batting": {
+          "matches": 8,
+          "innings": 8,
+          "runs": 168,
+          "balls": 124,
+          "strikeRate": 135.48,
+          "average": 21.0,
+          "fifties": 1,
+          "hundreds": 0,
+          "highestScore": 52,
+          "boundaryPct": 21.77
+        }
+      },
+      {
+        "season": 2025,
+        "played": false
+      },
+      {
+        "season": 2026,
+        "played": false
+      }
+    ],
+    "career": {
+      "batting": {
+        "matches": 184,
+        "innings": 187,
+        "runs": 6567,
+        "balls": 4680,
+        "strikeRate": 140.32,
+        "average": 40.04,
+        "fifties": 66,
+        "hundreds": 4,
+        "highestScore": 126,
+        "boundaryPct": 19.21
+      },
+      "bowling": {
+        "matches": 1,
+        "wickets": 0,
+        "balls": 1,
+        "runsConceded": 2,
+        "economy": 12.0,
+        "average": 0.0,
+        "bestFigures": "0/2"
+      }
+    },
+    "cricsheetId": "dcce6f09",
+    "aliases": []
+  },
+  {
+    "id": "sunil-narine",
+    "name": "Sunil Narine",
+    "role": "All-rounder",
+    "nationality": "West Indies",
+    "isOverseas": true,
+    "isCapped": true,
+    "basePrice": 2.0,
+    "form": 91,
+    "previousTeam": "KKR",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Sunil%20Narine",
+    "seasons": [
+      {
+        "season": 2016,
+        "played": true,
+        "batting": {
+          "matches": 3,
+          "innings": 3,
+          "runs": 7,
+          "balls": 13,
+          "strikeRate": 53.85,
+          "average": 7.0,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 4,
+          "boundaryPct": 0.0
+        },
+        "bowling": {
+          "matches": 11,
+          "wickets": 11,
+          "balls": 256,
+          "runsConceded": 304,
+          "economy": 7.12,
+          "average": 27.64,
+          "bestFigures": "3/26"
+        }
+      },
+      {
+        "season": 2017,
+        "played": true,
+        "batting": {
+          "matches": 14,
+          "innings": 14,
+          "runs": 224,
+          "balls": 130,
+          "strikeRate": 172.31,
+          "average": 17.23,
+          "fifties": 1,
+          "hundreds": 0,
+          "highestScore": 54,
+          "boundaryPct": 33.85
+        },
+        "bowling": {
+          "matches": 15,
+          "wickets": 10,
+          "balls": 354,
+          "runsConceded": 412,
+          "economy": 6.98,
+          "average": 41.2,
+          "bestFigures": "2/29"
+        }
+      },
+      {
+        "season": 2018,
+        "played": true,
+        "batting": {
+          "matches": 16,
+          "innings": 16,
+          "runs": 357,
+          "balls": 188,
+          "strikeRate": 189.89,
+          "average": 22.31,
+          "fifties": 2,
+          "hundreds": 0,
+          "highestScore": 75,
+          "boundaryPct": 33.51
+        },
+        "bowling": {
+          "matches": 16,
+          "wickets": 17,
+          "balls": 366,
+          "runsConceded": 467,
+          "economy": 7.66,
+          "average": 27.47,
+          "bestFigures": "3/18"
+        }
+      },
+      {
+        "season": 2019,
+        "played": true,
+        "batting": {
+          "matches": 8,
+          "innings": 8,
+          "runs": 143,
+          "balls": 85,
+          "strikeRate": 168.24,
+          "average": 17.88,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 47,
+          "boundaryPct": 30.59
+        },
+        "bowling": {
+          "matches": 12,
+          "wickets": 10,
+          "balls": 266,
+          "runsConceded": 347,
+          "economy": 7.83,
+          "average": 34.7,
+          "bestFigures": "2/19"
+        }
+      },
+      {
+        "season": 2021,
+        "played": true,
+        "batting": {
+          "matches": 10,
+          "innings": 10,
+          "runs": 62,
+          "balls": 47,
+          "strikeRate": 131.91,
+          "average": 7.75,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 26,
+          "boundaryPct": 17.02
+        },
+        "bowling": {
+          "matches": 14,
+          "wickets": 16,
+          "balls": 336,
+          "runsConceded": 361,
+          "economy": 6.45,
+          "average": 22.56,
+          "bestFigures": "4/21"
+        }
+      },
+      {
+        "season": 2022,
+        "played": true,
+        "batting": {
+          "matches": 10,
+          "innings": 10,
+          "runs": 71,
+          "balls": 40,
+          "strikeRate": 177.5,
+          "average": 8.88,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 22,
+          "boundaryPct": 30.0
+        },
+        "bowling": {
+          "matches": 14,
+          "wickets": 9,
+          "balls": 336,
+          "runsConceded": 312,
+          "economy": 5.57,
+          "average": 34.67,
+          "bestFigures": "2/21"
+        }
+      },
+      {
+        "season": 2023,
+        "played": true,
+        "batting": {
+          "matches": 10,
+          "innings": 10,
+          "runs": 21,
+          "balls": 25,
+          "strikeRate": 84.0,
+          "average": 3.0,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 7,
+          "boundaryPct": 12.0
+        },
+        "bowling": {
+          "matches": 14,
+          "wickets": 11,
+          "balls": 288,
+          "runsConceded": 383,
+          "economy": 7.98,
+          "average": 34.82,
+          "bestFigures": "3/33"
+        }
+      },
+      {
+        "season": 2024,
+        "played": true,
+        "batting": {
+          "matches": 14,
+          "innings": 14,
+          "runs": 488,
+          "balls": 269,
+          "strikeRate": 181.41,
+          "average": 34.86,
+          "fifties": 4,
+          "hundreds": 1,
+          "highestScore": 109,
+          "boundaryPct": 30.86
+        },
+        "bowling": {
+          "matches": 14,
+          "wickets": 17,
+          "balls": 330,
+          "runsConceded": 368,
+          "economy": 6.69,
+          "average": 21.65,
+          "bestFigures": "2/22"
+        }
+      },
+      {
+        "season": 2025,
+        "played": true,
+        "batting": {
+          "matches": 12,
+          "innings": 12,
+          "runs": 246,
+          "balls": 144,
+          "strikeRate": 170.83,
+          "average": 22.36,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 44,
+          "boundaryPct": 30.56
+        },
+        "bowling": {
+          "matches": 12,
+          "wickets": 12,
+          "balls": 270,
+          "runsConceded": 351,
+          "economy": 7.8,
+          "average": 29.25,
+          "bestFigures": "3/13"
+        }
+      },
+      {
+        "season": 2026,
+        "played": true,
+        "batting": {
+          "matches": 4,
+          "innings": 4,
+          "runs": 40,
+          "balls": 32,
+          "strikeRate": 125.0,
+          "average": 13.33,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 24,
+          "boundaryPct": 18.75
+        },
+        "bowling": {
+          "matches": 13,
+          "wickets": 17,
+          "balls": 309,
+          "runsConceded": 340,
+          "economy": 6.6,
+          "average": 20.0,
+          "bestFigures": "2/1"
+        }
+      }
+    ],
+    "career": {
+      "batting": {
+        "matches": 124,
+        "innings": 124,
+        "runs": 1820,
+        "balls": 1099,
+        "strikeRate": 165.61,
+        "average": 17.5,
+        "fifties": 8,
+        "hundreds": 1,
+        "highestScore": 109,
+        "boundaryPct": 28.3
+      },
+      "bowling": {
+        "matches": 200,
+        "wickets": 209,
+        "balls": 4660,
+        "runsConceded": 5273,
+        "economy": 6.79,
+        "average": 25.23,
+        "bestFigures": "5/19"
+      }
+    },
+    "cricsheetId": "9d430b40",
+    "aliases": []
+  },
+  {
+    "id": "mohammed-shami",
+    "name": "Mohammed Shami",
+    "role": "Bowler",
+    "nationality": "India",
+    "isOverseas": false,
+    "isCapped": true,
+    "basePrice": 2.0,
+    "form": 90,
+    "previousTeam": "GT",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Mohammed%20Shami",
+    "seasons": [
+      {
+        "season": 2016,
+        "played": true,
+        "batting": {
+          "matches": 2,
+          "innings": 2,
+          "runs": 2,
+          "balls": 4,
+          "strikeRate": 50.0,
+          "average": 0.0,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 2,
+          "boundaryPct": 0.0
+        },
+        "bowling": {
+          "matches": 8,
+          "wickets": 5,
+          "balls": 151,
+          "runsConceded": 244,
+          "economy": 9.7,
+          "average": 48.8,
+          "bestFigures": "2/34"
+        }
+      },
+      {
+        "season": 2017,
+        "played": true,
+        "batting": {
+          "matches": 6,
+          "innings": 6,
+          "runs": 36,
+          "balls": 24,
+          "strikeRate": 150.0,
+          "average": 9.0,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 21,
+          "boundaryPct": 25.0
+        },
+        "bowling": {
+          "matches": 8,
+          "wickets": 5,
+          "balls": 156,
+          "runsConceded": 243,
+          "economy": 9.35,
+          "average": 48.6,
+          "bestFigures": "2/36"
+        }
+      },
+      {
+        "season": 2018,
+        "played": true,
+        "batting": {
+          "matches": 1,
+          "innings": 1,
+          "runs": 7,
+          "balls": 6,
+          "strikeRate": 116.67,
+          "average": 7.0,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 7,
+          "boundaryPct": 16.67
+        },
+        "bowling": {
+          "matches": 4,
+          "wickets": 3,
+          "balls": 83,
+          "runsConceded": 144,
+          "economy": 10.41,
+          "average": 48.0,
+          "bestFigures": "1/29"
+        }
+      },
+      {
+        "season": 2019,
+        "played": true,
+        "batting": {
+          "matches": 2,
+          "innings": 2,
+          "runs": 1,
+          "balls": 2,
+          "strikeRate": 50.0,
+          "average": 1.0,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 1,
+          "boundaryPct": 0.0
+        },
+        "bowling": {
+          "matches": 14,
+          "wickets": 19,
+          "balls": 324,
+          "runsConceded": 469,
+          "economy": 8.69,
+          "average": 24.68,
+          "bestFigures": "3/21"
+        }
+      },
+      {
+        "season": 2021,
+        "played": true,
+        "batting": {
+          "matches": 3,
+          "innings": 3,
+          "runs": 13,
+          "balls": 17,
+          "strikeRate": 76.47,
+          "average": 13.0,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 9,
+          "boundaryPct": 0.0
+        },
+        "bowling": {
+          "matches": 14,
+          "wickets": 19,
+          "balls": 316,
+          "runsConceded": 395,
+          "economy": 7.5,
+          "average": 20.79,
+          "bestFigures": "3/21"
+        }
+      },
+      {
+        "season": 2022,
+        "played": true,
+        "bowling": {
+          "matches": 16,
+          "wickets": 20,
+          "balls": 366,
+          "runsConceded": 488,
+          "economy": 8.0,
+          "average": 24.4,
+          "bestFigures": "3/25"
+        }
+      },
+      {
+        "season": 2023,
+        "played": true,
+        "batting": {
+          "matches": 2,
+          "innings": 2,
+          "runs": 5,
+          "balls": 6,
+          "strikeRate": 83.33,
+          "average": 2.5,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 5,
+          "boundaryPct": 16.67
+        },
+        "bowling": {
+          "matches": 17,
+          "wickets": 28,
+          "balls": 390,
+          "runsConceded": 522,
+          "economy": 8.03,
+          "average": 18.64,
+          "bestFigures": "4/11"
+        }
+      },
+      {
+        "season": 2024,
+        "played": false
+      },
+      {
+        "season": 2025,
+        "played": true,
+        "batting": {
+          "matches": 4,
+          "innings": 4,
+          "runs": 10,
+          "balls": 10,
+          "strikeRate": 100.0,
+          "average": 10.0,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 6,
+          "boundaryPct": 10.0
+        },
+        "bowling": {
+          "matches": 9,
+          "wickets": 6,
+          "balls": 180,
+          "runsConceded": 337,
+          "economy": 11.23,
+          "average": 56.17,
+          "bestFigures": "2/28"
+        }
+      },
+      {
+        "season": 2026,
+        "played": true,
+        "batting": {
+          "matches": 7,
+          "innings": 7,
+          "runs": 31,
+          "balls": 22,
+          "strikeRate": 140.91,
+          "average": 6.2,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 12,
+          "boundaryPct": 22.73
+        },
+        "bowling": {
+          "matches": 13,
+          "wickets": 12,
+          "balls": 306,
+          "runsConceded": 459,
+          "economy": 9.0,
+          "average": 38.25,
+          "bestFigures": "2/9"
+        }
+      }
+    ],
+    "career": {
+      "batting": {
+        "matches": 34,
+        "innings": 34,
+        "runs": 115,
+        "balls": 111,
+        "strikeRate": 103.6,
+        "average": 6.05,
+        "fifties": 0,
+        "hundreds": 0,
+        "highestScore": 21,
+        "boundaryPct": 12.61
+      },
+      "bowling": {
+        "matches": 132,
+        "wickets": 145,
+        "balls": 2920,
+        "runsConceded": 4216,
+        "economy": 8.66,
+        "average": 29.08,
+        "bestFigures": "4/11"
+      }
+    },
+    "cricsheetId": "8cf9814c",
+    "aliases": []
+  },
+  {
+    "id": "rohit-sharma",
+    "name": "Rohit Sharma",
+    "role": "Batter",
+    "nationality": "India",
+    "isOverseas": false,
+    "isCapped": true,
+    "basePrice": 2.0,
+    "form": 90,
+    "previousTeam": "MI",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Rohit%20Sharma",
+    "seasons": [
+      {
+        "season": 2016,
+        "played": true,
+        "batting": {
+          "matches": 14,
+          "innings": 14,
+          "runs": 489,
+          "balls": 366,
+          "strikeRate": 133.61,
+          "average": 44.45,
+          "fifties": 5,
+          "hundreds": 0,
+          "highestScore": 85,
+          "boundaryPct": 18.03
+        }
+      },
+      {
+        "season": 2017,
+        "played": true,
+        "batting": {
+          "matches": 16,
+          "innings": 16,
+          "runs": 333,
+          "balls": 273,
+          "strikeRate": 121.98,
+          "average": 23.79,
+          "fifties": 3,
+          "hundreds": 0,
+          "highestScore": 67,
+          "boundaryPct": 14.65
+        }
+      },
+      {
+        "season": 2018,
+        "played": true,
+        "batting": {
+          "matches": 14,
+          "innings": 14,
+          "runs": 286,
+          "balls": 214,
+          "strikeRate": 133.64,
+          "average": 23.83,
+          "fifties": 2,
+          "hundreds": 0,
+          "highestScore": 94,
+          "boundaryPct": 17.29
+        }
+      },
+      {
+        "season": 2019,
+        "played": true,
+        "batting": {
+          "matches": 15,
+          "innings": 15,
+          "runs": 405,
+          "balls": 314,
+          "strikeRate": 128.98,
+          "average": 28.93,
+          "fifties": 2,
+          "hundreds": 0,
+          "highestScore": 67,
+          "boundaryPct": 19.75
+        }
+      },
+      {
+        "season": 2021,
+        "played": true,
+        "batting": {
+          "matches": 13,
+          "innings": 13,
+          "runs": 381,
+          "balls": 298,
+          "strikeRate": 127.85,
+          "average": 29.31,
+          "fifties": 1,
+          "hundreds": 0,
+          "highestScore": 63,
+          "boundaryPct": 15.77
+        },
+        "bowling": {
+          "matches": 2,
+          "wickets": 0,
+          "balls": 7,
+          "runsConceded": 13,
+          "economy": 11.14,
+          "average": 0.0,
+          "bestFigures": "0/4"
+        }
+      },
+      {
+        "season": 2022,
+        "played": true,
+        "batting": {
+          "matches": 14,
+          "innings": 14,
+          "runs": 268,
+          "balls": 222,
+          "strikeRate": 120.72,
+          "average": 19.14,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 48,
+          "boundaryPct": 18.47
+        }
+      },
+      {
+        "season": 2023,
+        "played": true,
+        "batting": {
+          "matches": 16,
+          "innings": 16,
+          "runs": 332,
+          "balls": 248,
+          "strikeRate": 133.87,
+          "average": 20.75,
+          "fifties": 2,
+          "hundreds": 0,
+          "highestScore": 65,
+          "boundaryPct": 20.97
+        }
+      },
+      {
+        "season": 2024,
+        "played": true,
+        "batting": {
+          "matches": 14,
+          "innings": 14,
+          "runs": 417,
+          "balls": 276,
+          "strikeRate": 151.09,
+          "average": 32.08,
+          "fifties": 2,
+          "hundreds": 1,
+          "highestScore": 105,
+          "boundaryPct": 24.64
+        }
+      },
+      {
+        "season": 2025,
+        "played": true,
+        "batting": {
+          "matches": 15,
+          "innings": 15,
+          "runs": 418,
+          "balls": 279,
+          "strikeRate": 149.82,
+          "average": 29.86,
+          "fifties": 4,
+          "hundreds": 0,
+          "highestScore": 81,
+          "boundaryPct": 22.58
+        }
+      },
+      {
+        "season": 2026,
+        "played": true,
+        "batting": {
+          "matches": 9,
+          "innings": 9,
+          "runs": 283,
+          "balls": 179,
+          "strikeRate": 158.1,
+          "average": 31.44,
+          "fifties": 2,
+          "hundreds": 0,
+          "highestScore": 84,
+          "boundaryPct": 23.46
+        }
+      }
+    ],
+    "career": {
+      "batting": {
+        "matches": 276,
+        "innings": 277,
+        "runs": 7331,
+        "balls": 5496,
+        "strikeRate": 133.39,
+        "average": 29.8,
+        "fifties": 51,
+        "hundreds": 2,
+        "highestScore": 109,
+        "boundaryPct": 17.92
+      },
+      "bowling": {
+        "matches": 32,
+        "wickets": 15,
+        "balls": 339,
+        "runsConceded": 453,
+        "economy": 8.02,
+        "average": 30.2,
+        "bestFigures": "4/6"
+      }
+    },
+    "cricsheetId": "740742ef",
+    "aliases": []
+  },
+  {
+    "id": "kl-rahul",
+    "name": "KL Rahul",
+    "role": "Wicketkeeper",
+    "nationality": "India",
+    "isOverseas": false,
+    "isCapped": true,
+    "basePrice": 2.0,
+    "form": 89,
+    "previousTeam": "LSG",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=KL%20Rahul",
+    "seasons": [
+      {
+        "season": 2016,
+        "played": true,
+        "batting": {
+          "matches": 12,
+          "innings": 12,
+          "runs": 397,
+          "balls": 271,
+          "strikeRate": 146.49,
+          "average": 44.11,
+          "fifties": 4,
+          "hundreds": 0,
+          "highestScore": 68,
+          "boundaryPct": 19.56
+        }
+      },
+      {
+        "season": 2017,
+        "played": false
+      },
+      {
+        "season": 2018,
+        "played": true,
+        "batting": {
+          "matches": 14,
+          "innings": 14,
+          "runs": 659,
+          "balls": 415,
+          "strikeRate": 158.8,
+          "average": 54.92,
+          "fifties": 6,
+          "hundreds": 0,
+          "highestScore": 95,
+          "boundaryPct": 23.61
+        }
+      },
+      {
+        "season": 2019,
+        "played": true,
+        "batting": {
+          "matches": 14,
+          "innings": 14,
+          "runs": 593,
+          "balls": 437,
+          "strikeRate": 135.7,
+          "average": 53.91,
+          "fifties": 7,
+          "hundreds": 1,
+          "highestScore": 100,
+          "boundaryPct": 16.93
+        }
+      },
+      {
+        "season": 2021,
+        "played": true,
+        "batting": {
+          "matches": 13,
+          "innings": 13,
+          "runs": 626,
+          "balls": 450,
+          "strikeRate": 139.11,
+          "average": 62.6,
+          "fifties": 6,
+          "hundreds": 0,
+          "highestScore": 98,
+          "boundaryPct": 17.33
+        }
+      },
+      {
+        "season": 2022,
+        "played": true,
+        "batting": {
+          "matches": 15,
+          "innings": 15,
+          "runs": 616,
+          "balls": 454,
+          "strikeRate": 135.68,
+          "average": 51.33,
+          "fifties": 6,
+          "hundreds": 2,
+          "highestScore": 103,
+          "boundaryPct": 16.52
+        }
+      },
+      {
+        "season": 2023,
+        "played": true,
+        "batting": {
+          "matches": 9,
+          "innings": 9,
+          "runs": 274,
+          "balls": 241,
+          "strikeRate": 113.69,
+          "average": 34.25,
+          "fifties": 2,
+          "hundreds": 0,
+          "highestScore": 74,
+          "boundaryPct": 13.28
+        }
+      },
+      {
+        "season": 2024,
+        "played": true,
+        "batting": {
+          "matches": 14,
+          "innings": 14,
+          "runs": 520,
+          "balls": 380,
+          "strikeRate": 136.84,
+          "average": 37.14,
+          "fifties": 4,
+          "hundreds": 0,
+          "highestScore": 82,
+          "boundaryPct": 16.84
+        }
+      },
+      {
+        "season": 2025,
+        "played": true,
+        "batting": {
+          "matches": 13,
+          "innings": 14,
+          "runs": 546,
+          "balls": 363,
+          "strikeRate": 150.41,
+          "average": 54.6,
+          "fifties": 4,
+          "hundreds": 1,
+          "highestScore": 112,
+          "boundaryPct": 20.39
+        }
+      },
+      {
+        "season": 2026,
+        "played": true,
+        "batting": {
+          "matches": 14,
+          "innings": 14,
+          "runs": 593,
+          "balls": 339,
+          "strikeRate": 174.93,
+          "average": 45.62,
+          "fifties": 6,
+          "hundreds": 1,
+          "highestScore": 152,
+          "boundaryPct": 25.66
+        }
+      }
+    ],
+    "career": {
+      "batting": {
+        "matches": 150,
+        "innings": 153,
+        "runs": 5828,
+        "balls": 4175,
+        "strikeRate": 139.59,
+        "average": 45.53,
+        "fifties": 51,
+        "hundreds": 6,
+        "highestScore": 152,
+        "boundaryPct": 17.92
+      },
+      "bowling": {
+        "matches": 0,
+        "wickets": 0,
+        "balls": 0,
+        "runsConceded": 0,
+        "economy": 0.0,
+        "average": 0.0,
+        "bestFigures": "-"
+      }
+    },
+    "cricsheetId": "b17e2f24",
+    "aliases": []
+  },
+  {
+    "id": "glenn-maxwell",
+    "name": "Glenn Maxwell",
+    "role": "All-rounder",
+    "nationality": "Australia",
+    "isOverseas": true,
+    "isCapped": true,
+    "basePrice": 1.5,
+    "form": 88,
+    "previousTeam": "RCB",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Glenn%20Maxwell",
+    "seasons": [
+      {
+        "season": 2016,
+        "played": true,
+        "batting": {
+          "matches": 10,
+          "innings": 10,
+          "runs": 179,
+          "balls": 124,
+          "strikeRate": 144.35,
+          "average": 19.89,
+          "fifties": 2,
+          "hundreds": 0,
+          "highestScore": 68,
+          "boundaryPct": 17.74
+        },
+        "bowling": {
+          "matches": 7,
+          "wickets": 0,
+          "balls": 54,
+          "runsConceded": 80,
+          "economy": 8.89,
+          "average": 0.0,
+          "bestFigures": "0/3"
+        }
+      },
+      {
+        "season": 2017,
+        "played": true,
+        "batting": {
+          "matches": 13,
+          "innings": 13,
+          "runs": 310,
+          "balls": 178,
+          "strikeRate": 174.16,
+          "average": 31.0,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 47,
+          "boundaryPct": 25.84
+        },
+        "bowling": {
+          "matches": 8,
+          "wickets": 7,
+          "balls": 114,
+          "runsConceded": 125,
+          "economy": 6.58,
+          "average": 17.86,
+          "bestFigures": "2/15"
+        }
+      },
+      {
+        "season": 2018,
+        "played": true,
+        "batting": {
+          "matches": 12,
+          "innings": 12,
+          "runs": 169,
+          "balls": 120,
+          "strikeRate": 140.83,
+          "average": 14.08,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 47,
+          "boundaryPct": 19.17
+        },
+        "bowling": {
+          "matches": 10,
+          "wickets": 5,
+          "balls": 96,
+          "runsConceded": 132,
+          "economy": 8.25,
+          "average": 26.4,
+          "bestFigures": "2/22"
+        }
+      },
+      {
+        "season": 2019,
+        "played": false
+      },
+      {
+        "season": 2021,
+        "played": true,
+        "batting": {
+          "matches": 14,
+          "innings": 14,
+          "runs": 513,
+          "balls": 354,
+          "strikeRate": 144.92,
+          "average": 42.75,
+          "fifties": 6,
+          "hundreds": 0,
+          "highestScore": 78,
+          "boundaryPct": 19.49
+        },
+        "bowling": {
+          "matches": 6,
+          "wickets": 3,
+          "balls": 96,
+          "runsConceded": 135,
+          "economy": 8.44,
+          "average": 45.0,
+          "bestFigures": "2/23"
+        }
+      },
+      {
+        "season": 2022,
+        "played": true,
+        "batting": {
+          "matches": 13,
+          "innings": 13,
+          "runs": 301,
+          "balls": 177,
+          "strikeRate": 170.06,
+          "average": 27.36,
+          "fifties": 1,
+          "hundreds": 0,
+          "highestScore": 55,
+          "boundaryPct": 25.99
+        },
+        "bowling": {
+          "matches": 10,
+          "wickets": 6,
+          "balls": 144,
+          "runsConceded": 165,
+          "economy": 6.88,
+          "average": 27.5,
+          "bestFigures": "2/22"
+        }
+      },
+      {
+        "season": 2023,
+        "played": true,
+        "batting": {
+          "matches": 14,
+          "innings": 14,
+          "runs": 400,
+          "balls": 218,
+          "strikeRate": 183.49,
+          "average": 33.33,
+          "fifties": 5,
+          "hundreds": 0,
+          "highestScore": 77,
+          "boundaryPct": 27.52
+        },
+        "bowling": {
+          "matches": 7,
+          "wickets": 3,
+          "balls": 62,
+          "runsConceded": 94,
+          "economy": 9.1,
+          "average": 31.33,
+          "bestFigures": "1/3"
+        }
+      },
+      {
+        "season": 2024,
+        "played": true,
+        "batting": {
+          "matches": 9,
+          "innings": 9,
+          "runs": 52,
+          "balls": 43,
+          "strikeRate": 120.93,
+          "average": 5.78,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 28,
+          "boundaryPct": 18.6
+        },
+        "bowling": {
+          "matches": 6,
+          "wickets": 6,
+          "balls": 96,
+          "runsConceded": 129,
+          "economy": 8.06,
+          "average": 21.5,
+          "bestFigures": "2/23"
+        }
+      },
+      {
+        "season": 2025,
+        "played": true,
+        "batting": {
+          "matches": 6,
+          "innings": 6,
+          "runs": 48,
+          "balls": 49,
+          "strikeRate": 97.96,
+          "average": 8.0,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 30,
+          "boundaryPct": 12.24
+        },
+        "bowling": {
+          "matches": 6,
+          "wickets": 4,
+          "balls": 78,
+          "runsConceded": 110,
+          "economy": 8.46,
+          "average": 27.5,
+          "bestFigures": "1/5"
+        }
+      },
+      {
+        "season": 2026,
+        "played": false
+      }
+    ],
+    "career": {
+      "batting": {
+        "matches": 134,
+        "innings": 135,
+        "runs": 2820,
+        "balls": 1810,
+        "strikeRate": 155.8,
+        "average": 23.9,
+        "fifties": 18,
+        "hundreds": 0,
+        "highestScore": 95,
+        "boundaryPct": 22.04
+      },
+      "bowling": {
+        "matches": 85,
+        "wickets": 41,
+        "balls": 1022,
+        "runsConceded": 1413,
+        "economy": 8.3,
+        "average": 34.46,
+        "bestFigures": "2/15"
+      }
+    },
+    "cricsheetId": "b681e71e",
+    "aliases": []
+  },
+  {
+    "id": "ravindra-jadeja",
+    "name": "Ravindra Jadeja",
+    "role": "All-rounder",
+    "nationality": "India",
+    "isOverseas": false,
+    "isCapped": true,
+    "basePrice": 2.0,
+    "form": 88,
+    "previousTeam": "CSK",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Ravindra%20Jadeja",
+    "seasons": [
+      {
+        "season": 2016,
+        "played": true,
+        "batting": {
+          "matches": 15,
+          "innings": 15,
+          "runs": 191,
+          "balls": 175,
+          "strikeRate": 109.14,
+          "average": 21.22,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 36,
+          "boundaryPct": 10.29
+        },
+        "bowling": {
+          "matches": 14,
+          "wickets": 8,
+          "balls": 241,
+          "runsConceded": 311,
+          "economy": 7.74,
+          "average": 38.88,
+          "bestFigures": "2/18"
+        }
+      },
+      {
+        "season": 2017,
+        "played": true,
+        "batting": {
+          "matches": 10,
+          "innings": 10,
+          "runs": 158,
+          "balls": 113,
+          "strikeRate": 139.82,
+          "average": 39.5,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 28,
+          "boundaryPct": 15.04
+        },
+        "bowling": {
+          "matches": 12,
+          "wickets": 5,
+          "balls": 228,
+          "runsConceded": 349,
+          "economy": 9.18,
+          "average": 69.8,
+          "bestFigures": "2/28"
+        }
+      },
+      {
+        "season": 2018,
+        "played": true,
+        "batting": {
+          "matches": 8,
+          "innings": 8,
+          "runs": 89,
+          "balls": 74,
+          "strikeRate": 120.27,
+          "average": 17.8,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 27,
+          "boundaryPct": 9.46
+        },
+        "bowling": {
+          "matches": 14,
+          "wickets": 11,
+          "balls": 246,
+          "runsConceded": 303,
+          "economy": 7.39,
+          "average": 27.55,
+          "bestFigures": "3/18"
+        }
+      },
+      {
+        "season": 2019,
+        "played": true,
+        "batting": {
+          "matches": 9,
+          "innings": 9,
+          "runs": 106,
+          "balls": 87,
+          "strikeRate": 121.84,
+          "average": 35.33,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 31,
+          "boundaryPct": 12.64
+        },
+        "bowling": {
+          "matches": 16,
+          "wickets": 15,
+          "balls": 324,
+          "runsConceded": 343,
+          "economy": 6.35,
+          "average": 22.87,
+          "bestFigures": "3/9"
+        }
+      },
+      {
+        "season": 2021,
+        "played": true,
+        "batting": {
+          "matches": 11,
+          "innings": 11,
+          "runs": 227,
+          "balls": 155,
+          "strikeRate": 146.45,
+          "average": 75.67,
+          "fifties": 1,
+          "hundreds": 0,
+          "highestScore": 62,
+          "boundaryPct": 18.06
+        },
+        "bowling": {
+          "matches": 16,
+          "wickets": 13,
+          "balls": 294,
+          "runsConceded": 346,
+          "economy": 7.06,
+          "average": 26.62,
+          "bestFigures": "3/13"
+        }
+      },
+      {
+        "season": 2022,
+        "played": true,
+        "batting": {
+          "matches": 10,
+          "innings": 10,
+          "runs": 116,
+          "balls": 98,
+          "strikeRate": 118.37,
+          "average": 19.33,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 26,
+          "boundaryPct": 11.22
+        },
+        "bowling": {
+          "matches": 10,
+          "wickets": 5,
+          "balls": 198,
+          "runsConceded": 248,
+          "economy": 7.52,
+          "average": 49.6,
+          "bestFigures": "3/39"
+        }
+      },
+      {
+        "season": 2023,
+        "played": true,
+        "batting": {
+          "matches": 12,
+          "innings": 12,
+          "runs": 190,
+          "balls": 132,
+          "strikeRate": 143.94,
+          "average": 23.75,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 25,
+          "boundaryPct": 15.15
+        },
+        "bowling": {
+          "matches": 16,
+          "wickets": 20,
+          "balls": 342,
+          "runsConceded": 431,
+          "economy": 7.56,
+          "average": 21.55,
+          "bestFigures": "3/20"
+        }
+      },
+      {
+        "season": 2024,
+        "played": true,
+        "batting": {
+          "matches": 11,
+          "innings": 11,
+          "runs": 267,
+          "balls": 187,
+          "strikeRate": 142.78,
+          "average": 44.5,
+          "fifties": 1,
+          "hundreds": 0,
+          "highestScore": 57,
+          "boundaryPct": 16.04
+        },
+        "bowling": {
+          "matches": 14,
+          "wickets": 8,
+          "balls": 282,
+          "runsConceded": 369,
+          "economy": 7.85,
+          "average": 46.12,
+          "bestFigures": "3/18"
+        }
+      },
+      {
+        "season": 2025,
+        "played": true,
+        "batting": {
+          "matches": 14,
+          "innings": 14,
+          "runs": 301,
+          "balls": 222,
+          "strikeRate": 135.59,
+          "average": 33.44,
+          "fifties": 2,
+          "hundreds": 0,
+          "highestScore": 77,
+          "boundaryPct": 15.77
+        },
+        "bowling": {
+          "matches": 14,
+          "wickets": 10,
+          "balls": 227,
+          "runsConceded": 324,
+          "economy": 8.56,
+          "average": 32.4,
+          "bestFigures": "2/17"
+        }
+      },
+      {
+        "season": 2026,
+        "played": true,
+        "batting": {
+          "matches": 11,
+          "innings": 11,
+          "runs": 266,
+          "balls": 196,
+          "strikeRate": 135.71,
+          "average": 66.5,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 45,
+          "boundaryPct": 14.8
+        },
+        "bowling": {
+          "matches": 12,
+          "wickets": 10,
+          "balls": 198,
+          "runsConceded": 277,
+          "economy": 8.39,
+          "average": 27.7,
+          "bestFigures": "2/8"
+        }
+      }
+    ],
+    "career": {
+      "batting": {
+        "matches": 205,
+        "innings": 205,
+        "runs": 3526,
+        "balls": 2685,
+        "strikeRate": 131.32,
+        "average": 29.14,
+        "fifties": 5,
+        "hundreds": 0,
+        "highestScore": 77,
+        "boundaryPct": 14.38
+      },
+      "bowling": {
+        "matches": 237,
+        "wickets": 180,
+        "balls": 4254,
+        "runsConceded": 5465,
+        "economy": 7.71,
+        "average": 30.36,
+        "bestFigures": "5/16"
+      }
+    },
+    "cricsheetId": "fe93fd9d",
+    "aliases": []
+  },
+  {
+    "id": "sanju-samson",
+    "name": "Sanju Samson",
+    "role": "Wicketkeeper",
+    "nationality": "India",
+    "isOverseas": false,
+    "isCapped": true,
+    "basePrice": 1.5,
+    "form": 88,
+    "previousTeam": "RR",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Sanju%20Samson",
+    "seasons": [
+      {
+        "season": 2016,
+        "played": true,
+        "batting": {
+          "matches": 14,
+          "innings": 14,
+          "runs": 291,
+          "balls": 258,
+          "strikeRate": 112.79,
+          "average": 26.45,
+          "fifties": 1,
+          "hundreds": 0,
+          "highestScore": 60,
+          "boundaryPct": 10.85
+        }
+      },
+      {
+        "season": 2017,
+        "played": true,
+        "batting": {
+          "matches": 14,
+          "innings": 14,
+          "runs": 386,
+          "balls": 273,
+          "strikeRate": 141.39,
+          "average": 27.57,
+          "fifties": 3,
+          "hundreds": 1,
+          "highestScore": 102,
+          "boundaryPct": 18.68
+        }
+      },
+      {
+        "season": 2018,
+        "played": true,
+        "batting": {
+          "matches": 15,
+          "innings": 15,
+          "runs": 441,
+          "balls": 319,
+          "strikeRate": 138.24,
+          "average": 31.5,
+          "fifties": 3,
+          "hundreds": 0,
+          "highestScore": 92,
+          "boundaryPct": 15.36
+        }
+      },
+      {
+        "season": 2019,
+        "played": true,
+        "batting": {
+          "matches": 12,
+          "innings": 12,
+          "runs": 342,
+          "balls": 229,
+          "strikeRate": 149.34,
+          "average": 34.2,
+          "fifties": 1,
+          "hundreds": 1,
+          "highestScore": 102,
+          "boundaryPct": 17.9
+        }
+      },
+      {
+        "season": 2021,
+        "played": true,
+        "batting": {
+          "matches": 14,
+          "innings": 14,
+          "runs": 484,
+          "balls": 351,
+          "strikeRate": 137.89,
+          "average": 40.33,
+          "fifties": 3,
+          "hundreds": 1,
+          "highestScore": 119,
+          "boundaryPct": 17.66
+        }
+      },
+      {
+        "season": 2022,
+        "played": true,
+        "batting": {
+          "matches": 17,
+          "innings": 17,
+          "runs": 458,
+          "balls": 311,
+          "strikeRate": 147.27,
+          "average": 28.62,
+          "fifties": 2,
+          "hundreds": 0,
+          "highestScore": 55,
+          "boundaryPct": 22.19
+        }
+      },
+      {
+        "season": 2023,
+        "played": true,
+        "batting": {
+          "matches": 14,
+          "innings": 14,
+          "runs": 362,
+          "balls": 236,
+          "strikeRate": 153.39,
+          "average": 30.17,
+          "fifties": 3,
+          "hundreds": 0,
+          "highestScore": 66,
+          "boundaryPct": 20.76
+        }
+      },
+      {
+        "season": 2024,
+        "played": true,
+        "batting": {
+          "matches": 15,
+          "innings": 15,
+          "runs": 531,
+          "balls": 343,
+          "strikeRate": 154.81,
+          "average": 48.27,
+          "fifties": 5,
+          "hundreds": 0,
+          "highestScore": 86,
+          "boundaryPct": 20.99
+        }
+      },
+      {
+        "season": 2025,
+        "played": true,
+        "batting": {
+          "matches": 9,
+          "innings": 9,
+          "runs": 285,
+          "balls": 201,
+          "strikeRate": 141.79,
+          "average": 31.67,
+          "fifties": 1,
+          "hundreds": 0,
+          "highestScore": 66,
+          "boundaryPct": 19.9
+        }
+      },
+      {
+        "season": 2026,
+        "played": true,
+        "batting": {
+          "matches": 14,
+          "innings": 14,
+          "runs": 477,
+          "balls": 285,
+          "strikeRate": 167.37,
+          "average": 43.36,
+          "fifties": 3,
+          "hundreds": 2,
+          "highestScore": 115,
+          "boundaryPct": 27.02
+        }
+      }
+    ],
+    "career": {
+      "batting": {
+        "matches": 186,
+        "innings": 186,
+        "runs": 5181,
+        "balls": 3653,
+        "strikeRate": 141.83,
+        "average": 31.59,
+        "fifties": 32,
+        "hundreds": 5,
+        "highestScore": 119,
+        "boundaryPct": 18.48
+      },
+      "bowling": {
+        "matches": 0,
+        "wickets": 0,
+        "balls": 0,
+        "runsConceded": 0,
+        "economy": 0.0,
+        "average": 0.0,
+        "bestFigures": "-"
+      }
+    },
+    "cricsheetId": "a4cc73aa",
+    "aliases": []
+  },
+  {
+    "id": "faf-du-plessis",
+    "name": "Faf du Plessis",
+    "role": "Batter",
+    "nationality": "South Africa",
+    "isOverseas": true,
+    "isCapped": true,
+    "basePrice": 1.5,
+    "form": 87,
+    "previousTeam": "RCB",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Faf%20du%20Plessis",
+    "seasons": [
+      {
+        "season": 2016,
+        "played": true,
+        "batting": {
+          "matches": 6,
+          "innings": 6,
+          "runs": 206,
+          "balls": 162,
+          "strikeRate": 127.16,
+          "average": 34.33,
+          "fifties": 2,
+          "hundreds": 0,
+          "highestScore": 69,
+          "boundaryPct": 16.05
+        }
+      },
+      {
+        "season": 2017,
+        "played": true,
+        "batting": {
+          "matches": 1,
+          "innings": 1,
+          "runs": 8,
+          "balls": 7,
+          "strikeRate": 114.29,
+          "average": 8.0,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 8,
+          "boundaryPct": 14.29
+        }
+      },
+      {
+        "season": 2018,
+        "played": true,
+        "batting": {
+          "matches": 6,
+          "innings": 6,
+          "runs": 162,
+          "balls": 128,
+          "strikeRate": 126.56,
+          "average": 32.4,
+          "fifties": 1,
+          "hundreds": 0,
+          "highestScore": 67,
+          "boundaryPct": 17.97
+        }
+      },
+      {
+        "season": 2019,
+        "played": true,
+        "batting": {
+          "matches": 12,
+          "innings": 12,
+          "runs": 396,
+          "balls": 321,
+          "strikeRate": 123.36,
+          "average": 36.0,
+          "fifties": 3,
+          "hundreds": 0,
+          "highestScore": 96,
+          "boundaryPct": 15.89
+        }
+      },
+      {
+        "season": 2021,
+        "played": true,
+        "batting": {
+          "matches": 16,
+          "innings": 16,
+          "runs": 633,
+          "balls": 456,
+          "strikeRate": 138.82,
+          "average": 45.21,
+          "fifties": 6,
+          "hundreds": 0,
+          "highestScore": 95,
+          "boundaryPct": 18.42
+        }
+      },
+      {
+        "season": 2022,
+        "played": true,
+        "batting": {
+          "matches": 16,
+          "innings": 16,
+          "runs": 468,
+          "balls": 367,
+          "strikeRate": 127.52,
+          "average": 31.2,
+          "fifties": 3,
+          "hundreds": 0,
+          "highestScore": 96,
+          "boundaryPct": 16.89
+        }
+      },
+      {
+        "season": 2023,
+        "played": true,
+        "batting": {
+          "matches": 14,
+          "innings": 14,
+          "runs": 730,
+          "balls": 472,
+          "strikeRate": 154.66,
+          "average": 56.15,
+          "fifties": 8,
+          "hundreds": 0,
+          "highestScore": 84,
+          "boundaryPct": 20.34
+        }
+      },
+      {
+        "season": 2024,
+        "played": true,
+        "batting": {
+          "matches": 15,
+          "innings": 15,
+          "runs": 438,
+          "balls": 271,
+          "strikeRate": 161.62,
+          "average": 29.2,
+          "fifties": 4,
+          "hundreds": 0,
+          "highestScore": 64,
+          "boundaryPct": 25.09
+        }
+      },
+      {
+        "season": 2025,
+        "played": true,
+        "batting": {
+          "matches": 9,
+          "innings": 9,
+          "runs": 202,
+          "balls": 161,
+          "strikeRate": 125.47,
+          "average": 22.44,
+          "fifties": 2,
+          "hundreds": 0,
+          "highestScore": 62,
+          "boundaryPct": 16.15
+        }
+      },
+      {
+        "season": 2026,
+        "played": false
+      }
+    ],
+    "career": {
+      "batting": {
+        "matches": 147,
+        "innings": 147,
+        "runs": 4773,
+        "balls": 3506,
+        "strikeRate": 136.14,
+        "average": 35.1,
+        "fifties": 39,
+        "hundreds": 0,
+        "highestScore": 96,
+        "boundaryPct": 17.51
+      },
+      "bowling": {
+        "matches": 1,
+        "wickets": 0,
+        "balls": 6,
+        "runsConceded": 16,
+        "economy": 16.0,
+        "average": 0.0,
+        "bestFigures": "0/16"
+      }
+    },
+    "cricsheetId": "3355b542",
+    "aliases": []
+  },
+  {
+    "id": "rinku-singh",
+    "name": "Rinku Singh",
+    "role": "Batter",
+    "nationality": "India",
+    "isOverseas": false,
+    "isCapped": true,
+    "basePrice": 1.0,
+    "form": 86,
+    "previousTeam": "KKR",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Rinku%20Singh",
+    "seasons": [
+      {
+        "season": 2016,
+        "played": false
+      },
+      {
+        "season": 2017,
+        "played": false
+      },
+      {
+        "season": 2018,
+        "played": true,
+        "batting": {
+          "matches": 4,
+          "innings": 4,
+          "runs": 29,
+          "balls": 31,
+          "strikeRate": 93.55,
+          "average": 7.25,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 16,
+          "boundaryPct": 12.9
+        }
+      },
+      {
+        "season": 2019,
+        "played": true,
+        "batting": {
+          "matches": 3,
+          "innings": 3,
+          "runs": 37,
+          "balls": 34,
+          "strikeRate": 108.82,
+          "average": 18.5,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 30,
+          "boundaryPct": 8.82
+        }
+      },
+      {
+        "season": 2021,
+        "played": false
+      },
+      {
+        "season": 2022,
+        "played": true,
+        "batting": {
+          "matches": 7,
+          "innings": 7,
+          "runs": 174,
+          "balls": 117,
+          "strikeRate": 148.72,
+          "average": 34.8,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 42,
+          "boundaryPct": 20.51
+        }
+      },
+      {
+        "season": 2023,
+        "played": true,
+        "batting": {
+          "matches": 14,
+          "innings": 14,
+          "runs": 474,
+          "balls": 313,
+          "strikeRate": 151.44,
+          "average": 59.25,
+          "fifties": 4,
+          "hundreds": 0,
+          "highestScore": 67,
+          "boundaryPct": 19.17
+        }
+      },
+      {
+        "season": 2024,
+        "played": true,
+        "batting": {
+          "matches": 11,
+          "innings": 11,
+          "runs": 168,
+          "balls": 111,
+          "strikeRate": 151.35,
+          "average": 18.67,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 26,
+          "boundaryPct": 18.92
+        }
+      },
+      {
+        "season": 2025,
+        "played": true,
+        "batting": {
+          "matches": 11,
+          "innings": 11,
+          "runs": 206,
+          "balls": 133,
+          "strikeRate": 154.89,
+          "average": 29.43,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 38,
+          "boundaryPct": 22.56
+        }
+      },
+      {
+        "season": 2026,
+        "played": true,
+        "batting": {
+          "matches": 11,
+          "innings": 12,
+          "runs": 299,
+          "balls": 198,
+          "strikeRate": 151.01,
+          "average": 59.8,
+          "fifties": 2,
+          "hundreds": 0,
+          "highestScore": 83,
+          "boundaryPct": 19.7
+        }
+      }
+    ],
+    "career": {
+      "batting": {
+        "matches": 62,
+        "innings": 63,
+        "runs": 1398,
+        "balls": 948,
+        "strikeRate": 147.47,
+        "average": 34.1,
+        "fifties": 6,
+        "hundreds": 0,
+        "highestScore": 83,
+        "boundaryPct": 19.2
+      },
+      "bowling": {
+        "matches": 0,
+        "wickets": 0,
+        "balls": 0,
+        "runsConceded": 0,
+        "economy": 0.0,
+        "average": 0.0,
+        "bestFigures": "-"
+      }
+    },
+    "cricsheetId": "0a509d6b",
+    "aliases": []
+  },
+  {
+    "id": "marcus-stoinis",
+    "name": "Marcus Stoinis",
+    "role": "All-rounder",
+    "nationality": "Australia",
+    "isOverseas": true,
+    "isCapped": true,
+    "basePrice": 1.5,
+    "form": 84,
+    "previousTeam": "LSG",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=Marcus%20Stoinis",
+    "seasons": [
+      {
+        "season": 2016,
+        "played": true,
+        "batting": {
+          "matches": 5,
+          "innings": 5,
+          "runs": 146,
+          "balls": 108,
+          "strikeRate": 135.19,
+          "average": 36.5,
+          "fifties": 1,
+          "hundreds": 0,
+          "highestScore": 52,
+          "boundaryPct": 15.74
+        },
+        "bowling": {
+          "matches": 7,
+          "wickets": 8,
+          "balls": 138,
+          "runsConceded": 194,
+          "economy": 8.43,
+          "average": 24.25,
+          "bestFigures": "4/15"
+        }
+      },
+      {
+        "season": 2017,
+        "played": true,
+        "batting": {
+          "matches": 3,
+          "innings": 3,
+          "runs": 17,
+          "balls": 24,
+          "strikeRate": 70.83,
+          "average": 5.67,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 9,
+          "boundaryPct": 4.17
+        },
+        "bowling": {
+          "matches": 5,
+          "wickets": 2,
+          "balls": 63,
+          "runsConceded": 110,
+          "economy": 10.48,
+          "average": 55.0,
+          "bestFigures": "1/28"
+        }
+      },
+      {
+        "season": 2018,
+        "played": true,
+        "batting": {
+          "matches": 7,
+          "innings": 7,
+          "runs": 99,
+          "balls": 75,
+          "strikeRate": 132.0,
+          "average": 24.75,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 29,
+          "boundaryPct": 13.33
+        },
+        "bowling": {
+          "matches": 6,
+          "wickets": 3,
+          "balls": 66,
+          "runsConceded": 120,
+          "economy": 10.91,
+          "average": 40.0,
+          "bestFigures": "1/15"
+        }
+      },
+      {
+        "season": 2019,
+        "played": true,
+        "batting": {
+          "matches": 10,
+          "innings": 10,
+          "runs": 211,
+          "balls": 156,
+          "strikeRate": 135.26,
+          "average": 52.75,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 46,
+          "boundaryPct": 15.38
+        },
+        "bowling": {
+          "matches": 6,
+          "wickets": 2,
+          "balls": 100,
+          "runsConceded": 145,
+          "economy": 8.7,
+          "average": 72.5,
+          "bestFigures": "1/13"
+        }
+      },
+      {
+        "season": 2021,
+        "played": true,
+        "batting": {
+          "matches": 7,
+          "innings": 7,
+          "runs": 89,
+          "balls": 71,
+          "strikeRate": 125.35,
+          "average": 22.25,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 27,
+          "boundaryPct": 16.9
+        },
+        "bowling": {
+          "matches": 8,
+          "wickets": 2,
+          "balls": 67,
+          "runsConceded": 117,
+          "economy": 10.48,
+          "average": 58.5,
+          "bestFigures": "1/7"
+        }
+      },
+      {
+        "season": 2022,
+        "played": true,
+        "batting": {
+          "matches": 10,
+          "innings": 10,
+          "runs": 156,
+          "balls": 106,
+          "strikeRate": 147.17,
+          "average": 19.5,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 38,
+          "boundaryPct": 18.87
+        },
+        "bowling": {
+          "matches": 5,
+          "wickets": 4,
+          "balls": 42,
+          "runsConceded": 79,
+          "economy": 11.29,
+          "average": 19.75,
+          "bestFigures": "3/23"
+        }
+      },
+      {
+        "season": 2023,
+        "played": true,
+        "batting": {
+          "matches": 15,
+          "innings": 15,
+          "runs": 408,
+          "balls": 271,
+          "strikeRate": 150.55,
+          "average": 31.38,
+          "fifties": 3,
+          "hundreds": 0,
+          "highestScore": 89,
+          "boundaryPct": 20.3
+        },
+        "bowling": {
+          "matches": 5,
+          "wickets": 5,
+          "balls": 65,
+          "runsConceded": 100,
+          "economy": 9.23,
+          "average": 20.0,
+          "bestFigures": "2/20"
+        }
+      },
+      {
+        "season": 2024,
+        "played": true,
+        "batting": {
+          "matches": 14,
+          "innings": 14,
+          "runs": 388,
+          "balls": 261,
+          "strikeRate": 148.66,
+          "average": 32.33,
+          "fifties": 3,
+          "hundreds": 1,
+          "highestScore": 124,
+          "boundaryPct": 21.07
+        },
+        "bowling": {
+          "matches": 7,
+          "wickets": 4,
+          "balls": 84,
+          "runsConceded": 126,
+          "economy": 9.0,
+          "average": 31.5,
+          "bestFigures": "1/3"
+        }
+      },
+      {
+        "season": 2025,
+        "played": true,
+        "batting": {
+          "matches": 11,
+          "innings": 11,
+          "runs": 160,
+          "balls": 85,
+          "strikeRate": 188.24,
+          "average": 26.67,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 44,
+          "boundaryPct": 27.06
+        },
+        "bowling": {
+          "matches": 9,
+          "wickets": 1,
+          "balls": 85,
+          "runsConceded": 175,
+          "economy": 12.35,
+          "average": 175.0,
+          "bestFigures": "1/14"
+        }
+      },
+      {
+        "season": 2026,
+        "played": true,
+        "batting": {
+          "matches": 9,
+          "innings": 9,
+          "runs": 216,
+          "balls": 119,
+          "strikeRate": 181.51,
+          "average": 36.0,
+          "fifties": 1,
+          "hundreds": 0,
+          "highestScore": 62,
+          "boundaryPct": 28.57
+        },
+        "bowling": {
+          "matches": 4,
+          "wickets": 2,
+          "balls": 47,
+          "runsConceded": 98,
+          "economy": 12.51,
+          "average": 49.0,
+          "bestFigures": "1/26"
+        }
+      }
+    ],
+    "career": {
+      "batting": {
+        "matches": 108,
+        "innings": 108,
+        "runs": 2242,
+        "balls": 1511,
+        "strikeRate": 148.38,
+        "average": 28.74,
+        "fifties": 11,
+        "hundreds": 1,
+        "highestScore": 124,
+        "boundaryPct": 19.72
+      },
+      "bowling": {
+        "matches": 75,
+        "wickets": 46,
+        "balls": 935,
+        "runsConceded": 1547,
+        "economy": 9.93,
+        "average": 33.63,
+        "bestFigures": "4/15"
+      }
+    },
+    "cricsheetId": "d9273ee7",
+    "aliases": []
+  },
+  {
+    "id": "ms-dhoni",
+    "name": "MS Dhoni",
+    "role": "Wicketkeeper",
+    "nationality": "India",
+    "isOverseas": false,
+    "isCapped": true,
+    "basePrice": 1.5,
+    "form": 82,
+    "previousTeam": "CSK",
+    "photoUrl": "https://api.dicebear.com/7.x/initials/svg?seed=MS%20Dhoni",
+    "seasons": [
+      {
+        "season": 2016,
+        "played": true,
+        "batting": {
+          "matches": 12,
+          "innings": 12,
+          "runs": 284,
+          "balls": 210,
+          "strikeRate": 135.24,
+          "average": 40.57,
+          "fifties": 1,
+          "hundreds": 0,
+          "highestScore": 64,
+          "boundaryPct": 15.24
+        }
+      },
+      {
+        "season": 2017,
+        "played": true,
+        "batting": {
+          "matches": 15,
+          "innings": 15,
+          "runs": 290,
+          "balls": 250,
+          "strikeRate": 116.0,
+          "average": 26.36,
+          "fifties": 1,
+          "hundreds": 0,
+          "highestScore": 61,
+          "boundaryPct": 12.4
+        }
+      },
+      {
+        "season": 2018,
+        "played": true,
+        "batting": {
+          "matches": 15,
+          "innings": 15,
+          "runs": 455,
+          "balls": 301,
+          "strikeRate": 151.16,
+          "average": 75.83,
+          "fifties": 3,
+          "hundreds": 0,
+          "highestScore": 79,
+          "boundaryPct": 17.94
+        }
+      },
+      {
+        "season": 2019,
+        "played": true,
+        "batting": {
+          "matches": 12,
+          "innings": 12,
+          "runs": 416,
+          "balls": 305,
+          "strikeRate": 136.39,
+          "average": 83.2,
+          "fifties": 3,
+          "hundreds": 0,
+          "highestScore": 84,
+          "boundaryPct": 14.75
+        }
+      },
+      {
+        "season": 2021,
+        "played": true,
+        "batting": {
+          "matches": 11,
+          "innings": 11,
+          "runs": 114,
+          "balls": 107,
+          "strikeRate": 106.54,
+          "average": 16.29,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 18,
+          "boundaryPct": 14.02
+        }
+      },
+      {
+        "season": 2022,
+        "played": true,
+        "batting": {
+          "matches": 12,
+          "innings": 12,
+          "runs": 232,
+          "balls": 186,
+          "strikeRate": 124.73,
+          "average": 33.14,
+          "fifties": 1,
+          "hundreds": 0,
+          "highestScore": 50,
+          "boundaryPct": 16.67
+        }
+      },
+      {
+        "season": 2023,
+        "played": true,
+        "batting": {
+          "matches": 12,
+          "innings": 12,
+          "runs": 104,
+          "balls": 54,
+          "strikeRate": 192.59,
+          "average": 26.0,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 32,
+          "boundaryPct": 24.07
+        }
+      },
+      {
+        "season": 2024,
+        "played": true,
+        "batting": {
+          "matches": 11,
+          "innings": 11,
+          "runs": 161,
+          "balls": 72,
+          "strikeRate": 223.61,
+          "average": 53.67,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 37,
+          "boundaryPct": 37.5
+        }
+      },
+      {
+        "season": 2025,
+        "played": true,
+        "batting": {
+          "matches": 13,
+          "innings": 13,
+          "runs": 196,
+          "balls": 145,
+          "strikeRate": 135.17,
+          "average": 24.5,
+          "fifties": 0,
+          "hundreds": 0,
+          "highestScore": 30,
+          "boundaryPct": 16.55
+        }
+      },
+      {
+        "season": 2026,
+        "played": false
+      }
+    ],
+    "career": {
+      "batting": {
+        "matches": 241,
+        "innings": 241,
+        "runs": 5439,
+        "balls": 3935,
+        "strikeRate": 138.22,
+        "average": 38.3,
+        "fifties": 24,
+        "hundreds": 0,
+        "highestScore": 84,
+        "boundaryPct": 16.24
+      },
+      "bowling": {
+        "matches": 0,
+        "wickets": 0,
+        "balls": 0,
+        "runsConceded": 0,
+        "economy": 0.0,
+        "average": 0.0,
+        "bestFigures": "-"
+      }
+    },
+    "cricsheetId": "4a8a2e3b",
+    "aliases": []
+  }
+]

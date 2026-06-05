@@ -19,13 +19,24 @@ npm run build
 
 The runtime currently uses a curated sample player pool so the game is playable right away.
 
-The next step is the offline data pipeline:
+The offline pipeline now exists and can be run against a local IPL match dataset clone:
 
-1. aggregate the IPL dataset into `data/derived/players.json`
-2. maintain curated player metadata in `data/derived/player_meta.json`
-3. merge both into `public/data/auction_pool.json`
+```bash
+python3 scripts/generate_auction_pool.py \
+  --match-dir /path/to/IPL-DATASET/json/ipl_match \
+  --players-out public/data/players.json \
+  --meta public/data/player_meta.json \
+  --auction-out public/data/auction_pool.json \
+  --limit 20 \
+  --no-unmatched
+```
 
-The merge script lives at:
+Outputs:
+- `public/data/players.json` — aggregated batting / bowling stats for every player in the dataset
+- `public/data/player_meta.json` — curated auction metadata
+- `public/data/auction_pool.json` — merged final pool used by the game
+
+The pipeline script lives at:
 
 ```bash
 scripts/generate_auction_pool.py

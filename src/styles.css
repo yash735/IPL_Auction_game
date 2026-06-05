@@ -80,6 +80,16 @@ img {
   backdrop-filter: blur(12px);
 }
 
+.fetch-badge {
+  color: #93c5fd;
+  border: 1px solid rgba(147, 197, 253, 0.25);
+}
+
+.fetch-badge--error {
+  color: #fca5a5;
+  border-color: rgba(252, 165, 165, 0.3);
+}
+
 .lobby-grid,
 .auction-grid,
 .bottom-grid {

@@ -4,7 +4,7 @@ import { AUCTION_CONFIG, FRANCHISE_MAP, FRANCHISES } from './lib/config'
 import {
   addPlayerToTeam,
   botWillingness,
-  canAfford,
+  canBid,
   createFranchises,
   efficiency,
   formatPrice,
@@ -19,7 +19,6 @@ import type { AuctionState, FranchiseId, FranchiseState, PlayerRecord } from './
 import { SAMPLE_PLAYERS } from './data/sampleAuctionPool'
 
 const sortedTeams = [...FRANCHISES]
-const sortedPlayers = [...SAMPLE_PLAYERS].sort((a, b) => b.form - a.form)
 
 type GameState = {
   humanSeats: number
@@ -28,9 +27,9 @@ type GameState = {
   auction: AuctionState
 }
 
-function initialAuction(): AuctionState {
+function initialAuction(players: PlayerRecord[]): AuctionState {
   return {
-    pool: sortedPlayers,
+    pool: players,
     queue: [],
     currentIndex: 0,
     currentBid: 0,
@@ -43,13 +42,13 @@ function initialAuction(): AuctionState {
   }
 }
 
-function initialGame(): GameState {
+function initialGame(players: PlayerRecord[]): GameState {
   const selectedFranchises: FranchiseId[] = ['CSK']
   return {
     humanSeats: 1,
     selectedFranchises,
     franchises: createFranchises(selectedFranchises),
-    auction: initialAuction(),
+    auction: initialAuction(players),
   }
 }
 
@@ -76,7 +75,33 @@ function saleDiscount(team: FranchiseState, player: PlayerRecord, hammerPrice: n
 }
 
 function App() {
-  const [game, setGame] = useState<GameState>(initialGame)
+  const [fetchStatus, setFetchStatus] = useState<'loading' | 'done' | 'error'>('loading')
+  const [game, setGame] = useState<GameState>(() => initialGame([...SAMPLE_PLAYERS].sort((a, b) => b.form - a.form)))
+  const players = game.auction.pool
+
+  useEffect(() => {
+    const controller = new AbortController()
+    fetch('/data/auction_pool.json', { signal: controller.signal })
+      .then((res) => {
+        if (!res.ok) throw new Error('fetch failed')
+        return res.json() as Promise<PlayerRecord[]>
+      })
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          const sorted = [...data].sort((a, b) => b.form - a.form)
+          setGame((prev) =>
+            prev.auction.phase === 'setup'
+              ? { ...prev, auction: { ...prev.auction, pool: sorted } }
+              : prev
+          )
+        }
+        setFetchStatus('done')
+      })
+      .catch((err: unknown) => {
+        if ((err as Error).name !== 'AbortError') setFetchStatus('error')
+      })
+    return () => controller.abort()
+  }, [])
 
   const currentPlayer = game.auction.queue[game.auction.currentIndex]
   const teams = Object.values(game.franchises)
@@ -116,7 +141,7 @@ function App() {
 
   function startAuction() {
     const picked: FranchiseId[] = game.selectedFranchises.length ? game.selectedFranchises : ['CSK']
-    const shuffled = shuffle(sortedPlayers)
+    const shuffled = shuffle(players)
     const first = shuffled[0]
     setGame((prev: GameState) => ({
       ...prev,
@@ -138,7 +163,7 @@ function App() {
   }
 
   function resetLobby() {
-    setGame(initialGame())
+    setGame(initialGame(players))
   }
 
   function ensureHumanSeats(nextSeats: number) {
@@ -170,18 +195,29 @@ function App() {
     setGame((prev: GameState) => bid(prev, teamId, jump))
   }
 
+  function projectedHumanBid(team: FranchiseState, player: PlayerRecord, currentBid: number, jump = false) {
+    const candidateBid = jump ? currentBid + getIncrement(currentBid) * 2 : currentBid + getIncrement(currentBid)
+    return Number(humanDiscount(team, player, candidateBid).toFixed(2))
+  }
+
   function bid(gameState: GameState, teamId: FranchiseId, jump = false): GameState {
     if (gameState.auction.phase !== 'auction' || !gameState.auction.currentPlayer) return gameState
     const team = gameState.franchises[teamId]
     const player = gameState.auction.currentPlayer
     const currentBid = gameState.auction.currentBid || player.basePrice
-    const candidateBid = jump ? jumpBid(team, currentBid) : currentBid + getIncrement(currentBid)
+    const isJump = jump && team.id === 'PBKS' && !team.jumpBidUsed
+    const candidateBid = isJump ? jumpBid({ ...team, jumpBidUsed: false }, currentBid) : currentBid + getIncrement(currentBid)
     const effectiveBid = Number(humanDiscount(team, player, candidateBid).toFixed(2))
-    if (!canAfford(team, effectiveBid, gameState.humanSeats)) return gameState
-    if (gameState.auction.highBidder === teamId && !jump) return gameState
+    if (!canBid(team, player, effectiveBid)) return gameState
+    if (gameState.auction.highBidder === teamId && !isJump) return gameState
+
+    const updatedFranchises = isJump
+      ? { ...gameState.franchises, [teamId]: { ...team, jumpBidUsed: true } }
+      : gameState.franchises
 
     return {
       ...gameState,
+      franchises: updatedFranchises,
       auction: {
         ...gameState.auction,
         currentBid: effectiveBid,
@@ -189,31 +225,58 @@ function App() {
         highBidderName: team.name,
         timer: timerForPlayer(gameState.selectedFranchises),
         auctioneerLine: `${team.name} leads on ${player.name}.`,
-        log: [...gameState.auction.log, `${team.name} bids ${formatPrice(effectiveBid)}${jump ? ' (jump)' : ''}`],
+        log: [...gameState.auction.log, `${team.name} bids ${formatPrice(effectiveBid)}${isJump ? ' (jump)' : ''}`],
       },
     }
   }
 
   function maybeBotBid(gameState: GameState): GameState {
     if (gameState.auction.phase !== 'auction' || !gameState.auction.currentPlayer) return gameState
+    if (gameState.auction.rtmPending) return gameState
     const player = gameState.auction.currentPlayer
     const currentBid = gameState.auction.currentBid || player.basePrice
     const increment = getIncrement(currentBid)
+    const nextBid = currentBid + increment
     const queueSize = gameState.auction.queue.length - gameState.auction.currentIndex
 
-    const best = botTeams
-      .map((team) => ({ team, willingness: botWillingness(team, player, queueSize, gameState.humanSeats) }))
-      .filter(({ team, willingness }) => willingness >= currentBid + increment && canAfford(team, currentBid + increment, gameState.humanSeats))
-      .sort((a, b) => b.willingness - a.willingness)[0]
+    // Use live franchise state; exclude current high bidder so bots don't outbid themselves
+    const liveBots = Object.values(gameState.franchises).filter(
+      (t) => !t.isHuman && t.id !== gameState.auction.highBidder,
+    )
+
+    const best = liveBots
+      .map((team) => {
+        const baseWillingness = botWillingness(team, player, queueSize)
+        const isJumpCandidate = team.id === 'PBKS' && !team.jumpBidUsed && baseWillingness >= currentBid + increment * 2
+        const candidateBid = isJumpCandidate ? currentBid + increment * 2 : nextBid
+        const effectiveBid = Number(humanDiscount(team, player, candidateBid).toFixed(2))
+        const jitteredWillingness = baseWillingness * (0.93 + Math.random() * 0.14)
+        return {
+          team,
+          baseWillingness,
+          isJumpCandidate,
+          candidateBid,
+          effectiveBid,
+          jitteredWillingness,
+        }
+      })
+      .filter(({ team, baseWillingness, effectiveBid }) => baseWillingness >= nextBid && canBid(team, player, effectiveBid))
+      .sort((a, b) => b.jitteredWillingness - a.jitteredWillingness)[0]
 
     if (!best) return gameState
 
-    const candidateBid = best.team.id === 'PBKS' && !best.team.jumpBidUsed && best.willingness >= currentBid + increment * 2 ? jumpBid(best.team, currentBid) : currentBid + increment
-    const effectiveBid = Number(humanDiscount(best.team, player, candidateBid).toFixed(2))
-    if (!canAfford(best.team, effectiveBid, gameState.humanSeats)) return gameState
+    const isJump = best.isJumpCandidate
+    const candidateBid = best.candidateBid
+    const effectiveBid = best.effectiveBid
+    if (!canBid(best.team, player, effectiveBid)) return gameState
+
+    const updatedFranchises = isJump
+      ? { ...gameState.franchises, [best.team.id]: { ...best.team, jumpBidUsed: true } }
+      : gameState.franchises
 
     return {
       ...gameState,
+      franchises: updatedFranchises,
       auction: {
         ...gameState.auction,
         currentBid: effectiveBid,
@@ -221,7 +284,7 @@ function App() {
         highBidderName: best.team.name,
         timer: Math.max(gameState.auction.timer, 3),
         auctioneerLine: `${best.team.name} raises the paddle.`,
-        log: [...gameState.auction.log, `${best.team.name} bids ${formatPrice(effectiveBid)}`],
+        log: [...gameState.auction.log, `${best.team.name} bids ${formatPrice(effectiveBid)}${isJump ? ' (jump)' : ''}`],
       },
     }
   }
@@ -229,6 +292,7 @@ function App() {
   function settleCurrent(gameState: GameState): GameState {
     const player = gameState.auction.currentPlayer
     if (!player) return finishAuction(gameState)
+    if (gameState.auction.rtmPending) return gameState
 
     if (!gameState.auction.highBidder) {
       return advanceAfterSettle({
@@ -242,28 +306,45 @@ function App() {
       })
     }
 
-    let winner = gameState.auction.highBidder
-    let hammer = gameState.auction.currentBid
+    const winner = gameState.auction.highBidder
+    const hammer = gameState.auction.currentBid
     const previousTeamId = player.previousTeam
 
     if (previousTeamId && previousTeamId !== winner) {
       const previousTeam = gameState.franchises[previousTeamId]
-      if (previousTeam && previousTeam.rtmRemaining > 0 && canAfford(previousTeam, hammer, gameState.humanSeats)) {
-        winner = previousTeamId
-        const updatedPrevious = { ...previousTeam, rtmRemaining: previousTeam.rtmRemaining - 1 }
-        const updatedFranchises = { ...gameState.franchises, [previousTeamId]: updatedPrevious }
-        const sale = saleDiscount(updatedPrevious, player, hammer)
-        const updatedWinner = addPlayerToTeam(updatedPrevious, player, sale)
-        updatedFranchises[previousTeamId] = updatedWinner
-        return advanceAfterSettle({
-          ...gameState,
-          franchises: updatedFranchises,
-          auction: {
-            ...gameState.auction,
-            log: [...gameState.auction.log, `${updatedPrevious.name} uses RTM and matches ${formatPrice(hammer)}.`],
-            auctioneerLine: `${updatedPrevious.name} snatches ${player.name} back.`,
-          },
-        })
+      if (previousTeam && previousTeam.rtmRemaining > 0 && canBid(previousTeam, player, hammer)) {
+        if (previousTeam.isHuman) {
+          // Pause auction and wait for human RTM decision
+          return {
+            ...gameState,
+            auction: {
+              ...gameState.auction,
+              rtmPending: { player, winner, finalBid: hammer, previousTeam: previousTeamId },
+              timer: 0,
+              auctioneerLine: `${previousTeam.name}: use RTM to match ${formatPrice(hammer)} for ${player.name}?`,
+              log: [...gameState.auction.log, `RTM: ${previousTeam.name} can match ${formatPrice(hammer)} for ${player.name}.`],
+            },
+          }
+        }
+        // Bot RTM: only use if willing
+        const queueSize = gameState.auction.queue.length - gameState.auction.currentIndex
+        if (botWillingness(previousTeam, player, queueSize) >= hammer) {
+          const updatedPrevious = { ...previousTeam, rtmRemaining: previousTeam.rtmRemaining - 1 }
+          const sale = saleDiscount(updatedPrevious, player, hammer)
+          const updatedFranchises = {
+            ...gameState.franchises,
+            [previousTeamId]: addPlayerToTeam(updatedPrevious, player, sale),
+          }
+          return advanceAfterSettle({
+            ...gameState,
+            franchises: updatedFranchises,
+            auction: {
+              ...gameState.auction,
+              log: [...gameState.auction.log, `${previousTeam.name} uses RTM and matches ${formatPrice(hammer)}.`],
+              auctioneerLine: `${previousTeam.name} snatches ${player.name} back.`,
+            },
+          })
+        }
       }
     }
 
@@ -293,13 +374,18 @@ function App() {
         ...gameState,
         auction: {
           ...gameState.auction,
+          rtmPending: undefined,
           currentIndex: nextIndex,
           currentPlayer: nextPlayer,
           currentBid: nextPlayer.basePrice,
           highBidder: undefined,
           highBidderName: undefined,
-          timer: timerForPlayer(gameState.selectedFranchises),
-          auctioneerLine: `${nextPlayer.name} takes centre stage.`,
+          timer: gameState.auction.acceleratedRound
+            ? AUCTION_CONFIG.acceleratedTimerSeconds
+            : timerForPlayer(gameState.selectedFranchises),
+          auctioneerLine: gameState.auction.acceleratedRound
+            ? `Accelerated: ${nextPlayer.name} back on the block.`
+            : `${nextPlayer.name} takes centre stage.`,
         },
       }
     }
@@ -311,6 +397,7 @@ function App() {
         ...gameState,
         auction: {
           ...gameState.auction,
+          rtmPending: undefined,
           queue,
           unsold: [],
           currentIndex: 0,
@@ -320,8 +407,8 @@ function App() {
           highBidderName: undefined,
           timer: AUCTION_CONFIG.acceleratedTimerSeconds,
           acceleratedRound: true,
-          auctioneerLine: 'Accelerated round: unsold players return.',
-          log: [...gameState.auction.log, 'Accelerated round begins.'],
+          auctioneerLine: `Accelerated round — ${nextPlayer.name} leads off.`,
+          log: [...gameState.auction.log, `Accelerated round: ${queue.length} unsold player${queue.length > 1 ? 's' : ''} return.`],
         },
       }
     }
@@ -338,11 +425,51 @@ function App() {
     })
   }
 
+  function useRtm() {
+    setGame((prev: GameState) => {
+      const rtm = prev.auction.rtmPending
+      if (!rtm) return prev
+      const previousTeam = prev.franchises[rtm.previousTeam]
+      const updatedPrevious = { ...previousTeam, rtmRemaining: previousTeam.rtmRemaining - 1 }
+      const sale = saleDiscount(updatedPrevious, rtm.player, rtm.finalBid)
+      return advanceAfterSettle({
+        ...prev,
+        franchises: { ...prev.franchises, [rtm.previousTeam]: addPlayerToTeam(updatedPrevious, rtm.player, sale) },
+        auction: {
+          ...prev.auction,
+          rtmPending: undefined,
+          log: [...prev.auction.log, `${previousTeam.name} uses RTM — ${rtm.player.name} matched at ${formatPrice(rtm.finalBid)}.`],
+          auctioneerLine: `${previousTeam.name} snatches ${rtm.player.name} back.`,
+        },
+      })
+    })
+  }
+
+  function passRtm() {
+    setGame((prev: GameState) => {
+      const rtm = prev.auction.rtmPending
+      if (!rtm) return prev
+      const winningTeam = prev.franchises[rtm.winner]
+      const sale = saleDiscount(winningTeam, rtm.player, rtm.finalBid)
+      return advanceAfterSettle({
+        ...prev,
+        franchises: { ...prev.franchises, [rtm.winner]: addPlayerToTeam(winningTeam, rtm.player, sale) },
+        auction: {
+          ...prev.auction,
+          rtmPending: undefined,
+          log: [...prev.auction.log, `${FRANCHISE_MAP[rtm.previousTeam].name} passes RTM. ${rtm.player.name} SOLD to ${winningTeam.name}.`],
+          auctioneerLine: `${rtm.player.name} SOLD to ${winningTeam.name}.`,
+        },
+      })
+    })
+  }
+
   function finishAuction(gameState: GameState): GameState {
     const scored = Object.values(gameState.franchises)
       .map((team) => ({ team, strength: teamStrength(team), eff: efficiency(team), validation: validateSquad(team) }))
       .sort((a, b) => b.strength - a.strength)
     const winner = scored[0]?.team.id
+    const invalidCount = scored.filter(({ validation }) => !validation.valid).length
     return {
       ...gameState,
       auction: {
@@ -351,7 +478,11 @@ function App() {
         winner,
         currentPlayer: undefined,
         auctioneerLine: winner ? `${FRANCHISE_MAP[winner].name} tops the board.` : 'Auction complete.',
-        log: [...gameState.auction.log, winner ? `Winner: ${FRANCHISE_MAP[winner].name}` : 'Auction complete.'],
+        log: [
+          ...gameState.auction.log,
+          winner ? `Winner: ${FRANCHISE_MAP[winner].name}` : 'Auction complete.',
+          invalidCount ? `${invalidCount} squad${invalidCount > 1 ? 's' : ''} need attention.` : 'All squads are valid.',
+        ],
       },
     }
   }
@@ -371,8 +502,10 @@ function App() {
         </div>
         <div className="topbar-stats">
           <span>{game.humanSeats} human seat{game.humanSeats > 1 ? 's' : ''}</span>
-          <span>{game.auction.queue.length || sortedPlayers.length} players</span>
+          <span>{game.auction.queue.length || players.length} players</span>
           <span>{game.auction.phase === 'finished' ? 'Auction closed' : game.auction.phase === 'auction' ? 'Live bidding' : 'Lobby'}</span>
+          {fetchStatus === 'loading' && <span className="fetch-badge">Loading pool…</span>}
+          {fetchStatus === 'error' && <span className="fetch-badge fetch-badge--error">Sample data (fetch failed)</span>}
         </div>
       </header>
 
@@ -452,20 +585,31 @@ function App() {
 
             <div className="panel controls-panel">
               <div className="panel-title">Human controls</div>
-              <div className="controls-grid">
-                {humanTeams.map((team) => (
-                  <div key={team.id} className="control-row">
-                    <div>
-                      <strong>{team.id}</strong>
-                      <small>{formatPrice(team.purse)} left</small>
-                    </div>
-                    <button className="primary small" onClick={() => placeHumanBid(team.id)} disabled={!currentPlayer || team.purse <= 0}>+{getIncrement(game.auction.currentBid || currentPlayer?.basePrice || 0).toFixed(2)}</button>
-                    {team.id === 'PBKS' && !team.jumpBidUsed ? (
-                      <button className="ghost small" onClick={() => placeHumanBid(team.id, true)} disabled={!currentPlayer}>Jump</button>
-                    ) : null}
+              {game.auction.rtmPending && humanTeams.some((t) => t.id === game.auction.rtmPending!.previousTeam) ? (
+                <div className="rtm-prompt">
+                  <div className="rtm-label">RTM available — {FRANCHISE_MAP[game.auction.rtmPending.previousTeam].name}</div>
+                  <p className="rtm-detail">Match {formatPrice(game.auction.rtmPending.finalBid)} for {game.auction.rtmPending.player.name}?</p>
+                  <div className="rtm-actions">
+                    <button className="primary small" onClick={useRtm}>Use RTM</button>
+                    <button className="ghost small" onClick={passRtm}>Pass</button>
                   </div>
-                ))}
-              </div>
+                </div>
+              ) : (
+                <div className="controls-grid">
+                  {humanTeams.map((team) => (
+                    <div key={team.id} className="control-row">
+                      <div>
+                        <strong>{team.id}</strong>
+                        <small>{formatPrice(team.purse)} left</small>
+                      </div>
+                      <button className="primary small" onClick={() => placeHumanBid(team.id)} disabled={!currentPlayer || !canBid(team, currentPlayer, projectedHumanBid(team, currentPlayer, game.auction.currentBid || currentPlayer.basePrice))}>+{getIncrement(game.auction.currentBid || currentPlayer?.basePrice || 0).toFixed(2)}</button>
+                      {team.id === 'PBKS' && !team.jumpBidUsed ? (
+                        <button className="ghost small" onClick={() => placeHumanBid(team.id, true)} disabled={!currentPlayer || !canBid(team, currentPlayer, projectedHumanBid(team, currentPlayer, game.auction.currentBid || currentPlayer.basePrice, true))}>Jump</button>
+                      ) : null}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </aside>
 
@@ -473,6 +617,9 @@ function App() {
             <div className="big-screen panel">
               {currentPlayer ? (
                 <>
+                  {game.auction.acceleratedRound && (
+                    <div className="accelerated-banner">Accelerated Round — reduced timer · {game.auction.queue.length - game.auction.currentIndex} player{game.auction.queue.length - game.auction.currentIndex !== 1 ? 's' : ''} remaining</div>
+                  )}
                   <div className="screen-header">
                     <div>
                       <div className="eyebrow">Up next</div>
@@ -580,12 +727,12 @@ function App() {
           <div className="panel-title">Scoreboard</div>
           <div className="score-list">
             {leaderboard.map(({ team, strength, eff, validation }, index) => (
-              <div key={team.id} className={`score-row ${game.auction.winner === team.id ? 'winner' : ''}`}>
+              <div key={team.id} className={`score-row ${game.auction.winner === team.id ? 'winner' : ''} ${validation.valid ? '' : 'invalid'}`}>
                 <strong>#{index + 1} {team.id}</strong>
                 <span>{team.name}</span>
                 <span>Strength {strength.toFixed(1)}</span>
                 <span>₹ efficiency {eff.toFixed(2)}</span>
-                <span>{validation.valid ? 'Valid' : 'Needs work'}</span>
+                <span>{validation.valid ? 'Valid' : validation.reasons.join(' · ')}</span>
               </div>
             ))}
           </div>

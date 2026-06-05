@@ -20,10 +20,10 @@ function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value))
 }
 
-function teamReserve(team: FranchiseState, selectedPlayerCount: number) {
+function teamReserve(team: FranchiseState) {
   const minSlots = Math.max(0, AUCTION_CONFIG.minSquadSize - team.squad.length)
-  const extra = Math.max(0, selectedPlayerCount - team.squad.length)
-  return Math.max(minSlots, extra) * AUCTION_CONFIG.minBasePurseReserve
+  const headroom = Math.max(0, Math.ceil(minSlots * 0.25))
+  return (minSlots + headroom) * AUCTION_CONFIG.minBasePurseReserve
 }
 
 export function createFranchises(selectedHumanFranchises: FranchiseId[]): Record<FranchiseId, FranchiseState> {
@@ -66,18 +66,23 @@ export function getIncrement(price: number) {
   return getBidIncrement(price)
 }
 
-export function canAfford(team: FranchiseState, bid: number, selectedPlayerCount = 0) {
+function canAfford(team: FranchiseState, bid: number, player: PlayerRecord) {
+  if (player.isOverseas && team.overseasCount >= AUCTION_CONFIG.maxOverseas) return false
   if (team.purse < bid) return false
   if (team.squad.length >= getSquadMax(team)) return false
-  if (team.overseasCount >= AUCTION_CONFIG.maxOverseas) return false
-  const reserve = teamReserve(team, selectedPlayerCount)
+  const reserve = teamReserve(team)
   return team.purse - bid >= reserve
 }
 
-export function canTakePlayer(team: FranchiseState, player: PlayerRecord, selectedPlayerCount = 0) {
+// Player-aware bid eligibility: checks squad cap, overseas cap, purse, and reserve.
+export function canBid(team: FranchiseState, player: PlayerRecord, bid: number) {
+  return canAfford(team, bid, player)
+}
+
+export function canTakePlayer(team: FranchiseState, player: PlayerRecord) {
   if (team.squad.length >= getSquadMax(team)) return false
   if (player.isOverseas && team.overseasCount >= AUCTION_CONFIG.maxOverseas) return false
-  return canAfford(team, player.basePrice, selectedPlayerCount)
+  return canAfford(team, player.basePrice, player)
 }
 
 export function roleNeed(team: FranchiseState, player: PlayerRecord) {
@@ -92,14 +97,39 @@ export function scarcityMultiplier(player: PlayerRecord, queueSize: number) {
   return scarcity * formBoost * (1 + Math.min(0.12, 20 / (roleCount + 20)))
 }
 
-export function botWillingness(team: FranchiseState, player: PlayerRecord, queueSize: number, selectedPlayerCount = 0) {
-  if (!canTakePlayer(team, player, selectedPlayerCount)) return 0
+export function botWillingness(team: FranchiseState, player: PlayerRecord, queueSize: number) {
+  if (!canTakePlayer(team, player)) return 0
   const roleNeedValue = roleNeed(team, player)
+
+  // Urgency boost when team lacks this role entirely or has very few
+  const roleCount = team.squad.filter((p) => p.role === player.role).length
+  const roleFillUrgency = roleCount === 0 ? 1.18 : roleCount <= 2 ? 1.06 : 1.0
+
+  // Urgency boost when team is short of minimum squad size
+  const minNeeded = Math.max(0, AUCTION_CONFIG.minSquadSize - team.squad.length)
+  const completionBoost = minNeeded > 3 ? 1.15 : minNeeded > 1 ? 1.07 : 1.0
+
+  // Reduce willingness for overseas players as overseas slots fill up
+  const overseasPressure = player.isOverseas
+    ? Math.max(0.7, 1 - (team.overseasCount / AUCTION_CONFIG.maxOverseas) * 0.35)
+    : 1
+
   const scarcity = scarcityMultiplier(player, queueSize)
-  const personality = team.bidAggression / team.hoardBias
+  const personality = clamp(team.bidAggression / team.hoardBias, 0.85, 1.2)
   const perkBoost =
     team.id === 'GT' ? 1.02 : team.id === 'PBKS' ? 1.04 : team.id === 'MI' ? 1.03 : team.id === 'LSG' ? 0.98 : 1
-  const value = player.basePrice * (1.05 + (player.form / 100) * 0.9 * roleNeedValue * scarcity * personality * perkBoost)
+  const value =
+    player.basePrice *
+    (1.05 +
+      (player.form / 100) *
+        0.9 *
+        roleNeedValue *
+        roleFillUrgency *
+        completionBoost *
+        overseasPressure *
+        scarcity *
+        personality *
+        perkBoost)
   const cap = team.purse - Math.max(0, (AUCTION_CONFIG.minSquadSize - team.squad.length - 1) * AUCTION_CONFIG.minBasePurseReserve)
   return Math.max(0, Math.min(Number(cap.toFixed(2)), Number(value.toFixed(2))))
 }
@@ -117,9 +147,9 @@ export function humanDiscount(team: FranchiseState, player: PlayerRecord, curren
   return currentBid
 }
 
+// Pure: returns the bid amount. Caller must set team.jumpBidUsed = true in returned state.
 export function jumpBid(team: FranchiseState, currentBid: number) {
   if (team.id !== 'PBKS' || team.jumpBidUsed) return currentBid + getIncrement(currentBid)
-  team.jumpBidUsed = true
   return currentBid + getIncrement(currentBid) * 2
 }
 
@@ -159,7 +189,11 @@ export function validateSquad(team: FranchiseState) {
   const overseasOk = team.overseasCount <= AUCTION_CONFIG.maxOverseas
   const sizeOk = size >= AUCTION_CONFIG.minSquadSize && size <= getSquadMax(team)
   const purseOk = team.purse >= 0
-  return { valid: overseasOk && sizeOk && purseOk, sizeOk, overseasOk, purseOk }
+  const reasons = [] as string[]
+  if (!sizeOk) reasons.push(`Squad ${size}/${getSquadMax(team)} (need ${AUCTION_CONFIG.minSquadSize}+)`)
+  if (!overseasOk) reasons.push(`Overseas ${team.overseasCount}/${AUCTION_CONFIG.maxOverseas}`)
+  if (!purseOk) reasons.push(`Purse negative`)
+  return { valid: reasons.length === 0, sizeOk, overseasOk, purseOk, reasons }
 }
 
 export function formatPrice(value: number) {

@@ -384,12 +384,12 @@ function App() {
       franchises: updatedFranchises,
       auction: {
         ...gameState.auction,
-        currentBid: effectiveBid,
+        currentBid: candidateBid,
         highBidder: teamId,
         highBidderName: team.name,
         timer: timerForPlayer(gameState.selectedFranchises),
         auctioneerLine: `${team.name} leads on ${player.name}.`,
-        log: [...gameState.auction.log, `${team.name} bids ${formatPrice(effectiveBid)}${isJump ? ' (jump)' : ''}`],
+        log: [...gameState.auction.log, `${team.name} bids ${formatPrice(candidateBid)}${isJump ? ' (jump)' : ''}`],
       },
     }
   }
@@ -423,12 +423,12 @@ function App() {
       franchises: updatedFranchises,
       auction: {
         ...gameState.auction,
-        currentBid: effectiveBid,
+        currentBid: best.candidateBid,
         highBidder: best.team.id,
         highBidderName: best.team.name,
         timer: Math.max(gameState.auction.timer, 3),
         auctioneerLine: `${best.team.name} raises the paddle.`,
-        log: [...gameState.auction.log, `${best.team.name} bids ${formatPrice(effectiveBid)}${isJump ? ' (jump)' : ''}`],
+        log: [...gameState.auction.log, `${best.team.name} bids ${formatPrice(best.candidateBid)}${isJump ? ' (jump)' : ''}`],
       },
     }
   }

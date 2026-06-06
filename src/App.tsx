@@ -224,7 +224,7 @@ function App() {
   function fireAuctionResult(result: Omit<AuctionResultFlash, 'id'>) {
     setAuctionResult({
       ...result,
-      id: `${result.playerId}-${Date.now()}`,
+      id: `${result.playerId}-${result.kind}-${result.teamId ?? 'none'}-${result.amount ?? 0}`,
     })
     playResultSound(result.kind)
   }

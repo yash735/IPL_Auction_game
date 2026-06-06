@@ -1,0 +1,7 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.vite/
+.hermes/
+scripts/__pycache__/
+tests/__pycache__/

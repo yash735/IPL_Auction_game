@@ -328,7 +328,18 @@ function App() {
           franchises: prev.auction.phase === 'setup' ? createFranchises(selected) : prev.franchises,
         }
       }
-      if (prev.selectedFranchises.length >= prev.humanSeats) return prev
+      if (prev.selectedFranchises.length >= prev.humanSeats) {
+        // Single seat: clicking another team simply swaps the pick instead of locking up.
+        if (prev.humanSeats === 1) {
+          return {
+            ...prev,
+            selectedFranchises: [id],
+            activeFranchiseId: id,
+            franchises: prev.auction.phase === 'setup' ? createFranchises([id]) : prev.franchises,
+          }
+        }
+        return prev
+      }
       const selected = [...prev.selectedFranchises, id] as FranchiseId[]
       return {
         ...prev,
@@ -713,9 +724,8 @@ function App() {
         <section className="lobby-grid">
           <div className="panel hero-panel">
             <div className="hero-copy">
-              <div className="eyebrow">Build the table</div>
-              <h2>Pick 1–10 human franchises, then let the bots fill the rest.</h2>
-              <p>Local hot-seat is fine. Every human seat controls one franchise, and the CPU tables feel a bit like actual owners, not dice rolls.</p>
+              <h2>Pick your franchises, then start the auction.</h2>
+              <p>Choose 1–10 human seats. Bots fill the rest.</p>
             </div>
             <div className="lobby-controls">
               <label>
@@ -737,15 +747,15 @@ function App() {
               <button className="primary" disabled={game.selectedFranchises.length !== game.humanSeats} onClick={startAuction}>Start auction</button>
               <button className="ghost" onClick={resetLobby}>Reset lobby</button>
 
-              <div className="rules-card">
-                <div className="panel-title">Official auction rules</div>
+              <details className="rules-card">
+                <summary>Official auction rules</summary>
                 <ul>
                   <li>Purse: <strong>₹120 crore</strong> per franchise.</li>
                   <li>Squad: <strong>18–25 players</strong>, with <strong>max 8 overseas</strong>.</li>
                   <li>Bid steps: <strong>₹0.05 / 0.10 / 0.20 / 0.25 cr</strong> slabs.</li>
                   <li>RTM is the modified version: the winner gets one more raise, then the old franchise can match.</li>
                 </ul>
-              </div>
+              </details>
             </div>
           </div>
 
@@ -754,15 +764,14 @@ function App() {
             <div className="team-grid">
               {sortedTeams.map((team) => {
                 const selected = game.selectedFranchises.includes(team.id)
-                const locked = !selected && game.selectedFranchises.length >= game.humanSeats
+                const locked = !selected && game.humanSeats > 1 && game.selectedFranchises.length >= game.humanSeats
                 return (
-                  <button key={team.id} className={`team-card ${selected ? 'selected' : ''} ${locked ? 'locked' : ''}`} onClick={() => toggleFranchise(team.id)}>
+                  <button key={team.id} className={`team-card ${selected ? 'selected' : ''} ${locked ? 'locked' : ''}`} onClick={() => toggleFranchise(team.id)} title={team.perk.description}>
                     <div className="crest" style={{ background: team.color, color: team.altColor }}>{team.id}</div>
                     <div>
                       <strong>{team.name}</strong>
                       <p>{team.perk.title}</p>
                     </div>
-                    <small>{team.perk.description}</small>
                   </button>
                 )
               })}
@@ -807,7 +816,6 @@ function App() {
                     <span>{activeFranchise.overseasCount}/{AUCTION_CONFIG.maxOverseas} overseas</span>
                     <span>{activeFranchise.squad.length}/{getSquadMax(activeFranchise)} squad</span>
                   </div>
-                  <div className="dossier-note">Title note: {activeFranchise.perk.title}</div>
                   <div className="dossier-roster">
                     {activeTeamSquad.length > 0 ? (
                       activeTeamSquad.map((player) => (
@@ -833,9 +841,8 @@ function App() {
               <div className="panel-title">Auctioneer feed</div>
               <div className={`ticker ${auctionResult ? 'flash' : ''}`}>{auctioneerLine}</div>
               <div className="ticker-subline">
-                <span className="badge">{game.auction.phase === 'auction' ? 'Live' : game.auction.phase}</span>
                 <span className="badge">{game.auction.currentIndex + 1}/{game.auction.queue.length || players.length}</span>
-                <span className="badge">{game.auction.acceleratedRound ? 'Accelerated' : 'Standard pace'}</span>
+                {game.auction.acceleratedRound ? <span className="badge">Accelerated</span> : null}
               </div>
               <div className="timer-ring">{game.auction.timer}s</div>
               <div className="live-bid">
@@ -957,8 +964,8 @@ function App() {
           </main>
 
           <aside className="side-panel">
-            <div className="panel scoreboard-panel">
-              <div className="panel-title">Franchise tables</div>
+            <details className="panel scoreboard-panel collapsible-panel">
+              <summary className="panel-title">Franchise tables</summary>
               <div className="team-stacks">
                 {teams.map((team) => (
                   <button
@@ -981,7 +988,7 @@ function App() {
                   </button>
                 ))}
               </div>
-            </div>
+            </details>
 
             <div className="panel preview-panel">
               <div className="panel-title">Queue preview</div>
@@ -1020,17 +1027,17 @@ function App() {
       )}
 
       <section className="bottom-grid">
-        <div className="panel">
-          <div className="panel-title">Squad tracker</div>
+        <details className="panel collapsible-panel">
+          <summary className="panel-title">Squad tracker</summary>
           <div className="squad-grid">
             {teams.map((team) => (
               <SquadCard key={team.id} team={team} active={activeFranchise?.id === team.id} onOpen={() => setActiveFranchise(team.id)} />
             ))}
           </div>
-        </div>
+        </details>
 
-        <div className="panel">
-          <div className="panel-title">Scoreboard</div>
+        <details className="panel collapsible-panel" open>
+          <summary className="panel-title">Scoreboard</summary>
           <div className="score-list">
             {leaderboard.map(({ team, strength, eff, validation }, index) => (
               <div key={team.id} className={`score-row ${game.auction.winner === team.id ? 'winner' : ''} ${validation.valid ? '' : 'invalid'}`}>
@@ -1043,7 +1050,7 @@ function App() {
             ))}
           </div>
           {game.auction.phase === 'finished' ? <div className="winner-banner">Winner: {game.auction.winner ? FRANCHISE_MAP[game.auction.winner].name : 'TBD'}</div> : null}
-        </div>
+        </details>
 
         <div className="panel">
           <div className="panel-title">Live log</div>

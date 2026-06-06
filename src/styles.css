@@ -107,7 +107,7 @@ img {
 }
 
 .bottom-grid {
-  grid-template-columns: 1.15fr 0.85fr 0.95fr;
+  grid-template-columns: 1.05fr 0.95fr 0.9fr;
   margin-top: 16px;
 }
 
@@ -125,12 +125,43 @@ img {
   gap: 18px;
 }
 
-.rules-card {
+.rules-card,
+.collapsible-panel {
   margin-top: 6px;
   padding: 14px 16px;
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.rules-card > summary,
+.collapsible-panel > summary {
+  list-style: none;
+  cursor: pointer;
+}
+
+.rules-card > summary::-webkit-details-marker,
+.collapsible-panel > summary::-webkit-details-marker {
+  display: none;
+}
+
+.rules-card > summary,
+.collapsible-panel > summary.panel-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rules-card > summary::after,
+.collapsible-panel > summary::after {
+  content: '+';
+  color: #93c5fd;
+  font-weight: 800;
+}
+
+.rules-card[open] > summary::after,
+.collapsible-panel[open] > summary::after {
+  content: '−';
 }
 
 .rules-card ul {
@@ -229,19 +260,19 @@ img {
 
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
 }
 
 .team-card {
   display: grid;
-  grid-template-columns: 64px 1fr;
-  gap: 10px;
+  grid-template-columns: 46px 1fr;
+  gap: 8px;
   align-items: center;
   text-align: left;
-  min-height: 104px;
-  padding: 12px;
-  border-radius: 18px;
+  min-height: 76px;
+  padding: 10px;
+  border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.04);
   color: #eef4ff;
@@ -262,20 +293,24 @@ img {
   display: block;
 }
 
-.team-card p,
-.team-card small {
-  margin: 4px 0 0;
+.team-card strong {
+  font-size: 0.95rem;
+}
+
+.team-card p {
+  margin: 3px 0 0;
   color: #b8c5da;
+  font-size: 0.88rem;
 }
 
 .crest {
-  width: 64px;
-  height: 64px;
-  border-radius: 18px;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
   display: grid;
   place-items: center;
   font-weight: 900;
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   letter-spacing: 0.06em;
 }
 

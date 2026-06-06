@@ -52,6 +52,40 @@ class GenerateAuctionPoolTests(unittest.TestCase):
         self.assertEqual(merged[0]['role'], 'Batter')
         self.assertTrue(merged[1]['isOverseas'])
 
+    def test_merge_records_matches_meta_by_player_name(self):
+        players = {
+            'rashid-khan': {'name': 'Rashid Khan', 'career': {'batting': {}, 'bowling': {}}, 'seasons': []},
+        }
+        meta = {
+            'some-other-key': {
+                'name': 'Rashid Khan',
+                'role': 'Bowler',
+                'nationality': 'Afghanistan',
+                'isOverseas': True,
+                'isCapped': True,
+                'basePrice': 2,
+                'form': 97,
+                'previousTeam': 'GT',
+                'photoUrl': 'x',
+            }
+        }
+        merged = gp.merge_records(players, meta)
+        self.assertEqual(len(merged), 1)
+        self.assertEqual(merged[0]['nationality'], 'Afghanistan')
+        self.assertEqual(merged[0]['previousTeam'], 'GT')
+        self.assertEqual(merged[0]['photoUrl'], 'x')
+
+    def test_resolve_nationality_uses_overrides_and_defaults_to_india(self):
+        self.assertEqual(gp.resolve_nationality('Rashid Khan', None, None), 'Afghanistan')
+        self.assertEqual(gp.resolve_nationality('Some Random Indian Batter', None, None), 'India')
+
+    def test_current_auction_pool_is_deduped_to_180_players(self):
+        with open('/home/jimmy/projects/hobby/ipl-auction/public/data/auction_pool.json', encoding='utf-8') as handle:
+            pool = __import__('json').load(handle)
+        self.assertEqual(len(pool), 180)
+        self.assertEqual(len({row['name'] for row in pool}), 180)
+        self.assertLessEqual(sum(1 for row in pool if row.get('isOverseas')), 80)
+
 
 if __name__ == '__main__':
     unittest.main()

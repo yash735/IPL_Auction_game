@@ -134,17 +134,66 @@ export function botWillingness(team: FranchiseState, player: PlayerRecord, queue
   return Math.max(0, Math.min(Number(cap.toFixed(2)), Number(value.toFixed(2))))
 }
 
-export function humanDiscount(team: FranchiseState, player: PlayerRecord, currentBid: number) {
+export type PriceContext = 'bid' | 'sale'
+
+export function applyFranchisePrice(team: FranchiseState, player: PlayerRecord, amount: number, context: PriceContext = 'bid') {
+  let price = amount
   if (team.id === 'RCB' && player.role === 'Batter' && team.squad.filter((p) => p.role === 'Batter').length < 2) {
-    return currentBid * 0.9
+    price *= 0.9
   }
   if (team.id === 'KKR' && player.role === 'Bowler' && player.nationality === 'India') {
-    return currentBid * 0.9
+    price *= 0.9
   }
   if (team.id === 'DC' && !player.isCapped) {
-    return currentBid * 0.85
+    price *= 0.85
   }
-  return currentBid
+  if (context === 'sale' && team.id === 'GT' && player.previousTeam && player.previousTeam !== team.id) {
+    price *= 0.95
+  }
+  return Number(price.toFixed(2))
+}
+
+export interface BotBidChoice {
+  team: FranchiseState
+  baseWillingness: number
+  candidateBid: number
+  effectiveBid: number
+  isJumpCandidate: boolean
+  score: number
+}
+
+function stableJitter(...parts: Array<string | number>) {
+  let hash = 2166136261
+  for (const part of parts) {
+    const text = String(part)
+    for (let i = 0; i < text.length; i += 1) {
+      hash ^= text.charCodeAt(i)
+      hash = Math.imul(hash, 16777619)
+    }
+  }
+  return ((hash >>> 0) % 1000) / 1000
+}
+
+export function selectBotBid(
+  teams: FranchiseState[],
+  player: PlayerRecord,
+  currentBid: number,
+  queueSize: number,
+): BotBidChoice | undefined {
+  const increment = getIncrement(currentBid)
+  const nextBid = currentBid + increment
+
+  return teams
+    .map((team) => {
+      const baseWillingness = botWillingness(team, player, queueSize)
+      const isJumpCandidate = team.id === 'PBKS' && !team.jumpBidUsed && baseWillingness >= currentBid + increment * 2
+      const candidateBid = isJumpCandidate ? currentBid + increment * 2 : nextBid
+      const effectiveBid = applyFranchisePrice(team, player, candidateBid)
+      const score = baseWillingness * (0.93 + stableJitter(team.id, player.id, currentBid, queueSize) * 0.14)
+      return { team, baseWillingness, isJumpCandidate, candidateBid, effectiveBid, score }
+    })
+    .filter(({ team, baseWillingness, effectiveBid }) => baseWillingness >= nextBid && canBid(team, player, effectiveBid))
+    .sort((a, b) => b.score - a.score || b.baseWillingness - a.baseWillingness || b.effectiveBid - a.effectiveBid)[0]
 }
 
 // Pure: returns the bid amount. Caller must set team.jumpBidUsed = true in returned state.

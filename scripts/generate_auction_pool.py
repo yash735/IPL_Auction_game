@@ -12,6 +12,7 @@ This script is intentionally offline-friendly and uses only the Python stdlib.
 from __future__ import annotations
 
 import argparse
+import csv
 import json
 import re
 import unicodedata
@@ -420,6 +421,216 @@ def aggregate_matches(matches: Iterable[dict[str, Any]]) -> dict[str, dict[str, 
 
 
 # ---------------------------------------------------------------------------
+# Kaggle "IPL Players Statistics" importer
+#
+# Reads a single-row-per-player CSV (e.g. the Kaggle "IPL Players Statistics"
+# dataset) and maps it into player_meta-style records with batting / bowling /
+# fielding blocks plus derived overall/batting/bowling/fielding/form ratings.
+# Header matching tolerates casing, spacing, and underscore/hyphen separators so
+# minor export differences don't break the import.
+
+
+# Maps a normalized header (lower-cased, single-spaced) to a canonical field.
+KAGGLE_HEADER_ALIASES: dict[str, str] = {
+    "player": "player",
+    "name": "player",
+    "matches": "matches",
+    "runs": "runs",
+    "boundaries": "boundaries",
+    "balls faced": "balls_faced",
+    "wickets": "wickets",
+    "balls bowled": "balls_bowled",
+    "runs conceded": "runs_conceded",
+    "batting avg": "batting_avg",
+    "batting average": "batting_avg",
+    "batting strike rate": "batting_strike_rate",
+    "boundaries percent": "boundaries_percent",
+    "boundary percent": "boundaries_percent",
+    "bowling economy": "bowling_economy",
+    "bowling avg": "bowling_avg",
+    "bowling average": "bowling_avg",
+    "bowling strike rate": "bowling_strike_rate",
+    "catches": "catches",
+    "stumpings": "stumpings",
+}
+
+
+def _normalize_header(header: str) -> str:
+    """Lower-case a CSV header and collapse separator noise for tolerant matching."""
+
+    cleaned = unicodedata.normalize("NFKD", header or "").encode("ascii", "ignore").decode("ascii")
+    cleaned = cleaned.strip().lower().replace("_", " ").replace("-", " ")
+    return re.sub(r"\s+", " ", cleaned)
+
+
+def _map_kaggle_columns(header: Iterable[str]) -> dict[str, int]:
+    index: dict[str, int] = {}
+    for position, raw in enumerate(header):
+        canonical = KAGGLE_HEADER_ALIASES.get(_normalize_header(raw))
+        if canonical and canonical not in index:
+            index[canonical] = position
+    return index
+
+
+def _clamp_rating(value: float, low: int = 0, high: int = 99) -> int:
+    return int(max(low, min(high, round(value))))
+
+
+def _rate_batting(batting: dict[str, Any]) -> int:
+    if not _safe_int(batting.get("balls")) and not _safe_int(batting.get("runs")):
+        return 0
+    average = _safe_float(batting.get("average"))
+    strike_rate = _safe_float(batting.get("strikeRate"))
+    runs = _safe_int(batting.get("runs"))
+    score = average * 1.4 + strike_rate * 0.32 + min(runs, 4000) / 200.0
+    return _clamp_rating(score)
+
+
+def _rate_bowling(bowling: dict[str, Any]) -> int:
+    if not _safe_int(bowling.get("balls")) and not _safe_int(bowling.get("wickets")):
+        return 0
+    wickets = _safe_int(bowling.get("wickets"))
+    economy = _safe_float(bowling.get("economy"))
+    average = _safe_float(bowling.get("average"))
+    score = min(wickets, 200) / 3.0 + max(0.0, 45.0 - economy * 4.0)
+    if average:
+        score += max(0.0, 35.0 - average) * 0.5
+    return _clamp_rating(score)
+
+
+def _rate_fielding(fielding: dict[str, Any]) -> int:
+    catches = _safe_int(fielding.get("catches"))
+    stumpings = _safe_int(fielding.get("stumpings"))
+    if not catches and not stumpings:
+        return 0
+    return _clamp_rating(catches * 1.5 + stumpings * 3.0)
+
+
+def _derive_kaggle_ratings(
+    batting: dict[str, Any], bowling: dict[str, Any], fielding: dict[str, Any]
+) -> dict[str, int]:
+    bat = _rate_batting(batting)
+    bowl = _rate_bowling(bowling)
+    field = _rate_fielding(fielding)
+    primary = max(bat, bowl)
+    secondary = min(bat, bowl)
+    overall = _clamp_rating(primary * 0.75 + secondary * 0.15 + field * 0.1)
+    return {
+        "overall": overall,
+        "batting": bat,
+        "bowling": bowl,
+        "fielding": field,
+        "form": _clamp_rating(overall, low=18),
+    }
+
+
+def _infer_kaggle_role(
+    batting: dict[str, Any], bowling: dict[str, Any], fielding: dict[str, Any]
+) -> str:
+    if _safe_int(fielding.get("stumpings")) >= 5:
+        return "Wicketkeeper"
+    bat = _rate_batting(batting)
+    bowl = _rate_bowling(bowling)
+    if bowl >= 45 and bat < 30:
+        return "Bowler"
+    if bat >= 40 and bowl < 25:
+        return "Batter"
+    if bat >= 25 and bowl >= 25:
+        return "All-rounder"
+    return "Bowler" if bowl > bat else "Batter"
+
+
+def parse_kaggle_stats(path: Path) -> dict[str, dict[str, Any]]:
+    """Parse a Kaggle "IPL Players Statistics" CSV into rating-source records.
+
+    Returns a mapping of normalized player key -> record carrying batting,
+    bowling, fielding blocks plus a derived ``rating`` and inferred ``role``.
+    """
+
+    import csv
+
+    records: dict[str, dict[str, Any]] = {}
+    with path.open("r", encoding="utf-8-sig", newline="") as handle:
+        reader = csv.reader(handle)
+        try:
+            header = next(reader)
+        except StopIteration:
+            return records
+
+        columns = _map_kaggle_columns(header)
+        if "player" not in columns:
+            raise SystemExit(f"Kaggle CSV at {path} has no recognizable 'Player' column")
+
+        def cell(row: list[str], field_name: str) -> str:
+            position = columns.get(field_name)
+            if position is None or position >= len(row):
+                return ""
+            return row[position]
+
+        for row in reader:
+            if not row:
+                continue
+            name = cell(row, "player").strip()
+            if not name:
+                continue
+            key = normalize_key(name)
+            if not key:
+                continue
+
+            batting = {
+                "matches": _safe_int(cell(row, "matches")),
+                "runs": _safe_int(cell(row, "runs")),
+                "balls": _safe_int(cell(row, "balls_faced")),
+                "boundaries": _safe_int(cell(row, "boundaries")),
+                "average": _safe_float(cell(row, "batting_avg")),
+                "strikeRate": _safe_float(cell(row, "batting_strike_rate")),
+                "boundaryPct": _safe_float(cell(row, "boundaries_percent")),
+            }
+            bowling = {
+                "wickets": _safe_int(cell(row, "wickets")),
+                "balls": _safe_int(cell(row, "balls_bowled")),
+                "runsConceded": _safe_int(cell(row, "runs_conceded")),
+                "economy": _safe_float(cell(row, "bowling_economy")),
+                "average": _safe_float(cell(row, "bowling_avg")),
+                "strikeRate": _safe_float(cell(row, "bowling_strike_rate")),
+            }
+            fielding = {
+                "catches": _safe_int(cell(row, "catches")),
+                "stumpings": _safe_int(cell(row, "stumpings")),
+            }
+
+            records[key] = {
+                "name": name,
+                "role": _infer_kaggle_role(batting, bowling, fielding),
+                "batting": batting,
+                "bowling": bowling,
+                "fielding": fielding,
+                "rating": _derive_kaggle_ratings(batting, bowling, fielding),
+            }
+
+    return records
+
+
+def verify_kaggle_matches(
+    kaggle: dict[str, dict[str, Any]],
+    players: dict[str, dict[str, Any]],
+    meta: dict[str, dict[str, Any]] | None = None,
+) -> dict[str, int]:
+    """Summarize how many Kaggle players line up with the other sources."""
+
+    meta = meta or {}
+    matched_cricsheet = sum(1 for key in kaggle if key in players)
+    matched_meta = sum(1 for key in kaggle if key in meta)
+    kaggle_only = sum(1 for key in kaggle if key not in players and key not in meta)
+    return {
+        "kaggle": len(kaggle),
+        "matchedCricsheet": matched_cricsheet,
+        "matchedMeta": matched_meta,
+        "kaggleOnly": kaggle_only,
+    }
+
+
+# ---------------------------------------------------------------------------
 # Merge / meta helpers
 
 
@@ -476,30 +687,141 @@ def derive_base_price(form: int) -> float:
     return 0.2
 
 
+NATIONALITY_OVERRIDES: dict[str, str] = {
+    # Small safety net for players we know are international even when curated
+    # metadata is absent. The curated meta file still remains the primary source.
+    "Rashid Khan": "Afghanistan",
+    "Faf du Plessis": "South Africa",
+    "Glenn Maxwell": "Australia",
+    "Andre Russell": "West Indies",
+    "Sunil Narine": "West Indies",
+    "David Warner": "Australia",
+    "Jos Buttler": "England",
+    "Heinrich Klaasen": "South Africa",
+    "Quinton de Kock": "South Africa",
+    "Travis Head": "Australia",
+    "Pat Cummins": "Australia",
+    "Cameron Green": "Australia",
+    "Liam Livingstone": "England",
+    "Rachin Ravindra": "New Zealand",
+    "Tim David": "Australia",
+}
+
+
+def resolve_nationality(
+    name: str,
+    details: dict[str, Any] | None = None,
+    kaggle_rec: dict[str, Any] | None = None,
+    overrides: dict[str, str] | None = None,
+) -> str:
+    """Resolve a player's nationality for overseas-cap enforcement.
+
+    Priority order:
+    1. curated metadata
+    2. Kaggle record (if we later enrich it)
+    3. explicit override map
+    4. India fallback
+    """
+
+    details = details or {}
+    kaggle_rec = kaggle_rec or {}
+    if details.get("nationality"):
+        return str(details["nationality"])
+    if kaggle_rec.get("nationality"):
+        return str(kaggle_rec["nationality"])
+
+    lookup = overrides or NATIONALITY_OVERRIDES
+    for candidate in (name, normalize_key(name)):
+        if candidate and candidate in lookup:
+            return lookup[candidate]
+    return "India"
+
+
 def merge_records(
     players: dict[str, dict[str, Any]],
     meta: dict[str, dict[str, Any]],
     *,
+    kaggle_stats: dict[str, dict[str, Any]] | None = None,
     include_unmatched: bool = True,
     limit: int | None = None,
+    nationality_overrides: dict[str, str] | None = None,
 ) -> List[dict[str, Any]]:
+    kaggle = kaggle_stats or {}
     merged: List[dict[str, Any]] = []
-    for key, stats in players.items():
+
+    def name_key(value: str | None) -> str:
+        return normalize_key(value or "")
+
+    player_name_keys = {
+        name_key((player or {}).get("name") or key)
+        for key, player in players.items()
+        if (player or {}).get("name") or key
+    }
+    meta_by_name = {
+        name_key((record or {}).get("name")): record
+        for record in meta.values()
+        if (record or {}).get("name")
+    }
+    kaggle_by_name = {
+        name_key((record or {}).get("name")): record
+        for record in kaggle.values()
+        if (record or {}).get("name")
+    }
+
+    # Iterate the union of stats, meta, and Kaggle keys so curated- or
+    # Kaggle-only players (without aggregated Cricsheet stats) are still emitted.
+    keys = list(players.keys())
+    keys += [
+        key
+        for key, record in meta.items()
+        if name_key((record or {}).get("name") or key) not in player_name_keys
+    ]
+    keys += [
+        key
+        for key, record in kaggle.items()
+        if name_key((record or {}).get("name") or key) not in player_name_keys
+        and name_key((record or {}).get("name") or key) not in meta_by_name
+    ]
+    for key in keys:
+        stats = players.get(key) or {}
         details = meta.get(key)
-        if details is None and not include_unmatched:
+        kaggle_rec = kaggle.get(key)
+
+        # Fall back to name-based matching so separately keyed curated records
+        # still enrich the player we already have.
+        lookup_name = name_key(stats.get("name") or (kaggle_rec or {}).get("name") or key)
+        if details is None:
+            details = meta_by_name.get(lookup_name)
+        if kaggle_rec is None:
+            kaggle_rec = kaggle_by_name.get(lookup_name)
+
+        # Cricsheet aggregation is the fallback for players absent from Kaggle.
+        if details is None and kaggle_rec is None and not include_unmatched:
             continue
 
+        # Role / form precedence: curated meta first, then the Kaggle rating
+        # source, and only then heuristic inference over Cricsheet stats.
         role = infer_role(details or stats)
+        if not (details or {}).get("role") and kaggle_rec:
+            role = kaggle_rec["role"]
+
         meta_form = (details or {}).get("form")
-        form = _safe_int(meta_form, derive_form(stats)) if meta_form is not None else derive_form(stats)
+        if meta_form is not None:
+            form = _safe_int(meta_form, derive_form(stats))
+        elif kaggle_rec:
+            form = _safe_int(kaggle_rec["rating"].get("form"), derive_form(stats))
+        else:
+            form = derive_form(stats)
+
         base_price = _safe_float((details or {}).get("basePrice"), derive_base_price(form)) if details else derive_base_price(form)
-        nationality = (details or {}).get("nationality") or "India"
+        name = (details or {}).get("name") or stats.get("name") or (kaggle_rec or {}).get("name") or key
+        nationality = resolve_nationality(name, details, kaggle_rec, nationality_overrides)
         is_overseas = bool((details or {}).get("isOverseas", nationality != "India"))
         is_capped = bool((details or {}).get("isCapped", True))
 
         record = {
-            "id": (details or {}).get("id") or slugify((details or {}).get("name", stats.get("name", key))),
-            "name": (details or {}).get("name", stats.get("name", key)),
+            "id": (details or {}).get("id") or slugify(name),
+            "name": name,
             "role": role,
             "nationality": nationality,
             "isOverseas": is_overseas,
@@ -513,9 +835,73 @@ def merge_records(
             "cricsheetId": stats.get("cricsheetId"),
             "aliases": stats.get("aliases", []),
         }
+        if kaggle_rec:
+            record["batting"] = kaggle_rec["batting"]
+            record["bowling"] = kaggle_rec["bowling"]
+            record["fielding"] = kaggle_rec["fielding"]
+            record["rating"] = kaggle_rec["rating"]
+            record["ratingSource"] = "kaggle"
         merged.append(record)
 
-    merged.sort(key=lambda item: (-item["form"], item["name"]))
+    deduped: dict[str, dict[str, Any]] = {}
+
+    def completeness(record: dict[str, Any]) -> int:
+        score = 0
+        for field in (
+            "role",
+            "nationality",
+            "isOverseas",
+            "isCapped",
+            "basePrice",
+            "form",
+            "previousTeam",
+            "photoUrl",
+            "batting",
+            "bowling",
+            "fielding",
+            "rating",
+            "ratingSource",
+            "career",
+            "seasons",
+        ):
+            value = record.get(field)
+            if value not in (None, "", [], {}):
+                score += 1
+        return score
+
+    for record in merged:
+        key = name_key(record.get("name"))
+        existing = deduped.get(key)
+        if existing is None:
+            deduped[key] = record
+            continue
+        if completeness(record) > completeness(existing):
+            primary, secondary = record, existing
+        else:
+            primary, secondary = existing, record
+        for field, value in secondary.items():
+            if field not in primary or primary[field] in (None, "", [], {}):
+                primary[field] = value
+            elif field == "career" and isinstance(primary.get(field), dict) and isinstance(value, dict):
+                for subfield, subvalue in value.items():
+                    if subfield not in primary[field] or primary[field][subfield] in (None, "", [], {}):
+                        primary[field][subfield] = subvalue
+            elif field == "aliases" and isinstance(primary.get(field), list) and isinstance(value, list):
+                seen_aliases = set(primary[field])
+                for alias in value:
+                    if alias not in seen_aliases:
+                        primary[field].append(alias)
+                        seen_aliases.add(alias)
+            elif field == "seasons" and isinstance(primary.get(field), list) and isinstance(value, list):
+                seen_seasons = {json.dumps(season, sort_keys=True) for season in primary[field]}
+                for season in value:
+                    marker = json.dumps(season, sort_keys=True)
+                    if marker not in seen_seasons:
+                        primary[field].append(season)
+                        seen_seasons.add(marker)
+        deduped[key] = primary
+
+    merged = sorted(deduped.values(), key=lambda item: (-item["form"], item["name"]))
     if limit is not None:
         merged = merged[:limit]
     return merged
@@ -549,6 +935,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--match-dir", type=Path, required=True, help="Directory containing IPL match JSON files")
     parser.add_argument("--players-out", type=Path, default=DEFAULT_PLAYERS_OUT, help="Where to write players.json")
     parser.add_argument("--meta", type=Path, default=None, help="Optional curated player_meta.json")
+    parser.add_argument("--kaggle-stats", type=Path, default=None, help="Optional Kaggle IPL Players Statistics CSV")
     parser.add_argument("--auction-out", type=Path, default=DEFAULT_AUCTION_OUT, help="Where to write auction_pool.json")
     parser.add_argument("--limit", type=int, default=180, help="Limit the final auction pool size")
     parser.add_argument("--no-unmatched", action="store_true", help="Drop players that do not exist in the curated meta file")
@@ -563,10 +950,27 @@ def main(argv: list[str] | None = None) -> int:
     print(f"Wrote {len(players)} players to {args.players_out}")
 
     meta: dict[str, dict[str, Any]] = {}
+    kaggle_stats: dict[str, dict[str, Any]] = {}
     if args.meta and args.meta.exists():
         meta = load_json(args.meta)
-    if meta or not args.no_unmatched:
-        auction_pool = merge_records(players, meta, include_unmatched=not args.no_unmatched, limit=args.limit)
+    if args.kaggle_stats and args.kaggle_stats.exists():
+        kaggle_stats = parse_kaggle_stats(args.kaggle_stats)
+        summary = verify_kaggle_matches(kaggle_stats, players, meta)
+        print(
+            "Kaggle stats loaded: "
+            f"{summary['kaggle']} players, "
+            f"{summary['matchedCricsheet']} matched Cricsheet, "
+            f"{summary['matchedMeta']} matched meta, "
+            f"{summary['kaggleOnly']} Kaggle-only"
+        )
+    if meta or kaggle_stats or not args.no_unmatched:
+        auction_pool = merge_records(
+            players,
+            meta,
+            kaggle_stats=kaggle_stats,
+            include_unmatched=not args.no_unmatched,
+            limit=args.limit,
+        )
         write_json(args.auction_out, auction_pool)
         print(f"Wrote {len(auction_pool)} auction players to {args.auction_out}")
     else:

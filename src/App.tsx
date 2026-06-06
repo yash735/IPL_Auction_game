@@ -4,6 +4,7 @@ import './styles.css'
 import { AUCTION_CONFIG, FRANCHISE_MAP, FRANCHISES } from './lib/config'
 import {
   addPlayerToTeam,
+  applyFranchisePrice,
   botWillingness,
   canBid,
   createFranchises,
@@ -11,8 +12,8 @@ import {
   formatPrice,
   getIncrement,
   getSquadMax,
-  humanDiscount,
   jumpBid,
+  selectBotBid,
   teamStrength,
   validateSquad,
 } from './lib/auction'
@@ -90,6 +91,13 @@ function queuePreviewLabel(player: PlayerRecord) {
   return `${player.role} · ${formatPrice(player.basePrice)} · ${player.isOverseas ? 'Overseas' : 'Indian'}`
 }
 
+function teamStyleLabel(team: FranchiseState) {
+  if (team.bidAggression >= 1.15) return 'Aggressive'
+  if (team.hoardBias >= 1.1) return 'Hoarder'
+  if (team.bidAggression <= 0.98) return 'Patient'
+  return 'Balanced'
+}
+
 function shuffle<T>(items: T[]) {
   const copy = [...items]
   for (let i = copy.length - 1; i > 0; i -= 1) {
@@ -103,14 +111,6 @@ function timerForPlayer(selectedFranchises: FranchiseId[]) {
   return selectedFranchises.includes('CSK') ? Math.round(AUCTION_CONFIG.bidTimerSeconds * 1.2) : AUCTION_CONFIG.bidTimerSeconds
 }
 
-function saleDiscount(team: FranchiseState, player: PlayerRecord, hammerPrice: number) {
-  let price = hammerPrice
-  if (team.id === 'RCB' && player.role === 'Batter' && team.squad.filter((p) => p.role === 'Batter').length < 2) price *= 0.9
-  if (team.id === 'KKR' && player.role === 'Bowler') price *= 0.9
-  if (team.id === 'DC' && !player.isCapped) price *= 0.85
-  if (team.id === 'GT' && player.previousTeam && player.previousTeam !== team.id) price *= 0.95
-  return Number(price.toFixed(2))
-}
 
 function App() {
   const [fetchStatus, setFetchStatus] = useState<'loading' | 'done' | 'error'>('loading')
@@ -350,7 +350,7 @@ function App() {
 
   function projectedHumanBid(team: FranchiseState, player: PlayerRecord, currentBid: number, jump = false) {
     const candidateBid = jump ? currentBid + getIncrement(currentBid) * 2 : currentBid + getIncrement(currentBid)
-    return Number(humanDiscount(team, player, candidateBid).toFixed(2))
+    return applyFranchisePrice(team, player, candidateBid)
   }
 
   function bid(gameState: GameState, teamId: FranchiseId, jump = false): GameState {
@@ -360,7 +360,7 @@ function App() {
     const currentBid = gameState.auction.currentBid || player.basePrice
     const isJump = jump && team.id === 'PBKS' && !team.jumpBidUsed
     const candidateBid = isJump ? jumpBid({ ...team, jumpBidUsed: false }, currentBid) : currentBid + getIncrement(currentBid)
-    const effectiveBid = Number(humanDiscount(team, player, candidateBid).toFixed(2))
+    const effectiveBid = applyFranchisePrice(team, player, candidateBid)
     if (!canBid(team, player, effectiveBid)) return gameState
     if (gameState.auction.highBidder === teamId && !isJump) return gameState
 
@@ -388,8 +388,6 @@ function App() {
     if (gameState.auction.rtmPending) return gameState
     const player = gameState.auction.currentPlayer
     const currentBid = gameState.auction.currentBid || player.basePrice
-    const increment = getIncrement(currentBid)
-    const nextBid = currentBid + increment
     const queueSize = gameState.auction.queue.length - gameState.auction.currentIndex
 
     // Use live franchise state; exclude current high bidder so bots don't outbid themselves
@@ -397,29 +395,11 @@ function App() {
       (t) => !t.isHuman && t.id !== gameState.auction.highBidder,
     )
 
-    const best = liveBots
-      .map((team) => {
-        const baseWillingness = botWillingness(team, player, queueSize)
-        const isJumpCandidate = team.id === 'PBKS' && !team.jumpBidUsed && baseWillingness >= currentBid + increment * 2
-        const candidateBid = isJumpCandidate ? currentBid + increment * 2 : nextBid
-        const effectiveBid = Number(humanDiscount(team, player, candidateBid).toFixed(2))
-        const jitteredWillingness = baseWillingness * (0.93 + Math.random() * 0.14)
-        return {
-          team,
-          baseWillingness,
-          isJumpCandidate,
-          candidateBid,
-          effectiveBid,
-          jitteredWillingness,
-        }
-      })
-      .filter(({ team, baseWillingness, effectiveBid }) => baseWillingness >= nextBid && canBid(team, player, effectiveBid))
-      .sort((a, b) => b.jitteredWillingness - a.jitteredWillingness)[0]
+    const best = selectBotBid(liveBots, player, currentBid, queueSize)
 
     if (!best) return gameState
 
     const isJump = best.isJumpCandidate
-    const candidateBid = best.candidateBid
     const effectiveBid = best.effectiveBid
     if (!canBid(best.team, player, effectiveBid)) return gameState
 
@@ -491,7 +471,7 @@ function App() {
         const queueSize = gameState.auction.queue.length - gameState.auction.currentIndex
         if (botWillingness(previousTeam, player, queueSize) >= hammer) {
           const updatedPrevious = { ...previousTeam, rtmRemaining: previousTeam.rtmRemaining - 1 }
-          const sale = saleDiscount(updatedPrevious, player, hammer)
+          const sale = applyFranchisePrice(updatedPrevious, player, hammer, 'sale')
           const updatedFranchises = {
             ...gameState.franchises,
             [previousTeamId]: addPlayerToTeam(updatedPrevious, player, sale),
@@ -521,7 +501,7 @@ function App() {
     }
 
     const winningTeam = gameState.franchises[winner]
-    const sale = saleDiscount(winningTeam, player, hammer)
+    const sale = applyFranchisePrice(winningTeam, player, hammer, 'sale')
     const updatedFranchises = {
       ...gameState.franchises,
       [winner]: addPlayerToTeam(winningTeam, player, sale),
@@ -615,7 +595,7 @@ function App() {
       if (!rtm) return prev
       const previousTeam = prev.franchises[rtm.previousTeam]
       const updatedPrevious = { ...previousTeam, rtmRemaining: previousTeam.rtmRemaining - 1 }
-      const sale = saleDiscount(updatedPrevious, rtm.player, rtm.finalBid)
+      const sale = applyFranchisePrice(updatedPrevious, rtm.player, rtm.finalBid, 'sale')
       return advanceAfterSettle(
         withRecentResult({
           ...prev,
@@ -646,7 +626,7 @@ function App() {
       const rtm = prev.auction.rtmPending
       if (!rtm) return prev
       const winningTeam = prev.franchises[rtm.winner]
-      const sale = saleDiscount(winningTeam, rtm.player, rtm.finalBid)
+      const sale = applyFranchisePrice(winningTeam, rtm.player, rtm.finalBid, 'sale')
       return advanceAfterSettle(
         withRecentResult({
           ...prev,
@@ -1149,10 +1129,11 @@ function SquadCard({
     <button type="button" className={`squad-card ${active ? 'active' : ''}`} style={{ borderColor: team.color }} onClick={onOpen}>
       <div className="squad-card-head" style={{ background: team.color, color: team.altColor }}>
         <strong>{team.id}</strong>
-        <span>{team.squad.length} players</span>
+        <span>{team.isHuman ? 'Human' : 'CPU'} · {team.squad.length} players</span>
       </div>
       <div className="squad-card-body">
         <div className="squad-meta">
+          <span>{teamStyleLabel(team)}</span>
           <span>Spent {formatPrice(team.spent)}</span>
           <span>Remaining {formatPrice(team.purse)}</span>
           <span>Overseas {team.overseasCount}</span>
